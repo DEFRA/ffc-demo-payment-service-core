@@ -12,8 +12,6 @@ nupkg/
 *.suo
 *.user
 *.userosscache
-*.sln.docstates
-*.sln
 
 # Local Build
 [Dd]ebug/
