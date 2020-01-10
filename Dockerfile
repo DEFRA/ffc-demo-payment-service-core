@@ -12,7 +12,7 @@ RUN apt-get update \
 COPY ./FFCDemoPaymentService/*.csproj ./
 RUN dotnet restore
 COPY ./FFCDemoPaymentService ./
-ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:5000" ]
+#ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:5000" ]
 
 # Test
 FROM development AS test 
