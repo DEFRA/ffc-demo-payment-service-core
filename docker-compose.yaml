@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  ffc-demo-payment-service-core:
+    build: 
+      context: .
+      target: runtime
+    image: ffc-demo-payment-service-core
+    container_name: ffc-demo-payment-service-core
+    ports: 
+      - "5000:80"
