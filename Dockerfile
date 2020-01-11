@@ -34,4 +34,6 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=production /app/out ./
 RUN chown -R www-data:www-data /app
+ENV ASPNETCORE_URLS=http://*:8080
+EXPOSE 8080
 ENTRYPOINT [ "dotnet", "FFCDemoPaymentService.dll" ]
