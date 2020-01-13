@@ -25,7 +25,7 @@ container:
   limitMemory: 120Mi
   limitCpu: 80m
   runAsNonRoot: true
-  runAsUser: 1000
+  runAsUser: 33
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   redeployOnChange: update this field to force a change
