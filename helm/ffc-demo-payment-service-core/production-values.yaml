@@ -1,0 +1,4 @@
+environment: production
+image: jwminesupport.azurecr.io/ffc-demo-payment-service-core:master
+container:
+  imagePullPolicy: Always

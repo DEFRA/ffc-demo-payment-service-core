@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ quote .Values.name }}
+  labels:
+    app: {{ quote .Values.name }}
+    environment: {{ quote .Values.environment }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  template:
+    metadata:
+      labels:
+        app: {{ quote .Values.name }}
+        environment: {{ quote .Values.environment }}
+      annotations:
+        redeployOnChange: {{ quote .Values.container.redeployOnChange }}
+    spec:
+      restartPolicy: {{ quote .Values.container.restartPolicy }}
+      {{- if .Values.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ quote .Values.imagePullSecret }}
+      {{- end }}
+      containers:
+      - name: {{ quote .Values.name }}
+        image: {{ quote .Values.image }}
+        {{- if .Values.container.command }}
+        {{- with .Values.container.command }}
+        command:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.container.args }}
+        args:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- end }}
+        imagePullPolicy: {{ quote .Values.container.imagePullPolicy }}
+        securityContext:
+          runAsUser: {{ .Values.container.runAsUser }}
+          runAsNonRoot: {{ .Values.container.runAsNonRoot }}
+          readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
+          allowPrivilegeEscalation: {{ .Values.container.allowPrivilegeEscalation }}
+        env:
+        - name: POSTGRES_USERNAME
+          value: {{ quote .Values.postgresUsername }}
+        - name: POSTGRES_PASSWORD
+          value: {{ quote .Values.postgresPassword }}
+        - name: POSTGRES_DB
+          value: {{ quote .Values.postgresDatabase }}
+        - name: POSTGRES_HOST
+          value: {{ quote .Values.postgresExternalName }}
+        - name: POSTGRES_PORT
+          value: {{ quote .Values.postgresPort }}      
+        - name: PORT
+          value: {{ quote .Values.container.port }}
+        ports:
+        - containerPort: {{ .Values.container.port }}
+        resources:
+          requests:
+            memory: {{ quote .Values.container.requestMemory }}
+            cpu: {{ quote .Values.container.requestCpu }}
+          limits:
+            memory: {{ quote .Values.container.limitMemory }}
+            cpu: {{ quote .Values.container.limitCpu }}
+        
