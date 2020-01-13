@@ -26,7 +26,7 @@ container:
   limitCpu: 80m
   runAsNonRoot: true
   runAsUser: 1000
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   redeployOnChange: update this field to force a change
   restartPolicy: Always
@@ -41,6 +41,7 @@ container:
   paymentQueueUser: artemis
   paymentQueuePassword: artemis
   replicaCount: 1
+  comPlusEnableDiagnostics: 0
 minReadySeconds: 10
 maxSurge: 1
 maxUnavailable: 1

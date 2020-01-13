@@ -6,5 +6,7 @@ services:
       target: runtime
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
+    environment: 
+      COMPlus_EnableDiagnostics: 0
     ports: 
       - "8080:8080"

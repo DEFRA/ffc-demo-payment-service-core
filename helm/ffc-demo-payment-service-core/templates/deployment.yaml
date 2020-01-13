@@ -41,6 +41,8 @@ spec:
           readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
           allowPrivilegeEscalation: {{ .Values.container.allowPrivilegeEscalation }}
         env:
+        - name: COMPlus_EnableDiagnostics
+          value: {{ quote .Values.container.comPlusEnableDiagnostics }}
         - name: POSTGRES_USERNAME
           value: {{ quote .Values.postgresUsername }}
         - name: POSTGRES_PASSWORD
