@@ -1,0 +1,14 @@
+version: '3.7'
+
+# This override file should be used in development environments to
+# connect this service to sibling services from other repositories
+
+services:
+  ffc-demo-payment-service:
+    networks:
+      - default
+      - ffc-demo
+
+networks:
+  ffc-demo:
+   external: true
