@@ -37,7 +37,9 @@ This file runs all tests and exits the container.  If any tests fails the error 
 `docker-compose -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
-This file is inteded to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.
+This file is inteded to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.  
+
+`docker-compose -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
@@ -77,7 +79,7 @@ This will link to other FFC Demo services running locally.
 
 ### Deploy to Kubernetes
 
-For production deployments, a helm chart is included in the `.\helm` folder. This service connects to an AMQP 1.0 message broker, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service/values.yaml), which must be made available prior to deployment.
+For production deployments, a helm chart is included in the `.\helm` folder. This service connects to an AMQP 1.0 message broker, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
 
 #### Accessing the pod
 By default, the service is not exposed via an endpoint within Kubernetes.
@@ -86,7 +88,7 @@ Access may be granted by forwarding a local port to the deployed pod:
 
 ```
 # Forward local port to the Kubernetes deployment
-kubectl port-forward --namespace=ffc-demo deployment/ffc-demo-payment-service 3007:3007
+kubectl port-forward --namespace=ffc-demo deployment/ffc-demo-payment-service-core 3007:3007
 ```
 
 Once the port is forwarded, the service can be accessed and tested in the same way as described in the "Test the service" section above.
