@@ -1,0 +1,8 @@
+version: '3.7'
+services: 
+  ffc-demo-payment-service-core-test: 
+    build: 
+      context: .
+      target: test
+    image: ffc-demo-payment-service-core-test
+    container_name: ffc-demo-payment-service-core-test
