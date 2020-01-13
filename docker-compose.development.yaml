@@ -6,9 +6,6 @@ services:
       target: development
     depends_on: 
       - ffc-demo-payment-core-postgres
-    ports: 
-      - "3007:5000"
-      - "3008:5001"
     environment: 
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
     volumes: 

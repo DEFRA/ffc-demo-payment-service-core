@@ -9,4 +9,4 @@ services:
     environment: 
       COMPlus_EnableDiagnostics: 0
     ports: 
-      - "8080:8080"
+      - "3007:3007"
