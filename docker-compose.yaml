@@ -7,4 +7,4 @@ services:
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
     ports: 
-      - "5000:80"
+      - "5000:8080"
