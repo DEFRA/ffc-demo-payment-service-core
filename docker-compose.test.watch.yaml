@@ -4,4 +4,4 @@ services:
     entrypoint: ["dotnet", "watch", "test"]
     volumes: 
       - ./FFCDemoPaymentService:/FFCDemoPaymentService
-      - ./FFCDemoPaymentService.Test:/FFCDemoPaymentService.Test
+      - ./FFCDemoPaymentService.Tests:/FFCDemoPaymentService.Tests
