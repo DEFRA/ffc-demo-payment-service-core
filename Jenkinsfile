@@ -22,8 +22,7 @@ def runTests (name, suffix) {
   try {
     sh 'mkdir -p test-output'
     sh 'chmod 777 test-output'
-    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml run $name"
-​
+    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml run $name-test"​
   } finally {
     sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml down -v"
   }
@@ -31,7 +30,7 @@ def runTests (name, suffix) {
 
 def buildTestImage(name, suffix) {
   sh 'docker image prune -f || echo could not prune images'
-  sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml build --no-cache $name"
+  sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml build --no-cache $name-test"
 }
 
 node {
