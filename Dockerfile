@@ -12,7 +12,7 @@ RUN apt-get update \
 COPY ./FFCDemoPaymentService/*.csproj ./
 RUN dotnet restore
 COPY ./FFCDemoPaymentService ./
-ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:5000" ]
+ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:3007" ]
 
 # Test
 FROM development AS test 
@@ -34,6 +34,6 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=production /app/out ./
 RUN chown -R www-data:www-data /app
-ENV ASPNETCORE_URLS=http://*:8080
-EXPOSE 8080
+ENV ASPNETCORE_URLS=http://*:3007
+EXPOSE 3007
 ENTRYPOINT [ "dotnet", "FFCDemoPaymentService.dll" ]
