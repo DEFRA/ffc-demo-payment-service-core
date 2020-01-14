@@ -22,14 +22,13 @@ def runTests (name, suffix) {
   try {
     sh 'mkdir -p test-output'
     sh 'chmod 777 test-output'    
-    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml run $name-test"​
+    sh "docker-compose -p $name-$suffix-pr4 -f docker-compose.test.yaml run $name-test"​
   } finally {
-    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml down -v"
+    sh "docker-compose -p $name-$suffix-pr4 -f docker-compose.test.yaml down -v"
   }
 }
 
 def buildTestImage(name, suffix) {
-  sh "echo containerTag=$containerTag"
   sh 'docker image prune -f || echo could not prune images'
   sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml build --no-cache $name-test"
 }
