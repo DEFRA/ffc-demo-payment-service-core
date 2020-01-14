@@ -30,7 +30,7 @@ def runTests (name, suffix) {
 
 def buildTestImage(name, suffix) {
   sh 'docker image prune -f || echo could not prune images'
-  sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml build --no-cache $name-test"
+  sh "docker-compose -p $name-$suffix-pr4 -f docker-compose.test.yaml build --no-cache $name-test"
 }
 
 node {
