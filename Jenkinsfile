@@ -22,10 +22,10 @@ def runTests(name, suffix) {
   try {
     sh 'mkdir -p test-output'
     sh 'chmod 777 test-output'
-    sh "docker-compose -p $name-$suffix -f docker-compose.yaml -f docker-compose.test.yaml run $name"
+    sh "docker-compose -p $name-$suffix-$defraUtils.containerTag -f docker-compose.yaml -f docker-compose.test.yaml run $name"
 
   } finally {
-    sh "docker-compose -p $name-$suffix -f docker-compose.yaml -f docker-compose.test.yaml down -v"
+    sh "docker-compose -p $name-$suffix-$defraUtils.containerTag -f docker-compose.yaml -f docker-compose.test.yaml down -v"
   }
 }
 
@@ -34,7 +34,6 @@ node {
   try {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
-      sh "echo $pr $containerTag $mergedPrNo"
       defraUtils.setGithubStatusPending()
     }
     stage('Helm lint') {
