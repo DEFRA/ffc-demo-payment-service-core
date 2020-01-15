@@ -18,21 +18,6 @@ def localSrcFolder = '.'
 def lcovFile = './test-output/lcov.info'
 def timeoutInMinutes = 5
 
-def runTests (name, suffix) {
-  try {
-    sh 'mkdir -p test-output'
-    sh 'chmod 777 test-output'    
-    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml run $name-test"​
-  } finally {
-    sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml down -v"
-  }
-}
-
-def buildTestImage(name, suffix) {
-  sh 'docker image prune -f || echo could not prune images'
-  sh "docker-compose -p $name-$suffix-$containerTag -f docker-compose.test.yaml build --no-cache $name-test"
-}
-
 node {
   checkout scm
   try {
@@ -44,10 +29,10 @@ node {
       defraUtils.lintHelm(imageName)
     }
     stage('Build test image') {
-      buildTestImage(imageName, BUILD_NUMBER)
+      defraUtils.buildTestImage(imageName, BUILD_NUMBER)
     }
     stage('Run tests') {
-      runTests(imageName, BUILD_NUMBER)
+      defraUtils.runTests(imageName, BUILD_NUMBER)
     }
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
