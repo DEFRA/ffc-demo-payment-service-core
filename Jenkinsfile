@@ -22,10 +22,11 @@ def runTests(name, suffix) {
   try {
     sh 'mkdir -p test-output'
     sh 'chmod 777 test-output'
-    sh "docker-compose -p $name-$suffix-$defraUtils.containerTag -f docker-compose.yaml -f docker-compose.test.yaml run $name"
+    def tag = defraUtils.getPropertyValue('containerTag')
+    sh "docker-compose -p $name-$suffix-$tag -f docker-compose.yaml -f docker-compose.test.yaml run $name"
 
   } finally {
-    sh "docker-compose -p $name-$suffix-$defraUtils.containerTag -f docker-compose.yaml -f docker-compose.test.yaml down -v"
+    sh "docker-compose -p $name-$suffix-$tag -f docker-compose.yaml -f docker-compose.test.yaml down -v"
   }
 }
 
