@@ -34,6 +34,7 @@ node {
   try {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
+      sh "echo $pr $containerTag $mergedPrNo"
       defraUtils.setGithubStatusPending()
     }
     stage('Helm lint') {
