@@ -18,11 +18,12 @@ def localSrcFolder = '.'
 def lcovFile = './test-output/lcov.info'
 def timeoutInMinutes = 5
 
-def runTests(name, suffix) {
+def runTests(name, suffix, tag) {
   try {
     sh 'mkdir -p test-output'
     sh 'chmod 777 test-output'
-    def tag = context.defraUtils.getPropertyValue('containerTag')
+
+    //def tag = context.defraUtils.getPropertyValue('containerTag')
     sh "docker-compose -p $name-$suffix-$tag -f docker-compose.yaml -f docker-compose.test.yaml run $name"
 
   } finally {
@@ -44,7 +45,7 @@ node {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
     }
     stage('Run tests') {
-      runTests(imageName, BUILD_NUMBER)
+      runTests(imageName, BUILD_NUMBER, containerTag)
     }
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
