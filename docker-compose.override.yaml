@@ -1,0 +1,11 @@
+version: '3.7'
+
+# This override file should be used when running this service in isolation
+# to provide required sibling services for local testing
+
+services:
+  ffc-demo-payment-service:
+    build: .
+    image: ffc-demo-payment-service
+    ports:
+      - "3007:3007"
