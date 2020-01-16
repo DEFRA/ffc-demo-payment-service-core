@@ -3,7 +3,7 @@ postgresUsername: postgres@mine-support2
 postgresPassword: changeme
 postgresDatabase: ffc_demo_payments
 # postgresHost is the host name of the PostgreSQL service
-postgresHost: ffc-demo-payments-postgres
+postgresHost: ffc-demo-payments-postgres-core
 # postgresExternalName is the external host name to which PostgreSQL
 # requests should be forwarded. If empty, PostgreSQL is assumed to be
 # within the cluster and accessible via postgresHost
