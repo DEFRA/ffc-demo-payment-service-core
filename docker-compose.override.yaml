@@ -1,10 +1,16 @@
 version: '3.7'
 
+# This override file should be used when running this service in isolation
+# to provide required sibling services for local testing
+
 services:
-  ffc-demo-payment-service-core:
+  ffc-demo-payment-service:
+    build: .
+    image: ffc-demo-payment-service
+    ports:
+      - "3007:3007"
     depends_on:
       - ffc-demo-payment-message-queue
-      - ffc-demo-payment-core-postgres
 
   ffc-demo-payment-message-queue:
     image: vromero/activemq-artemis:2.9.0-alpine

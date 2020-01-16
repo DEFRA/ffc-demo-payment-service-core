@@ -34,12 +34,12 @@ Tests should be run in a container.  Docker compose files are provided to aide w
 ### docker-compose.test.yaml
 This file runs all tests and exits the container.  If any tests fails the error will be output.
 
-`docker-compose -f docker-compose.test.yaml up`
+`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
 This file is inteded to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.  
 
-`docker-compose -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up`
+`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
@@ -62,15 +62,12 @@ Use Docker Compose to run service locally.
 
 Additional Docker Compose files are provided for scenarios such as linking to other running services and aiding local development.
 
+An override, `docker-compose.override.yaml` is provided which includes port mapping to `3007` and an ActiveMQ Artermis message queue for development.
+
 ### docker-compose.development.yaml
 This is an override file to `docker-compose.yaml` and will watch for changes to application and test files.  It will also create an instance of a postgreSQL database.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up`
-
-### docker-compose.external.yaml
-This is an override file to `docker-compose.development.yaml` and will also create an instance of Active MQ Artemis.
-
-`docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.external.yaml up`
+`docker-compose -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.development.yaml up`
 
 ### docker-compose.link.yaml
 This will link to other FFC Demo services running locally.
