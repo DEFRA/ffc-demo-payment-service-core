@@ -52,14 +52,14 @@ node {
       stage('Publish chart') {
         defraUtils.publishChart(registry, imageName, containerTag)
       }
-      // stage('Trigger Deployment') {
-      //   withCredentials([
-      //     string(credentialsId: 'JenkinsDeployUrl', variable: 'jenkinsDeployUrl'),
-      //     string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'jenkinsToken')
-      //   ]) {
-      //     defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':'1.0.0'])
-      //   }
-      //}
+      stage('Trigger Deployment') {
+        withCredentials([
+          string(credentialsId: 'JenkinsDeployUrl', variable: 'jenkinsDeployUrl'),
+          string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'jenkinsToken')
+        ]) {
+          defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':'1.0.0'])
+        }
+      }
     } else {
       stage('Helm install') {
         withCredentials([
