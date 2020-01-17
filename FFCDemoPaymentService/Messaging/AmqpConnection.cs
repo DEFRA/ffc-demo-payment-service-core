@@ -8,23 +8,49 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class AmqpConnection : IConnection
     {
-        
-        public Task CreateConnectionToQueue(string brokerUrl, string queue)
+        protected ConnectionFactory connectionFactory;
+        protected Address address;
+        protected Connection connection;
+        protected Session session;
+        protected ReceiverLink receiverLink;
+
+        public async Task CreateConnectionToQueue(string brokerUrl, string queue)
         {
-            throw new NotImplementedException();
+            if (connectionFactory == null)
+            {
+                ConfigureConnectionFactory();
+            }
+            address = new Address(brokerUrl);
+            connection = await connectionFactory.CreateAsync(address);
+            session = new Session(connection);
+            receiverLink = new ReceiverLink(session, "receiver", queue);
+        }
+
+        private void ConfigureConnectionFactory()
+        {
+            connectionFactory = new ConnectionFactory();
+            connectionFactory.AMQP.ContainerId = "Payment-Service-Core-Container";
         }
 
         public void CloseConnection()
         {
-            throw new NotImplementedException();
+            if(receiverLink != null)
+            {
+                receiverLink.Close();
+            }
+            if(session != null)
+            {
+                session.Close();
+            }
+            if(connection != null)
+            {
+                connection.Close();
+            }
         }
 
         public ReceiverLink GetReceiver()
         {
-            throw new NotImplementedException();
+           return receiverLink;
         }
-
-        
-
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService
 {
@@ -25,6 +26,9 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddSingleton<IConnection, AmqpConnection>();
             services.AddControllers();
         }
 
