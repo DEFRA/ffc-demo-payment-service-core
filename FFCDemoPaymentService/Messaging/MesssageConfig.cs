@@ -7,7 +7,7 @@ namespace FFCDemoPaymentService.Messaging
     {
         public string Host { get; set; }
         public int Port { get; set; }
-        public string Transport { get; set; }
+        public bool UseSsl { get; set; }
         public string PaymentQueue { get; set; }
         public string PaymentUserName { get; set; }
         public string PaymentPassword { get; set; }

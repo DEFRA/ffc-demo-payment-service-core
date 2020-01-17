@@ -48,9 +48,10 @@ namespace FFCDemoPaymentService.Messaging
         public void CreateConnectionToQueue()
         {
             Task.Run(() =>
-                 connection.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.PaymentUserName, messageConfig.PaymentPassword).ToString(),
-                    messageConfig.PaymentQueue))
-                .Wait();
+                connection.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, 
+                    messageConfig.PaymentUserName, messageConfig.PaymentPassword, messageConfig.UseSsl).ToString(),
+                messageConfig.PaymentQueue))
+            .Wait();
         }
 
         private void ReceiveMessage(Message message)
