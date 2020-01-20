@@ -4,9 +4,7 @@ version: '3.7'
 # to provide required sibling services for local testing
 
 services:
-  ffc-demo-payment-service:
-    build: .
-    image: ffc-demo-payment-service
+  ffc-demo-payment-service-core:
     ports:
       - "3007:3007"
     depends_on:

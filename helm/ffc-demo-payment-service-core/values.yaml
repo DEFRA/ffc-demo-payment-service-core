@@ -1,9 +1,5 @@
 environment: development
-postgresUsername: postgres@mine-support2
-postgresPassword: changeme
-postgresDatabase: ffc_demo_payments
-# postgresHost is the host name of the PostgreSQL service
-postgresHost: ffc-demo-payments-core-postgres
+postgresConnectionString: Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;
 # postgresExternalName is the external host name to which PostgreSQL
 # requests should be forwarded. If empty, PostgreSQL is assumed to be
 # within the cluster and accessible via postgresHost
