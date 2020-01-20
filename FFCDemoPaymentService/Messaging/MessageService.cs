@@ -58,6 +58,5 @@ namespace FFCDemoPaymentService.Messaging
         {
             Console.WriteLine(message.Body);
         }
-
     }
 }
