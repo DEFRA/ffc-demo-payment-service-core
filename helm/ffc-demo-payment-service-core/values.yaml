@@ -4,7 +4,6 @@ postgresConnectionString: Server=ffc-demo-payment-core-postgres;Port=5432;Databa
 # requests should be forwarded. If empty, PostgreSQL is assumed to be
 # within the cluster and accessible via postgresHost
 postgresExternalName:
-postgresPort: 5432
 name: ffc-demo-payment-service-core
 image: ffc-demo-payment-service-core
 imagePullSecret:
