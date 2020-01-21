@@ -58,21 +58,14 @@ docker-compose build
 ### Start and stop the service
 Use Docker Compose to run service locally. 
 
+An override, `docker-compose.override.yaml` is provided which includes port mapping to `3007` and an ActiveMQ Artermis message queue for development.  It will also watch for changes to an application.
+
 `docker-compose up`
-
-Additional Docker Compose files are provided for scenarios such as linking to other running services and aiding local development.
-
-An override, `docker-compose.override.yaml` is provided which includes port mapping to `3007` and an ActiveMQ Artermis message queue for development.
-
-### docker-compose.development.yaml
-This is an override file to `docker-compose.yaml` and will watch for changes to application and test files.  It will also create an instance of a postgreSQL database.
-
-`docker-compose -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.development.yaml up`
 
 ### docker-compose.link.yaml
 This will link to other FFC Demo services running locally.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.link.yaml up`  
+`docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up`  
 
 ### Deploy to Kubernetes
 

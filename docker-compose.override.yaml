@@ -4,13 +4,17 @@ version: '3.7'
 # to provide required sibling services for local testing
 
 services:
-  ffc-demo-payment-service:
-    build: .
-    image: ffc-demo-payment-service
+  ffc-demo-payment-service-core:
+    build: 
+      context: .
+      target: development
     ports:
       - "3007:3007"
     depends_on:
       - ffc-demo-payment-message-queue
+      - ffc-demo-payment-core-postgres
+    volumes: 
+      - ./FFCDemoPaymentService:/FFCDemoPaymentService
 
   ffc-demo-payment-message-queue:
     image: vromero/activemq-artemis:2.9.0-alpine
