@@ -29,62 +29,53 @@ namespace FFCDemoPaymentService.UnitTests.MessagingTests
         }
 
         [Test]
-        public void Test1()
+        public void ConfigHost()
         {
             Assert.AreEqual(messageConfig.Host, "123");
         }
 
         [Test]
-        public void Test2()
+        public void ConfigPort()
         {
             Assert.AreEqual(messageConfig.Port, 111);
         }
 
         [Test]
-        public void Test3()
+        public void ConfigSSL()
         {
             Assert.AreEqual(messageConfig.UseSsl, true);
         }
 
         [Test]
-        public void Test4()
+        public void ConfigQueue()
         {
             Assert.AreEqual(messageConfig.PaymentQueue, "Test_Queue");
         }
 
         [Test]
-        public void Test5()
+        public void COnfigUsername()
         {
             Assert.AreEqual(messageConfig.PaymentUserName, "Test_User");
         }
 
         [Test]
-        public void Test6()
+        public void ConfigPAssword()
         {
             Assert.AreEqual(messageConfig.PaymentPassword, "Test_Password");
         }
 
         [Test]
-        public void Test7()
-        {
-            // try
-            // {
-            //messageService.connection = 
-            //messageService.Setup(x => x.Listen());
-            Assert.IsTrue(true);
-            // }
-            // catch
-            // {
-            //     Assert.IsTrue(false);
-            // }
-        }
-
-        [Test]
-        public void BrokerUrlString()
+        public void BrokerUrlString_NoSsl()
         {
             var brokerUrl = new BrokerUrl("host", 11111, "JohnSmith", "password", false);
-
             Assert.AreEqual("amqp://JohnSmith:password@host:11111", brokerUrl.ToString());
+        }
+        
+        [Test]
+        public void BrokerUrlString_WithSsl()
+        {
+            var brokerUrl = new BrokerUrl("host", 11111, "JohnSmith", "password", true);
+            Assert.AreEqual("amqps://JohnSmith:password@host:11111", brokerUrl.ToString());
         }
     }
 }
