@@ -15,7 +15,7 @@ namespace FFCDemoPaymentService.UnitTests.MessagingTests
         Mock<MessageService> messageService = new Mock<MessageService>();
         Mock<AmqpConnection> aConnection = new Mock<AmqpConnection>();
         MessageConfig messageConfig = new MessageConfig();
-             
+
 
         [SetUp]
         public void Setup()
@@ -69,14 +69,22 @@ namespace FFCDemoPaymentService.UnitTests.MessagingTests
         {
             // try
             // {
-                //messageService.connection = 
-                //messageService.Setup(x => x.Listen());
-                Assert.IsTrue(true);
+            //messageService.connection = 
+            //messageService.Setup(x => x.Listen());
+            Assert.IsTrue(true);
             // }
             // catch
             // {
             //     Assert.IsTrue(false);
             // }
+        }
+
+        [Test]
+        public void BrokerUrlString()
+        {
+            var brokerUrl = new BrokerUrl("host", 11111, "JohnSmith", "password", false);
+
+            Assert.AreEqual("amqp://JohnSmith:password@host:11111", brokerUrl.ToString());
         }
     }
 }
