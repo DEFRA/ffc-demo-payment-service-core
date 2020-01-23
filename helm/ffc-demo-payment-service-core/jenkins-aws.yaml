@@ -1,0 +1,7 @@
+name: ffc-demo-payment-service-core
+imagePullSecret: myregistrykey
+container:
+  allowPrivilegeEscalation: true
+  imagePullPolicy: Always
+  messageQueuePort: "5671"
+  messageQueueTransport: ssl

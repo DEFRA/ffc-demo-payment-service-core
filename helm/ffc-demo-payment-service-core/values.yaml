@@ -1,0 +1,44 @@
+environment: development
+postgresConnectionString: Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;
+# postgresExternalName is the external host name to which PostgreSQL
+# requests should be forwarded. If empty, PostgreSQL is assumed to be
+# within the cluster and accessible via postgresHost
+postgresExternalName:
+postgresHost: ffc-demo-payments-core-postgres
+postgresPort: 5432
+name: ffc-demo-payment-service-core
+image: ffc-demo-payment-service-core
+imagePullSecret:
+service:
+  type: ClusterIP
+  port: 80
+container:
+  port: 3007
+  registry:
+  tag: latest
+  imagePullPolicy: IfNotPresent
+  requestMemory: 60Mi
+  requestCpu: 40m
+  limitMemory: 120Mi
+  limitCpu: 80m
+  runAsNonRoot: true
+  runAsUser: 33
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  redeployOnChange: update this field to force a change
+  restartPolicy: Always
+  messageQueueHost: amq
+  messageQueuePort: "5672"
+  messageQueueReconnectLimit: 10
+  messageQueueTransport: tcp
+  scheduleQueueAddress: schedule
+  scheduleQueueUser: artemis
+  scheduleQueuePassword: artemis
+  paymentQueueAddress: payment
+  paymentQueueUser: artemis
+  paymentQueuePassword: artemis
+  replicaCount: 1
+  comPlusEnableDiagnostics: 0
+minReadySeconds: 10
+maxSurge: 1
+maxUnavailable: 1

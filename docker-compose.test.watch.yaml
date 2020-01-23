@@ -1,0 +1,7 @@
+version: '3.7'
+services: 
+  ffc-demo-payment-service-core: 
+    entrypoint: ["dotnet", "watch", "test"]
+    volumes: 
+      - ./FFCDemoPaymentService:/FFCDemoPaymentService
+      - ./FFCDemoPaymentService.Tests:/FFCDemoPaymentService.Tests
