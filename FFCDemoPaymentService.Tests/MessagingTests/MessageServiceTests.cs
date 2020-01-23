@@ -6,26 +6,31 @@ using Moq;
 using FFCDemoPaymentService;
 using FFCDemoPaymentService.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace FFCDemoPaymentService.UnitTests.MessagingTests
 {
 
-    public class AmqpConnectionTests
-    {
-        Mock<MessageService> messageService = new Mock<MessageService>();
-        Mock<AmqpConnection> aConnection = new Mock<AmqpConnection>();
-        MessageConfig messageConfig = new MessageConfig();
-
+    public class MessageServiceTests
+    {        
+        MessageConfig messageConfig;
+        MessageService messageService;
 
         [SetUp]
         public void Setup()
         {
+            messageConfig = new MessageConfig();
             messageConfig.Host = "123";
             messageConfig.Port = 111;
             messageConfig.UseSsl = true;
             messageConfig.PaymentQueue = "Test_Queue";
             messageConfig.PaymentUserName = "Test_User";
             messageConfig.PaymentPassword = "Test_Password";
+            var iConnection = new Mock<IConnection>();
+            var serviceScopeFactory = new Mock<IServiceScopeFactory>();
+            messageService = new MessageService ( iConnection.Object, messageConfig, serviceScopeFactory.Object );
         }
 
         [Test]
@@ -59,7 +64,7 @@ namespace FFCDemoPaymentService.UnitTests.MessagingTests
         }
 
         [Test]
-        public void ConfigPAssword()
+        public void ConfigPassword()
         {
             Assert.AreEqual(messageConfig.PaymentPassword, "Test_Password");
         }
@@ -76,6 +81,21 @@ namespace FFCDemoPaymentService.UnitTests.MessagingTests
         {
             var brokerUrl = new BrokerUrl("host", 11111, "JohnSmith", "password", true);
             Assert.AreEqual("amqps://JohnSmith:password@host:11111", brokerUrl.ToString());
+        }
+        
+        [Test]
+        public void MessageServiceListen()
+        {
+            try
+            {
+                messageService.Listen();
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Assert.IsTrue(false);
+            }
         }
     }
 }

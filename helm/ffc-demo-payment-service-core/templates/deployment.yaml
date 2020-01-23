@@ -43,16 +43,8 @@ spec:
         env:
         - name: COMPlus_EnableDiagnostics
           value: {{ quote .Values.container.comPlusEnableDiagnostics }}
-        - name: POSTGRES_USERNAME
-          value: {{ quote .Values.postgresUsername }}
-        - name: POSTGRES_PASSWORD
-          value: {{ quote .Values.postgresPassword }}
-        - name: POSTGRES_DB
-          value: {{ quote .Values.postgresDatabase }}
-        - name: POSTGRES_HOST
-          value: {{ quote .Values.postgresExternalName }}
-        - name: POSTGRES_PORT
-          value: {{ quote .Values.postgresPort }}      
+        - name: ConnectionStrings__DefaultConnection
+          value: {{ quote .Values.postgresConnectionString }}        
         - name: PORT
           value: {{ quote .Values.container.port }}
         - name: Messaging__Host
