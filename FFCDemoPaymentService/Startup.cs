@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FFCDemoPaymentService.Data;
+using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService
@@ -30,26 +32,34 @@ namespace FFCDemoPaymentService
             services.AddSingleton(messageConfig);
             services.AddSingleton<IConnection, AmqpConnection>();
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            ApplyMigrations(dbContext);
+        }
+
+        public void ApplyMigrations(ApplicationDbContext dbContext)
+        {
+            if (dbContext.Database.GetPendingMigrations().Any())
+            {
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

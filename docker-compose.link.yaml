@@ -4,7 +4,9 @@ version: '3.7'
 # connect this service to sibling services from other repositories
 
 services:
-  ffc-demo-payment-service:
+  ffc-demo-payment-service-core:
+    ports:
+      - "3007:3007"
     networks:
       - default
       - ffc-demo
