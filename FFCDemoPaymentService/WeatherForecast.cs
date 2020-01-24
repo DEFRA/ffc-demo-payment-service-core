@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FFCDemoPaymentService
 {
+    [ExcludeFromCodeCoverage]
     public class WeatherForecast
     {
         public DateTime Date { get; set; }
