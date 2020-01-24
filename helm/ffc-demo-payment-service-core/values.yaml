@@ -30,7 +30,7 @@ container:
   messageQueueHost: amq
   messageQueuePort: "5672"
   messageQueueReconnectLimit: 10
-  messageQueueTransport: tcp
+  messageQueueUseSsl: false
   scheduleQueueAddress: schedule
   scheduleQueueUser: artemis
   scheduleQueuePassword: artemis
