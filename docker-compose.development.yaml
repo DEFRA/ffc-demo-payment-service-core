@@ -6,6 +6,7 @@ services:
       target: development
     depends_on: 
       - ffc-demo-payment-core-postgres
+      - ffc-demo-payment-message-queue
     environment: 
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
     volumes: 

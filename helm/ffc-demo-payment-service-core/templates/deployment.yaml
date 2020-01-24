@@ -47,6 +47,18 @@ spec:
           value: {{ quote .Values.postgresConnectionString }}        
         - name: PORT
           value: {{ quote .Values.container.port }}
+        - name: Messaging__Host
+          value: {{ quote .Values.container.messageQueueHost }}
+        - name: Messaging__Port
+          value: {{ quote .Values.container.messageQueuePort }}
+        - name: Messaging__UseSsl
+          value: {{ quote .Values.container.messageQueueUseSsl }} 
+        - name: Messaging__PaymentQueue
+          value: {{ quote .Values.container.paymentQueueAddress }} 
+        - name: Messaging__PaymentUsername
+          value: {{ quote .Values.container.paymentQueueUser }} 
+        - name: Messaging__PaymentPassword
+          value: {{ quote .Values.container.paymentQueuePassword }} 
         ports:
         - containerPort: {{ .Values.container.port }}
         resources:

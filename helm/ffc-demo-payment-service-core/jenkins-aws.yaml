@@ -4,4 +4,4 @@ container:
   allowPrivilegeEscalation: true
   imagePullPolicy: Always
   messageQueuePort: "5671"
-  messageQueueTransport: ssl
+  messageQueueUseSsl: true

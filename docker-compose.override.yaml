@@ -9,6 +9,8 @@ services:
       - "3007:3007"
     depends_on:
       - ffc-demo-payment-message-queue
+    environment: 
+      Messaging__Host: ffc-demo-payment-message-queue
 
   ffc-demo-payment-message-queue:
     image: vromero/activemq-artemis:2.9.0-alpine
