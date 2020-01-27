@@ -7,6 +7,6 @@ namespace FFCDemoPaymentService.Scheduling
 {
     public interface IScheduleService
     {
-        void CreateSchedule(string claimId, DateTime startDate, int scheduleLength);
+        void CreateSchedule(string claimId);
     }
 }

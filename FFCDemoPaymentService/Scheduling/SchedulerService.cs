@@ -5,21 +5,30 @@ using FFCDemoPaymentService.Data;
 
 namespace FFCDemoPaymentService.Scheduling
 {
-    class SchedulerService : IScheduleService
+    public class ScheduleService : IScheduleService
     {
         private readonly ApplicationDbContext db;
-        public SchedulerService(ApplicationDbContext db)
+        public ScheduleService(ApplicationDbContext db)
         {
             this.db = db;
         }
 
-        public void CreateSchedule(string claimId, DateTime startDate, int scheduleLength)
+        public void CreateSchedule(string claimId)
         {
-            db.Schedule.AddRange(ScheduleBuilder(claimId, startDate, scheduleLength));
-            db.SaveChanges();
+            DateTime startDate = DateTime.Now.Date;
+
+            try
+            {
+                db.Schedule.AddRange(ScheduleBuilder(claimId, startDate));
+                db.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
-        private List<Schedule> ScheduleBuilder(string claimId, DateTime startDate, int scheduleLength)
+        private List<Schedule> ScheduleBuilder(string claimId, DateTime startDate)
         {
             if(claimId != null && startDate != null)
             {
@@ -28,7 +37,7 @@ namespace FFCDemoPaymentService.Scheduling
 
                 try 
                 {
-                    for(int i = 0; i <= scheduleLength; i++)
+                    for(int i = 0; i <= 6; i++)
                     {
                         schedule.Add(new Schedule() 
                         {

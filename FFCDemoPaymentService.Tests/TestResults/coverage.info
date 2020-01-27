@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Program.cs
+=======
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Program.cs
+>>>>>>> origin/master
 FN:16,System.Void FFCDemoPaymentService.Program::Main(System.String[])
 FNDA:0,System.Void FFCDemoPaymentService.Program::Main(System.String[])
 DA:17,0
@@ -26,6 +30,7 @@ BRH:0
 FNF:2
 FNH:0
 end_of_record
+<<<<<<< HEAD
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Startup.cs
 FN:23,Microsoft.Extensions.Configuration.IConfiguration FFCDemoPaymentService.Startup::get_Configuration()
 FNDA:0,Microsoft.Extensions.Configuration.IConfiguration FFCDemoPaymentService.Startup::get_Configuration()
@@ -33,10 +38,19 @@ DA:24,0
 FN:27,System.Void FFCDemoPaymentService.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 FNDA:0,System.Void FFCDemoPaymentService.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
 DA:28,0
+=======
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Startup.cs
+FN:24,Microsoft.Extensions.Configuration.IConfiguration FFCDemoPaymentService.Startup::get_Configuration()
+FNDA:0,Microsoft.Extensions.Configuration.IConfiguration FFCDemoPaymentService.Startup::get_Configuration()
+DA:25,0
+FN:28,System.Void FFCDemoPaymentService.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+FNDA:0,System.Void FFCDemoPaymentService.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+>>>>>>> origin/master
 DA:29,0
 DA:30,0
 DA:31,0
 DA:32,0
+<<<<<<< HEAD
 DA:33,0
 FN:36,System.Void FFCDemoPaymentService.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)
 FNDA:0,System.Void FFCDemoPaymentService.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)
@@ -45,6 +59,16 @@ DA:38,0
 DA:39,0
 DA:40,0
 DA:41,0
+=======
+DA:34,0
+DA:35,0
+FN:38,System.Void FFCDemoPaymentService.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,FFCDemoPaymentService.Data.ApplicationDbContext)
+FNDA:0,System.Void FFCDemoPaymentService.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,FFCDemoPaymentService.Data.ApplicationDbContext)
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+>>>>>>> origin/master
 DA:43,0
 DA:45,0
 DA:47,0
@@ -52,6 +76,7 @@ DA:49,0
 DA:50,0
 DA:51,0
 DA:52,0
+<<<<<<< HEAD
 DA:53,0
 BRDA:38,9,0,0
 BRDA:38,9,1,0
@@ -91,6 +116,69 @@ FNF:4
 FNH:0
 end_of_record
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Messaging\AmqpConnection.cs
+=======
+DA:54,0
+DA:55,0
+BRDA:40,9,0,0
+BRDA:40,9,1,0
+BRDA:49,41,0,0
+BRDA:49,41,1,0
+FN:57,System.Void FFCDemoPaymentService.Startup::ApplyMigrations(FFCDemoPaymentService.Data.ApplicationDbContext)
+FNDA:0,System.Void FFCDemoPaymentService.Startup::ApplyMigrations(FFCDemoPaymentService.Data.ApplicationDbContext)
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+BRDA:59,19,0,0
+BRDA:59,19,1,0
+FN:19,System.Void FFCDemoPaymentService.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+FNDA:0,System.Void FFCDemoPaymentService.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+LF:30
+LH:0
+BRF:6
+BRH:0
+FNF:5
+FNH:0
+end_of_record
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Models/Payment.cs
+FN:11,System.String FFCDemoPaymentService.Models.Payment::get_ClaimId()
+FNDA:0,System.String FFCDemoPaymentService.Models.Payment::get_ClaimId()
+DA:12,0
+FN:14,System.Decimal FFCDemoPaymentService.Models.Payment::get_Decimal()
+FNDA:0,System.Decimal FFCDemoPaymentService.Models.Payment::get_Decimal()
+DA:15,0
+LF:2
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Models/Schedule.cs
+FN:9,System.Int32 FFCDemoPaymentService.Models.Schedule::get_ScheduleId()
+FNDA:0,System.Int32 FFCDemoPaymentService.Models.Schedule::get_ScheduleId()
+DA:10,0
+FN:12,System.String FFCDemoPaymentService.Models.Schedule::get_ClaimId()
+FNDA:0,System.String FFCDemoPaymentService.Models.Schedule::get_ClaimId()
+DA:13,0
+FN:15,System.Decimal FFCDemoPaymentService.Models.Schedule::get_Decimal()
+FNDA:0,System.Decimal FFCDemoPaymentService.Models.Schedule::get_Decimal()
+DA:16,0
+LF:3
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Messaging/AmqpConnection.cs
+>>>>>>> origin/master
 FN:29,System.Void FFCDemoPaymentService.Messaging.AmqpConnection::ConfigureConnectionFactory()
 FNDA:0,System.Void FFCDemoPaymentService.Messaging.AmqpConnection::ConfigureConnectionFactory()
 DA:30,0
@@ -145,6 +233,7 @@ BRH:0
 FNF:4
 FNH:0
 end_of_record
+<<<<<<< HEAD
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Messaging\BrokerUrl.cs
 FN:22,System.String FFCDemoPaymentService.Messaging.BrokerUrl::ToString()
 FNDA:1,System.String FFCDemoPaymentService.Messaging.BrokerUrl::ToString()
@@ -171,6 +260,34 @@ FNF:2
 FNH:2
 end_of_record
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Messaging\MessageService.cs
+=======
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Messaging/BrokerUrl.cs
+FN:22,System.String FFCDemoPaymentService.Messaging.BrokerUrl::ToString()
+FNDA:2,System.String FFCDemoPaymentService.Messaging.BrokerUrl::ToString()
+DA:23,2
+DA:24,2
+DA:25,2
+BRDA:24,20,0,1
+BRDA:24,20,1,1
+FN:12,System.Void FFCDemoPaymentService.Messaging.BrokerUrl::.ctor(System.String,System.Int32,System.String,System.String,System.Boolean)
+FNDA:2,System.Void FFCDemoPaymentService.Messaging.BrokerUrl::.ctor(System.String,System.Int32,System.String,System.String,System.Boolean)
+DA:13,2
+DA:14,2
+DA:15,2
+DA:16,2
+DA:17,2
+DA:18,2
+DA:19,2
+DA:20,2
+LF:11
+LH:11
+BRF:2
+BRH:2
+FNF:2
+FNH:2
+end_of_record
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Messaging/MessageService.cs
+>>>>>>> origin/master
 FN:23,System.Threading.Tasks.Task FFCDemoPaymentService.Messaging.MessageService::ExecuteAsync(System.Threading.CancellationToken)
 FNDA:0,System.Threading.Tasks.Task FFCDemoPaymentService.Messaging.MessageService::ExecuteAsync(System.Threading.CancellationToken)
 DA:24,0
@@ -225,6 +342,7 @@ BRH:0
 FNF:5
 FNH:0
 end_of_record
+<<<<<<< HEAD
 SF:c:\source\repos\ffc-demo-payment-service-core\FFCDemoPaymentService\Messaging\MesssageConfig.cs
 FN:7,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_Host()
 FNDA:9,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_Host()
@@ -277,6 +395,47 @@ DA:15,0
 DA:16,0
 DA:17,0
 LF:18
+=======
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Messaging/MesssageConfig.cs
+FN:7,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_Host()
+FNDA:0,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_Host()
+DA:8,0
+FN:8,System.Int32 FFCDemoPaymentService.Messaging.MessageConfig::get_Port()
+FNDA:0,System.Int32 FFCDemoPaymentService.Messaging.MessageConfig::get_Port()
+DA:9,0
+FN:9,System.Boolean FFCDemoPaymentService.Messaging.MessageConfig::get_UseSsl()
+FNDA:0,System.Boolean FFCDemoPaymentService.Messaging.MessageConfig::get_UseSsl()
+DA:10,0
+FN:10,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentQueue()
+FNDA:0,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentQueue()
+DA:11,0
+FN:11,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentUserName()
+FNDA:0,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentUserName()
+DA:12,0
+FN:12,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentPassword()
+FNDA:0,System.String FFCDemoPaymentService.Messaging.MessageConfig::get_PaymentPassword()
+DA:13,0
+LF:6
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:/c/Repos/ffc-demo-payment-service-core/FFCDemoPaymentService/Data/ApplicationDbContext.cs
+FN:11,Microsoft.EntityFrameworkCore.DbSet`1<FFCDemoPaymentService.Models.Schedule> FFCDemoPaymentService.Data.ApplicationDbContext::get_Schedule()
+FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<FFCDemoPaymentService.Models.Schedule> FFCDemoPaymentService.Data.ApplicationDbContext::get_Schedule()
+DA:12,0
+FN:12,Microsoft.EntityFrameworkCore.DbSet`1<FFCDemoPaymentService.Models.Payment> FFCDemoPaymentService.Data.ApplicationDbContext::get_Payments()
+FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<FFCDemoPaymentService.Models.Payment> FFCDemoPaymentService.Data.ApplicationDbContext::get_Payments()
+DA:13,0
+FN:8,System.Void FFCDemoPaymentService.Data.ApplicationDbContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<FFCDemoPaymentService.Data.ApplicationDbContext>)
+FNDA:0,System.Void FFCDemoPaymentService.Data.ApplicationDbContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<FFCDemoPaymentService.Data.ApplicationDbContext>)
+DA:9,0
+DA:10,0
+DA:11,0
+LF:5
+>>>>>>> origin/master
 LH:0
 BRF:0
 BRH:0
