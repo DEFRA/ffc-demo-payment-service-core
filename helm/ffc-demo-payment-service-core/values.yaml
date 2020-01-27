@@ -27,16 +27,20 @@ container:
   allowPrivilegeEscalation: false
   redeployOnChange: update this field to force a change
   restartPolicy: Always
-  messageQueueHost: amq
-  messageQueuePort: "5672"
-  messageQueueReconnectLimit: 10
-  messageQueueUseSsl: false
-  scheduleQueueAddress: schedule
-  scheduleQueueUser: artemis
-  scheduleQueuePassword: artemis
-  paymentQueueAddress: payment
-  paymentQueueUser: artemis
-  paymentQueuePassword: artemis
+  scheduleQueueName: schedule
+  scheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
+  scheduleQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/schedule
+  scheduleQueueRegion: eu-west-2
+  scheduleQueueAccessKeyId: elasticmq
+  scheduleQueueSecretAccessKey: elasticmq
+  scheduleCreateQueue: true
+  paymentQueueName: payment
+  paymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
+  paymentQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/payment
+  paymentQueueRegion: eu-west-2
+  paymentQueueAccessKeyId: elasticmq
+  paymentQueueSecretAccessKey: elasticmq
+  paymentCreateQueue: true
   replicaCount: 1
   comPlusEnableDiagnostics: 0
 minReadySeconds: 10
