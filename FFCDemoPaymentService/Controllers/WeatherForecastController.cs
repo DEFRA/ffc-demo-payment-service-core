@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+
 namespace FFCDemoPaymentService.Controllers
 {
+
+    [ExcludeFromCodeCoverage]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
