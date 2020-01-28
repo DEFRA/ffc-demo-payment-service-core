@@ -69,14 +69,16 @@ spec:
             memory: {{ quote .Values.container.limitMemory }}
             cpu: {{ quote .Values.container.limitCpu }}
         livenessProbe:
-          path: /healthz
-          initialDelaySeconds: 70
-          periodSeconds: 10
-          port: 3007
-          failureThreshold: 3
+          httpGet:
+            path: {{ quote .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
         readinessProbe:
-          path: /healthy
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          port: 3007
-          failureThreshold: 3
+          httpGet:
+            path: {{ quote .Values.readinessProbe.path }}
+            port: {{ .Values.readinessProbe.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
