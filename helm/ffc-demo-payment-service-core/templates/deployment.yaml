@@ -68,19 +68,19 @@ spec:
           limits:
             memory: {{ quote .Values.container.limitMemory }}
             cpu: {{ quote .Values.container.limitCpu }}
-        # livenessProbe:
-        #   httpGet:
-        #     path: {{ quote .Values.livenessProbe.path }}
-        #     port: {{ .Values.livenessProbe.port }}
-        #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-        #   periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-        #   failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-        #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        # readinessProbe:
-        #   httpGet:
-        #     path: {{ quote .Values.readinessProbe.path }}
-        #     port: {{ .Values.readinessProbe.port }}
-        #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-        #   periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-        #   failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-        #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        livenessProbe:
+          httpGet:
+            path: {{ quote .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ quote .Values.readinessProbe.path }}
+            port: {{ .Values.readinessProbe.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
