@@ -17,10 +17,14 @@ namespace FFCDemoPaymentService.Messaging
 
         public async Task Listen()
         {
+            Console.WriteLine(messageConfig);
+
+            var awsCredentials = new Amazon.Runtime.BasicAWSCredentials(messageConfig.ScheduleAccessKeyId, messageConfig.ScheduleAccessKey);
+
             AmazonSQSConfig amazonSQSConfig = new AmazonSQSConfig();
             amazonSQSConfig.ServiceURL = messageConfig.ScheduleQueueEndpoint;
 
-            var amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            var amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
 
             // create queue
             CreateQueueRequest createQueueRequest = new CreateQueueRequest();
@@ -30,7 +34,7 @@ namespace FFCDemoPaymentService.Messaging
 
             // send a message
             SendMessageRequest sendMessageRequest = new SendMessageRequest();
-            sendMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl; 
+            sendMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl;
             sendMessageRequest.MessageBody = "Hello";
 
             SendMessageResponse sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendMessageRequest);
@@ -44,6 +48,8 @@ namespace FFCDemoPaymentService.Messaging
             // iterate all messages in queue
             for (int i = 0; i < receiveMessageResponse.Messages.Count; i++)
             {
+                Console.WriteLine(receiveMessageResponse.Messages[i].Body);
+
                 if (receiveMessageResponse.Messages[i].Body == "Hello")
                 {
                     var receiptHandle = receiveMessageResponse.Messages[i].ReceiptHandle;
@@ -56,7 +62,7 @@ namespace FFCDemoPaymentService.Messaging
 
                     DeleteMessageResponse response = await amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
                 }
-            }            
+            }
         }
     }
 }
