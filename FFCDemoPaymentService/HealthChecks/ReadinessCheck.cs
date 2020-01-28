@@ -9,6 +9,14 @@ public class ReadinessCheck : IHealthCheck
         CancellationToken cancellationToken = default(CancellationToken))
     {
         var healthCheckResultHealthy = true;
+        
+        //Perform database health check
+
+        //Perform message queue health check
+
+        
+
+        
 
         if (healthCheckResultHealthy)
         {

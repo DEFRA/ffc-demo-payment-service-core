@@ -4,20 +4,15 @@ description: A Helm chart for Kubernetes
 name: ffc-demo-payment-service-core
 version: 1.0.0
 
-readinessProbe:
-  httpGet:         
-    path: /healthy
-    port: 3007
-    scheme: HTTP
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  failureThreshold: 3
- 
-livenessProbe:
-  httpGet:         
+probes:
+  liveness:
     path: /healthz
+    initialDelaySeconds: 20
+    periodSeconds: 5
     port: 3007
-    scheme: HTTP
-  initialDelaySeconds: 20
-  periodSeconds: 10
-  failureThreshold: 3
+  readiness:
+    path: /healthy
+    timeoutSeconds: 5
+    initialDelaySeconds: 20
+    periodSeconds: 15
+    port: 3007
