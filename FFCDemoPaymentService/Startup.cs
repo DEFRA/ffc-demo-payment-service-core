@@ -31,6 +31,9 @@ namespace FFCDemoPaymentService
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddSingleton<IConnection, AmqpConnection>();
             services.AddControllers();
         }
 
