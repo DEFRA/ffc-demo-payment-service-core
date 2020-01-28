@@ -69,14 +69,14 @@ spec:
             memory: {{ quote .Values.container.limitMemory }}
             cpu: {{ quote .Values.container.limitCpu }}
 
-        probes:
-        liveness:
+        
+        livenessProbe:
           path: /healthz
           initialDelaySeconds: 70
           periodSeconds: 10
           port: 3007
           failureThreshold: 3
-        readiness:
+        readinessProbe:
           path: /healthy
           initialDelaySeconds: 60
           periodSeconds: 10
