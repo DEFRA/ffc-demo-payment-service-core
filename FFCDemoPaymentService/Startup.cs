@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService
 {
@@ -27,9 +29,19 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddSingleton<IConnection, AmqpConnection>();
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddHealthChecks()
+                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");  
 
             services.AddControllers();
         }
@@ -45,6 +57,16 @@ namespace FFCDemoPaymentService
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseHealthChecks("/healthy", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceReadinessCheck"
+            });        
+
+            app.UseHealthChecks("/healthz", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceLivenessCheck"
+            }); 
 
             app.UseEndpoints(endpoints =>
             {

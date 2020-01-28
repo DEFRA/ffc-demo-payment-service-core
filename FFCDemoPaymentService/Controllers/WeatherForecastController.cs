@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-
 namespace FFCDemoPaymentService.Controllers
 {
-
     [ExcludeFromCodeCoverage]
     [ApiController]
     [Route("[controller]")]
