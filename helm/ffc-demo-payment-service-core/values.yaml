@@ -45,12 +45,12 @@ maxUnavailable: 1
 readinessProbe:
   path: /healthy
   port: 3007
-  initialDelaySeconds: 60
+  initialDelaySeconds: 120
   periodSeconds: 10
   failureThreshold: 3
 livenessProbe:
   path: /healthz
   port: 3007
-  initialDelaySeconds: 70
+  initialDelaySeconds: 140
   periodSeconds: 10
   failureThreshold: 3
