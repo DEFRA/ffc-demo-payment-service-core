@@ -53,19 +53,28 @@ node {
     } else {
       stage('Helm install') {
         withCredentials([
-          string(credentialsId: 'messageQueueHostPR', variable: 'messageQueueHost'),
-          usernamePassword(credentialsId: 'scheduleListenPR', usernameVariable: 'scheduleQueueUsername', passwordVariable: 'scheduleQueuePassword'),
-          usernamePassword(credentialsId: 'paymentListenPR', usernameVariable: 'paymentQueueUsername', passwordVariable: 'paymentQueuePassword'),
+          string(credentialsId: 'sqsQueueEndpoint', variable: 'sqsQueueEndpoint'),
+          string(credentialsId: 'scheduleQueueUrlPR', variable: 'scheduleQueueUrl'),
+          string(credentialsId: 'scheduleQueueAccessKeyIdListen', variable: 'scheduleQueueAccessKeyId'),
+          string(credentialsId: 'scheduleQueueSecretAccessKeyListen', variable: 'scheduleQueueSecretAccessKey'),
+          string(credentialsId: 'paymentQueueUrlPR', variable: 'paymentQueueUrl'),
+          string(credentialsId: 'paymentQueueAccessKeyIdListen', variable: 'paymentQueueAccessKeyId'),
+          string(credentialsId: 'paymentQueueSecretAccessKeyListen', variable: 'paymentQueueSecretAccessKey'),
           string(credentialsId: 'postgresExternalNamePaymentsCore', variable: 'postgresExternalName'),
           string(credentialsId: 'postgresConnectionStringPaymentsCore', variable: 'postgresConnectionString')
         ]) {
           def helmValues = [
-            /container.messageQueueHost="$messageQueueHost"/,
-            /container.paymentQueuePassword="$paymentQueuePassword"/,
-            /container.paymentQueueUser="$paymentQueueUsername"/,
+            /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,
+            /container.scheduleQueueUrl="$scheduleQueueUrl"/,
+            /container.scheduleQueueAccessKeyId="$scheduleQueueAccessKeyId"/,
+            /container.scheduleQueueSecretAccessKey="$scheduleQueueSecretAccessKey"/,
+            /container.scheduleCreateQueue="false"/,
+            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,
+            /container.paymentQueueUrl="$paymentQueueUrl"/,
+            /container.paymentQueueAccessKeyId="$paymentQueueAccessKeyId"/,
+            /container.paymentQueueSecretAccessKey="$paymentQueueSecretAccessKey"/,
+            /container.paymentCreateQueue="false"/,
             /container.redeployOnChange="$pr-$BUILD_NUMBER"/,
-            /container.scheduleQueuePassword="$scheduleQueuePassword"/,
-            /container.scheduleQueueUser="$scheduleQueueUsername"/,
             /postgresExternalName="$postgresExternalName"/,
             /postgresConnectionString="$postgresConnectionString"/
           ].join(',')
