@@ -1,4 +1,9 @@
 using System;
+using Amazon;
+using Amazon.SQS;
+using Amazon.SQS.Model;
+using System.Threading.Tasks;
+using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -10,51 +15,48 @@ namespace FFCDemoPaymentService.Messaging
             this.messageConfig = messageConfig;
         }
 
-        public void Listen()
+        public async Task Listen()
         {
             AmazonSQSConfig amazonSQSConfig = new AmazonSQSConfig();
             amazonSQSConfig.ServiceURL = messageConfig.ScheduleQueueEndpoint;
 
-            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            var amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
 
             // create queue
             CreateQueueRequest createQueueRequest = new CreateQueueRequest();
             createQueueRequest.QueueName = messageConfig.ScheduleQueueName;
-            createQueueRequest.DefaultVisibilityTimeout = 10;
 
-            CreateQueueResponse createQueueResponse = amazonSQSClient.CreateQueue(createQueueRequest);
+            CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
 
             // send a message
-            sendMessageRequest sendMessageRequest = new sendMessageRequest();
-            sendMessageRequest.QueueUrl = myQueueURL; sendMessageRequest.MessageBody = "Hello";
+            SendMessageRequest sendMessageRequest = new SendMessageRequest();
+            sendMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl; 
+            sendMessageRequest.MessageBody = "Hello";
 
-            SendMessageResponse sendMessageResponse = amazonSQSClient.SendMessage(sendMessageRequest);
+            SendMessageResponse sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendMessageRequest);
 
             // receive a message
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
             receiveMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl;
 
-            ReceiveMessageResponse receiveMessageResponse = amazonSQSClient.ReceiveMessage(receiveMessageRequest);
+            ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
             // iterate all messages in queue
-            if (result.Message.Count != 0)
+            for (int i = 0; i < receiveMessageResponse.Messages.Count; i++)
             {
-                for (int i = 0; i < result.Message.Count; i++)
+                if (receiveMessageResponse.Messages[i].Body == "Hello")
                 {
-                    if (result.Message[i].Body == "Hello")
-                    {
-                        receiptHandle = result.Message[i].ReceiptHandle;
+                    var receiptHandle = receiveMessageResponse.Messages[i].ReceiptHandle;
 
-                        // delete message
-                        DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest();
+                    // delete message
+                    DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest();
 
-                        deleteMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl;
-                        deleteMessageRequest.ReceiptHandle = recieptHandle;
+                    deleteMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl;
+                    deleteMessageRequest.ReceiptHandle = receiptHandle;
 
-                        DeleteMessageResponse response = amazonSQSClient.DeleteMessage(deleteMessageRequest);
-                    }
+                    DeleteMessageResponse response = await amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
                 }
-            }
+            }            
         }
     }
 }

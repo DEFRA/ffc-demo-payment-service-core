@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
+using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService
 {
@@ -33,7 +34,7 @@ namespace FFCDemoPaymentService
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
-            services.AddSingleton<IConnection, AmqpConnection>();
+            // services.AddSingleton<IConnection, AmqpConnection>();
             services.AddControllers();
         }
 
