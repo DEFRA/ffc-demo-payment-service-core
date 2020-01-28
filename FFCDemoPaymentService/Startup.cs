@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
+using Microsoft.EntityFrameworkCore;
+using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService
 {
@@ -27,11 +28,12 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddSingleton<IConnection, AmqpConnection>();
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,9 +45,7 @@ namespace FFCDemoPaymentService
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

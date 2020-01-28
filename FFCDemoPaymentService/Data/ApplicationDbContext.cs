@@ -5,11 +5,13 @@ namespace FFCDemoPaymentService.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext() {}
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        public DbSet<Schedule> Schedule { get; set; } 
-        public DbSet<Payment> Payments { get; set; } 
+
+        public virtual DbSet<Schedule> Schedule { get; set; } 
+        public virtual DbSet<Payment> Payments { get; set; } 
     }
 }
