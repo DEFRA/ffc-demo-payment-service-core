@@ -31,7 +31,7 @@ namespace FFCDemoPaymentService.UnitTests.ScheduleTests
         {
             claimId = "ID123";
         
-            scheduleService.CreateSchedule(claimId);
+            scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockScheduleDbSet.Verify(x => x.AddRange(It.IsAny<List<Schedule>>()), Times.AtMostOnce);
 
@@ -42,7 +42,7 @@ namespace FFCDemoPaymentService.UnitTests.ScheduleTests
         {
             claimId = "ID123";
         
-            scheduleService.CreateSchedule(claimId);
+            scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockContext.Verify(x => x.SaveChanges(), Times.AtMostOnce);
 
