@@ -68,8 +68,6 @@ spec:
           limits:
             memory: {{ quote .Values.container.limitMemory }}
             cpu: {{ quote .Values.container.limitCpu }}
-
-        
         livenessProbe:
           path: /healthz
           initialDelaySeconds: 70
