@@ -1,62 +1,43 @@
-// using System;
-// using System.Threading;
-// using System.Threading.Tasks;
-// using Microsoft.Extensions.DependencyInjection;
-// using Microsoft.Extensions.Hosting;
-// using Amqp;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-// namespace FFCDemoPaymentService.Messaging
-// {
-//     public class MessageService : BackgroundService, IMessageService
-//     {
-//         private IConnection connection;
-//         private MessageConfig messageConfig;
-//         private IServiceScopeFactory serviceScopeFactory;
+namespace FFCDemoPaymentService.Messaging
+{
+    public class MessageService : BackgroundService, IMessageService
+    {
+        private MessageConfig messageConfig;
 
-//         public MessageService(IConnection connection, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
-//         {
-//             this.connection = connection;
-//             this.messageConfig = messageConfig;
-//             this.serviceScopeFactory = serviceScopeFactory;
-//         }
+        public MessageService(MessageConfig messageConfig)
+        {
+            this.messageConfig = messageConfig;
+        }
 
-//         protected override Task ExecuteAsync(CancellationToken stoppingToken)
-//         {
-//             Listen();
-//             return Task.CompletedTask;
-//         }
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            StartPolling();
+            return Task.CompletedTask;
+        }
 
-//         public void Listen()
-//         {
-//             CreateConnectionToQueue();
-//             var receiver = connection.GetReceiver();
-//             receiver.Start(20, (link, message) =>
-//             {
-//                 try
-//                 {
-//                     ReceiveMessage(message);
-//                     link.Accept(message);
-//                 }
-//                 catch (Exception ex)
-//                 {
-//                     Console.WriteLine("Message Rejected: {0}", ex);
-//                     link.Reject(message);
-//                 }
-//             });
-//         }
+        public void StartPolling()
+        {
+            var scheduleReceiver = new SqsReceiver();
+            Task.Run(()=>scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint, messageConfig.ScheduleQueueUrl, new Action<string>(ScheduleHandler)));
 
-//         public void CreateConnectionToQueue()
-//         {
-//             Task.Run(() =>
-//                 connection.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, 
-//                     messageConfig.PaymentUserName, messageConfig.PaymentPassword, messageConfig.UseSsl).ToString(),
-//                 messageConfig.PaymentQueue))
-//             .Wait();
-//         }
+            var paymentReceiver = new SqsReceiver();
+            Task.Run(()=>paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint, messageConfig.PaymentQueueUrl, new Action<string>(PaymentHandler)));
+        }
 
-//         private void ReceiveMessage(Message message)
-//         {
-//             Console.WriteLine(message.Body);
-//         }
-//     }
-// }
+        public void ScheduleHandler(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void PaymentHandler(string message)
+        {
+            Console.WriteLine(message);
+        }
+    }
+}
