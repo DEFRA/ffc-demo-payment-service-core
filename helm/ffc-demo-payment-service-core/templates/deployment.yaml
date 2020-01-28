@@ -72,12 +72,13 @@ spec:
         probes:
         liveness:
           path: /healthz
-          initialDelaySeconds: 20
-          periodSeconds: 5
+          initialDelaySeconds: 70
+          periodSeconds: 10
           port: 3007
+          failureThreshold: 3
         readiness:
           path: /healthy
-          timeoutSeconds: 5
-          initialDelaySeconds: 20
-          periodSeconds: 15
+          initialDelaySeconds: 60
+          periodSeconds: 10
           port: 3007
+          failureThreshold: 3
