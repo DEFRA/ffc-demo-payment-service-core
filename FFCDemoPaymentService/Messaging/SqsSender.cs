@@ -35,7 +35,7 @@ namespace FFCDemoPaymentService.Messaging
             sendMessageRequest.MessageBody = "Hello";
 
             Console.WriteLine("Sending message");
-            SendMessageResponse sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendMessageRequest);
+            amazonSQSClient.SendMessageAsync(sendMessageRequest);
 
             Console.WriteLine("Message Sent");
         }
