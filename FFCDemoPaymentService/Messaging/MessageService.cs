@@ -31,7 +31,8 @@ namespace FFCDemoPaymentService.Messaging
                 messageConfig.ScheduleAccessKeyId,
                 messageConfig.ScheduleAccessKey,
                 messageConfig.CreateScheduleQueue,
-                messageConfig.ScheduleQueueName
+                messageConfig.ScheduleQueueName,
+                messageConfig.ScheduleQueueRegion
                 ));
 
             var paymentReceiver = new SqsReceiver();
@@ -41,7 +42,8 @@ namespace FFCDemoPaymentService.Messaging
                 messageConfig.PaymentAccessKeyId,
                 messageConfig.PaymentAccessKey,
                 messageConfig.CreatePaymentQueue,
-                messageConfig.PaymentQueueName
+                messageConfig.PaymentQueueName,
+                messageConfig.PaymentQueueRegion
                 ));
         }
 

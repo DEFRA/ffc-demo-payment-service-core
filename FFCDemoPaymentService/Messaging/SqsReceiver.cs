@@ -9,7 +9,7 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class SqsReceiver
     {
-        public async Task StartPolling(string endpoint, string queueUrl, Action<string> messageAction, string keyId, string key, bool createQueue, string queueName)
+        public async Task StartPolling(string endpoint, string queueUrl, Action<string> messageAction, string keyId, string key, bool createQueue, string queueName, string region)
         {
             Console.WriteLine("Configuring queue {0}", queueName);
             Console.WriteLine("#############################");
@@ -19,6 +19,7 @@ namespace FFCDemoPaymentService.Messaging
 
             AmazonSQSConfig amazonSQSConfig = new AmazonSQSConfig();
             amazonSQSConfig.ServiceURL = endpoint;
+            amazonSQSConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(region);
 
 
             var amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
