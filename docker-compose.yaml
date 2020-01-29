@@ -8,3 +8,5 @@ services:
     container_name: ffc-demo-payment-service-core
     environment: 
       COMPlus_EnableDiagnostics: 0
+
+  

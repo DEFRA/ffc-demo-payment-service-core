@@ -84,3 +84,9 @@ spec:
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        volumeMounts:
+        - mountPath: /app
+          name: core-app-dir
+      volumes:
+      - name: core-app-dir
+        emptyDir: {}
