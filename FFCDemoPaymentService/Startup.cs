@@ -11,8 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FFCDemoPaymentService.Data;
-using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Messaging;
+using Microsoft.EntityFrameworkCore;
 
 namespace FFCDemoPaymentService
 {

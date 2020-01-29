@@ -7,7 +7,7 @@ using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging
 {
-    public class SqsConnection : IConnection
+    public class SqsConnection
     {
         private MessageConfig messageConfig;
         public SqsConnection(MessageConfig messageConfig)
