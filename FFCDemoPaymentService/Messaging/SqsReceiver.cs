@@ -27,11 +27,16 @@ namespace FFCDemoPaymentService.Messaging
             {
                 Console.WriteLine("Creating queue {0}", queueName);
                 Console.WriteLine("#############################");
-
+                try{
                 CreateQueueRequest createQueueRequest = new CreateQueueRequest();
                 createQueueRequest.QueueName = queueName;
 
                 CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
+                }
+                catch(Exception)
+                {
+                    Console.WriteLine("Can't create queue");
+                }
             }
 
             Console.WriteLine("Ready to receive message from {0}", queueName);
