@@ -18,7 +18,7 @@ Or:
 Or:
 - .Net Core SDK 3.1
 - PostgreSQL database
-- AMQP 1.0 message queue
+- SQS compatible message queue
 
 ## Environment variables
 
