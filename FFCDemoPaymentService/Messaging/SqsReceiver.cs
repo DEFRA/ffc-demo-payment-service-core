@@ -27,11 +27,12 @@ namespace FFCDemoPaymentService.Messaging
             {
                 Console.WriteLine("Creating queue {0}", queueName);
                 Console.WriteLine("#############################");
-                try{
-                CreateQueueRequest createQueueRequest = new CreateQueueRequest();
-                createQueueRequest.QueueName = queueName;
+                try
+                {
+                    CreateQueueRequest createQueueRequest = new CreateQueueRequest();
+                    createQueueRequest.QueueName = queueName;
 
-                CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
+                    CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
                 }
                 catch
                 {
@@ -42,12 +43,11 @@ namespace FFCDemoPaymentService.Messaging
             Console.WriteLine("Ready to receive message from {0}", queueName);
             Console.WriteLine("#############################");
 
-            // receive a message
-            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
-            receiveMessageRequest.QueueUrl = queueUrl;
-
             while (true)
             {
+                // receive a message
+                ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
+                receiveMessageRequest.QueueUrl = queueUrl;
                 ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
                 if (receiveMessageResponse.Messages.Count > 0)
