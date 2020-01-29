@@ -17,12 +17,18 @@ namespace FFCDemoPaymentService.Messaging
 
             var amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
 
-            // create queue
-            CreateQueueRequest createQueueRequest = new CreateQueueRequest();
-            createQueueRequest.QueueName = messageConfig.ScheduleQueueName;
+            try
+            {
+                // create queue
+                CreateQueueRequest createQueueRequest = new CreateQueueRequest();
+                createQueueRequest.QueueName = messageConfig.ScheduleQueueName;
 
-            CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
-
+                CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
+            }
+            catch
+            {
+                Console.WriteLine("Can't create queue");
+            }
             // send a message
             SendMessageRequest sendMessageRequest = new SendMessageRequest();
             sendMessageRequest.QueueUrl = messageConfig.ScheduleQueueUrl;

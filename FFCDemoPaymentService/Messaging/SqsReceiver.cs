@@ -33,7 +33,7 @@ namespace FFCDemoPaymentService.Messaging
 
                 CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
                 }
-                catch(Exception)
+                catch
                 {
                     Console.WriteLine("Can't create queue");
                 }
