@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -23,11 +24,31 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
+            List<Task> tasks = new List<Task>();
+
             var scheduleReceiver = new SqsReceiver();
-            Task.Run(() => scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint, messageConfig.ScheduleQueueUrl, new Action<string>(ScheduleHandler)));
+            var t1 = Task.Run(() => scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint, 
+                messageConfig.ScheduleQueueUrl, 
+                new Action<string>(ScheduleHandler), 
+                messageConfig.ScheduleAccessKeyId, 
+                messageConfig.ScheduleAccessKey,
+                messageConfig.CreateScheduleQueue,
+                messageConfig.ScheduleQueueName
+                ));
+            tasks.Add(t1);
 
             var paymentReceiver = new SqsReceiver();
-            Task.Run(() => paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint, messageConfig.PaymentQueueUrl, new Action<string>(PaymentHandler)));
+            var t2 = Task.Run(() => paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint, 
+                messageConfig.PaymentQueueUrl, 
+                new Action<string>(PaymentHandler), 
+                messageConfig.PaymentAccessKeyId, 
+                messageConfig.PaymentAccessKey,
+                messageConfig.CreatePaymentQueue,
+                messageConfig.PaymentQueueName                
+                ));
+            tasks.Add(t2);
+
+            Task.WaitAll(tasks.ToArray());
         }
 
         public void ScheduleHandler(string message)

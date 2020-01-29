@@ -9,12 +9,22 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class SqsReceiver
     {
-        public async Task StartPolling(string endpoint, string queueUrl, Action<string> messageAction)
+        public async Task StartPolling(string endpoint, string queueUrl, Action<string> messageAction, string keyId, string key, bool createQueue, string QueueName)
         {
+            var awsCredentials = new Amazon.Runtime.BasicAWSCredentials(keyId, key);
+
             AmazonSQSConfig amazonSQSConfig = new AmazonSQSConfig();
             amazonSQSConfig.ServiceURL = endpoint;
 
-            var amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            var amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
+
+            if (createQueue)
+            {
+                CreateQueueRequest createQueueRequest = new CreateQueueRequest();
+                createQueueRequest.QueueName = QueueName;
+
+                CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
+            }
 
             // receive a message
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
