@@ -30,8 +30,8 @@ namespace FFCDemoPaymentService.Messaging
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
             receiveMessageRequest.QueueUrl = queueUrl;
 
-            while (true)
-            {
+            // while (true)
+            // {
                 ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
                 if (receiveMessageResponse.Messages.Count > 0)
@@ -56,7 +56,7 @@ namespace FFCDemoPaymentService.Messaging
                     }
                 }
 
-            }
+            // }
         }
     }
 }
