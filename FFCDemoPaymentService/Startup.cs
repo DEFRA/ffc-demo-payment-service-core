@@ -30,7 +30,6 @@ namespace FFCDemoPaymentService
         {
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
-            services.AddScoped<IConnection, SqsConnection>();
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
