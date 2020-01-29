@@ -31,7 +31,10 @@ node {
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-      slackSend message: "Build Started - ${JOB_NAME} ${BUILD_NUMBER} (<${BUILD_URL}|Open>)"
+    slackSend message: "BUILD FAILED
+                        ${JOB_NAME} 
+                        Build Number - ${BUILD_NUMBER}
+                        (<${BUILD_URL}|Open>)"
     }
     stage('Run tests') {
       defraUtils.runTests(imageName, BUILD_NUMBER)
