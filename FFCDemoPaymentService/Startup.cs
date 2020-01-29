@@ -36,10 +36,6 @@ namespace FFCDemoPaymentService
             services.AddSingleton(messageConfig);
             services.AddScoped<IConnection, SqsConnection>();
             services.AddControllers();
-
-            var sqs = new SqsConnection(messageConfig);
-            Task.Run(() => sqs.Listen()).Wait();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

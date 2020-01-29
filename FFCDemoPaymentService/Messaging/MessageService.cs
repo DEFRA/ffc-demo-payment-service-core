@@ -24,10 +24,10 @@ namespace FFCDemoPaymentService.Messaging
         public void StartPolling()
         {
             var scheduleReceiver = new SqsReceiver();
-            Task.Run(()=>scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint, messageConfig.ScheduleQueueUrl, new Action<string>(ScheduleHandler)));
+            Task.Run(() => scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint, messageConfig.ScheduleQueueUrl, new Action<string>(ScheduleHandler)));
 
             var paymentReceiver = new SqsReceiver();
-            Task.Run(()=>paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint, messageConfig.PaymentQueueUrl, new Action<string>(PaymentHandler)));
+            Task.Run(() => paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint, messageConfig.PaymentQueueUrl, new Action<string>(PaymentHandler)));
         }
 
         public void ScheduleHandler(string message)
