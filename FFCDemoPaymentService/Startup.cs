@@ -28,10 +28,6 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
             services.AddScoped<IConnection, SqsConnection>();
@@ -66,7 +62,7 @@ namespace FFCDemoPaymentService
                 {
                     dbContext.Database.Migrate();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Error running migrations ", ex);
                 }
