@@ -10,10 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Messaging;
+<<<<<<< HEAD
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+=======
+>>>>>>> origin/master
 
 namespace FFCDemoPaymentService
 {
@@ -29,6 +32,7 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+<<<<<<< HEAD
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
@@ -42,7 +46,14 @@ namespace FFCDemoPaymentService
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
                 .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
+=======
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddSingleton<IConnection, AmqpConnection>();
+>>>>>>> origin/master
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,8 +65,8 @@ namespace FFCDemoPaymentService
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
+<<<<<<< HEAD
 
             app.UseHealthChecks("/healthy", new HealthCheckOptions()
             {
@@ -67,6 +78,8 @@ namespace FFCDemoPaymentService
                 Predicate = check => check.Name == "ServiceLivenessCheck"
             }); 
 
+=======
+>>>>>>> origin/master
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

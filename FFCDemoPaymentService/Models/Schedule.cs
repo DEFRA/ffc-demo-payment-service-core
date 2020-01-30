@@ -12,7 +12,7 @@ namespace FFCDemoPaymentService.Models
         [Column("claimId")]
         public string ClaimId { get; set; }
 
-        [Column("value")]
-        public decimal Decimal { get; set; }
+        [Column("paymentDate")]
+        public DateTime PaymentDate { get; set; }
     }
 }
