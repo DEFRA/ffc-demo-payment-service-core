@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
+using FFCDemoPaymentService.Messaging.Mapping;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -24,27 +25,13 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            var scheduleReceiver = new SqsReceiver();
-            var t1 = Task.Run(() => scheduleReceiver.StartPolling(messageConfig.ScheduleQueueEndpoint,
-                messageConfig.ScheduleQueueUrl,
-                new Action<string>(ScheduleHandler),
-                messageConfig.ScheduleAccessKeyId,
-                messageConfig.ScheduleAccessKey,
-                messageConfig.CreateScheduleQueue,
-                messageConfig.ScheduleQueueName,
-                messageConfig.ScheduleQueueRegion
-                ));
+            SqsConfig scheduleQueueConfig = new ScheduleMap(messageConfig).MapToSqsConfig();
+            var scheduleReceiver = new SqsReceiver(scheduleQueueConfig, new Action<string>(ScheduleHandler));
+            scheduleReceiver.StartPolling();
 
-            var paymentReceiver = new SqsReceiver();
-            var t2 = Task.Run(() => paymentReceiver.StartPolling(messageConfig.PaymentQueueEndpoint,
-                messageConfig.PaymentQueueUrl,
-                new Action<string>(PaymentHandler),
-                messageConfig.PaymentAccessKeyId,
-                messageConfig.PaymentAccessKey,
-                messageConfig.CreatePaymentQueue,
-                messageConfig.PaymentQueueName,
-                messageConfig.PaymentQueueRegion
-                ));
+            SqsConfig paymentQueueConfig = new PaymentMap(messageConfig).MapToSqsConfig();
+            var paymentReceiver = new SqsReceiver(paymentQueueConfig, new Action<string>(PaymentHandler));
+            paymentReceiver.StartPolling();
         }
 
         public void ScheduleHandler(string message)
