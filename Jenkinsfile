@@ -28,7 +28,7 @@ node {
     }
     stage('Helm lint') {
       defraUtils.lintHelm(imageName)
-      throw
+      throw new Exception("The Eagle Has Landed")
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
@@ -88,7 +88,8 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
-    slackSend color: "#ff0000",
+    slackSend channel: "#general",
+              color: "#ff0000",
               message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)
               """ + """Reason -- ${e.message}"""
     defraUtils.setGithubStatusFailure(e.message)
