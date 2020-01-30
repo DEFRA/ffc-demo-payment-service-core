@@ -7,14 +7,18 @@ using FFCDemoPaymentService.Data;
 
 public class ReadinessCheck : IHealthCheck
 {
-    private readonly ApplicationDbContext applicationDbContext;
+    private readonly ApplicationDbContext db;
+
+    public ReadinessCheck(ApplicationDbContext db)
+    {
+        this.db = db;
+    }
 
     public Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
         CancellationToken cancellationToken = default(CancellationToken))
     {
-        bool databaseHealthyCheck = CheckDatabase(applicationDbContext);
-
+        bool databaseHealthyCheck = CheckDatabase(db);
         if (databaseHealthyCheck)
         {
             return Task.FromResult(
