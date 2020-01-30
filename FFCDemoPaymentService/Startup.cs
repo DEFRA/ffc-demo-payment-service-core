@@ -34,14 +34,13 @@ namespace FFCDemoPaymentService
             services.AddSingleton(messageConfig);
             services.AddSingleton<IConnection, AmqpConnection>();
 
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");  
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
             services.AddControllers();
         }
