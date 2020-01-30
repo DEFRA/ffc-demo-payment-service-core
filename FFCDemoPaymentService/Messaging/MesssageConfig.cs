@@ -5,7 +5,7 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class MessageConfig
     {
-        public string ScheduleQueueName { get; set; }
+        public string ScheduleQueueName { get; set; }        
         public string ScheduleQueueEndpoint { get; set; }
         public string ScheduleQueueUrl { get; set; }
         public string ScheduleQueueRegion { get; set; }
