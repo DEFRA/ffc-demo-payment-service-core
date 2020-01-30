@@ -15,7 +15,7 @@ namespace FFCDemoPaymentService.Messaging
 
             AmazonSQSConfig amazonSQSConfig = new AmazonSQSConfig();
             amazonSQSConfig.ServiceURL = endpoint;
-            amazonSQSConfig.RegionEndpoint = Amazon.RegionEndpoint.EUWest2;
+            amazonSQSConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(region);
 
 
             var amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
