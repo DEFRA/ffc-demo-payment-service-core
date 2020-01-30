@@ -43,7 +43,8 @@ namespace FFCDemoPaymentService.Messaging
                 // receive a message
                 ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
                 receiveMessageRequest.QueueUrl = queueUrl;
-                ReceiveMessageResponse receiveMessageResponse = amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest).Result;
+                receiveMessageRequest.WaitTimeSeconds = 5;
+                ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
                 Console.WriteLine("{0} messages in queue", receiveMessageResponse.Messages.Count);
                 if (receiveMessageResponse.Messages.Count > 0)
@@ -61,7 +62,7 @@ namespace FFCDemoPaymentService.Messaging
                         deleteMessageRequest.QueueUrl = queueUrl;
                         deleteMessageRequest.ReceiptHandle = receiptHandle;
 
-                        DeleteMessageResponse response = amazonSQSClient.DeleteMessageAsync(deleteMessageRequest).Result;
+                        DeleteMessageResponse response = await amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
                     }
                     catch (Exception ex)
                     {
