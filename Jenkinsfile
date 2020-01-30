@@ -97,7 +97,7 @@ node {
 
     slackSend channel: "#jenkinsbuild",
               color: "#ff0000",
-              message: msg.replace("\t", "")
+              message: msg.replace("  ", "")
 
     defraUtils.setGithubStatusFailure(e.message)
     throw e
