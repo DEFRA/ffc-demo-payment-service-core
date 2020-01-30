@@ -46,7 +46,7 @@ namespace FFCDemoPaymentService.Messaging
                 receiveMessageRequest.WaitTimeSeconds = 5;
                 ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
-                if (receiveMessageResponse.Messages.Any())
+                if (receiveMessageResponse.Messages.Count > 0)
                 {
                     try
                     {
