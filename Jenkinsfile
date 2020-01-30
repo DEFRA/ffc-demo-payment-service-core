@@ -90,7 +90,7 @@ node {
   } catch(e) {
 
 
-if(JOB_NAME.contains("/master/"))
+if(!JOB_NAME.contains("/master/"))
 {
   slackSend channel: "#general",
             color: "#ff0000",
