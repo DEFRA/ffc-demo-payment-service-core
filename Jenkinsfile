@@ -28,7 +28,6 @@ node {
     }
     stage('Helm lint') {
       defraUtils.lintHelm(imageName)
-      throw new Exception("The Eagle Has Landed")
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
