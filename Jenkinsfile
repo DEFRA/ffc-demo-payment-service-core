@@ -90,26 +90,14 @@ node {
   } catch(e) {
 
 
-if(!JOB_NAME.contains("/master/"))
-{
-  slackSend channel: "#general",
-            color: "#ff0000",
-            message: """@here BUILD FAILED 
-${JOB_NAME}/${BUILD_NUMBER}
-${e.message}
+    def msg = """BUILD FAILED 
+                 ${JOB_NAME}/${BUILD_NUMBER}
+                 ${e.message}
+                 (<${BUILD_URL}|Open>)"""
 
-(<${BUILD_URL}|Open>)"""
-}
-else
-{
-  slackSend channel: "#jenkinsbuild",
-            color: "#ff0000",
-            message: """BUILD FAILED 
-${JOB_NAME}/${BUILD_NUMBER}
-${e.message}
-
-(<${BUILD_URL}|Open>)"""
-}
+    slackSend channel: "#jenkinsbuild",
+              color: "#ff0000",
+              message: msg.replace("\t", "")
 
     defraUtils.setGithubStatusFailure(e.message)
     throw e
