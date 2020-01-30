@@ -50,7 +50,7 @@ namespace FFCDemoPaymentService
                 endpoints.MapControllers();
             });
 
-            // ApplyMigrations(dbContext);
+            ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
