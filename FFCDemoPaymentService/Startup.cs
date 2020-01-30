@@ -33,9 +33,6 @@ namespace FFCDemoPaymentService
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
-            // var sender = new SqsSender();
-            // Task.Run(() => sender.SendMessage(messageConfig));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
