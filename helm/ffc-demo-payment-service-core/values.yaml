@@ -39,6 +39,9 @@ container:
   paymentQueuePassword: artemis
   replicaCount: 1
   comPlusEnableDiagnostics: 0
+volumeMounts: 
+  mountPath: /var/www/
+  name: core-app-dir
 minReadySeconds: 10
 maxSurge: 1
 maxUnavailable: 1

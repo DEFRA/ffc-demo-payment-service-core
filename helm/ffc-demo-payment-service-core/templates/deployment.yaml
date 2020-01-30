@@ -85,8 +85,8 @@ spec:
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         volumeMounts:
-        - mountPath: /var/www/
-          name: core-app-dir
+        - mountPath: {{ .Values.volumeMounts.mountPath }}
+          name: {{ .Values.volumeMounts.name }}
       volumes:
-      - name: core-app-dir
+      - name: {{ .Values.volumeMounts.name }}
         emptyDir: {}
