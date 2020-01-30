@@ -7,10 +7,10 @@ using FFCDemoPaymentService.Data;
 using FFCDemoPaymentService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FFCDemoPaymentService.UnitTests.ScheduleTests
+namespace FFCDemoPaymentService.Tests.Scheduling
 {
     [TestFixture]
-    public class ScheduleTests
+    public class ScheduleServiceTests
     {
         string claimId;
         private IScheduleService scheduleService;
@@ -27,26 +27,23 @@ namespace FFCDemoPaymentService.UnitTests.ScheduleTests
         }
 
         [Test]
-        public void CreateSchedule_add_range_schedule()
+        public void Test_CreateSchedule_Adds_Range()
         {
             claimId = "ID123";
         
             scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockScheduleDbSet.Verify(x => x.AddRange(It.IsAny<List<Schedule>>()), Times.AtMostOnce);
-
         }
 
         [Test]
-        public void CreateSchedule_save_changes()
+        public void Test_CreateSchedule_SavesChanges()
         {
             claimId = "ID123";
         
             scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockContext.Verify(x => x.SaveChanges(), Times.AtMostOnce);
-
         }
-
     }
 }
