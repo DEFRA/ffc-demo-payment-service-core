@@ -28,18 +28,10 @@ node {
     }
     stage('Helm lint') {
       defraUtils.lintHelm(imageName)
+      throw
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-
-      if(!JOB_NAME.endsWith("/master"))
-      {
-        slackSend color: "#ff0000", message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)"""
-      }
-      else
-      {
-        slackSend color: "#ff0000", message: """not master branch"""
-      }
     }
     stage('Run tests') {
       defraUtils.runTests(imageName, BUILD_NUMBER)
@@ -96,6 +88,10 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
+    slackSend channel: "#general"
+          color: "#ff0000",
+          message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)
+          """ + """Reason -- ${e.message}"""
     defraUtils.setGithubStatusFailure(e.message)
     throw e
   } 
