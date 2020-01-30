@@ -29,7 +29,6 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
@@ -43,11 +42,6 @@ namespace FFCDemoPaymentService
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
                 .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
-=======
-            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
-            services.AddSingleton(messageConfig);
-            services.AddSingleton<IConnection, AmqpConnection>();
->>>>>>> origin/master
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -63,7 +57,6 @@ namespace FFCDemoPaymentService
 
             app.UseRouting();
             app.UseAuthorization();
-<<<<<<< HEAD
 
             app.UseHealthChecks("/healthy", new HealthCheckOptions()
             {
@@ -75,8 +68,6 @@ namespace FFCDemoPaymentService
                 Predicate = check => check.Name == "ServiceLivenessCheck"
             }); 
 
-=======
->>>>>>> origin/master
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
