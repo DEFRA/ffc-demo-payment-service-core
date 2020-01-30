@@ -31,8 +31,6 @@ node {
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-
-      if()
     slackSend color: "#ff0000", message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>) ${JOB_NAME}"""
     }
     stage('Run tests') {
