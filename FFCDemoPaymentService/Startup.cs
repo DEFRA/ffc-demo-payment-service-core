@@ -13,10 +13,7 @@ using Microsoft.Extensions.Logging;
 using FFCDemoPaymentService.Data;
 using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Messaging;
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-=======
->>>>>>> origin/master
 
 namespace FFCDemoPaymentService
 {
