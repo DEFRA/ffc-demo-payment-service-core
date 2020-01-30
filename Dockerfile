@@ -36,4 +36,4 @@ COPY --from=production /app/out ./
 RUN chown -R www-data:www-data /app
 ENV ASPNETCORE_URLS=http://*:3007
 EXPOSE 3007
-ENTRYPOINT [ "dotnet", "/app/out/FFCDemoPaymentService.dll" ]
+ENTRYPOINT [ "dotnet", "FFCDemoPaymentService.dll" ]
