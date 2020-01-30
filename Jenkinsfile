@@ -88,10 +88,10 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
-    slackSend channel: "#general"
-          color: "#ff0000",
-          message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)
-          """ + """Reason -- ${e.message}"""
+    slackSend channel: "#general",
+              color: "#ff0000",
+              message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)
+              """ + """Reason -- ${e.message}"""
     defraUtils.setGithubStatusFailure(e.message)
     throw e
   } 
