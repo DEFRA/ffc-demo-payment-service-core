@@ -88,18 +88,8 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
-
-
-    def msg = """BUILD FAILED 
-                 ${JOB_NAME}/${BUILD_NUMBER}
-                 ${e.message}
-                 (<${BUILD_URL}|Open>)"""
-
-    slackSend channel: "#jenkinsbuild",
-              color: "#ff0000",
-              message: msg.replace("  ", "")
-
-    defraUtils.setGithubStatusFailure(e.message)
+      defraUtils.notifySlackBuildFailure(e.message, "#jenkinsbuild")
+      defraUtils.setGithubStatusFailure(e.message)
     throw e
   } 
 }
