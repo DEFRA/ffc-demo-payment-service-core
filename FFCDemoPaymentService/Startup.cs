@@ -57,14 +57,16 @@ namespace FFCDemoPaymentService
         {
             if (dbContext.Database.GetPendingMigrations().Any())
             {
+                Console.WriteLine("Pending migrations found, updating database");
                 try
                 {
                     dbContext.Database.Migrate();
+                    Console.WriteLine("Database migration complete");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error running migrations ", ex);
-                }
+                }                
             }
         }
     }
