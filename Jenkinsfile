@@ -31,7 +31,15 @@ node {
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-    slackSend color: "#ff0000", message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>) ${JOB_NAME}"""
+
+      if($(JOB_NAME).endsWith("/master"))
+      {
+        slackSend color: "#ff0000", message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)"""
+      }
+      else
+      {
+        slackSend color: "#ff0000", message: """not master branch"""
+      }
     }
     stage('Run tests') {
       defraUtils.runTests(imageName, BUILD_NUMBER)
