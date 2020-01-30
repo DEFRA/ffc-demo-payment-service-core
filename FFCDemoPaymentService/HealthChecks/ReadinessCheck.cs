@@ -18,8 +18,7 @@ public class ReadinessCheck : IHealthCheck
         HealthCheckContext context,
         CancellationToken cancellationToken = default(CancellationToken))
     {
-        bool databaseHealthyCheck = true;
-        databaseHealthyCheck = CheckDatabase(db);
+        bool databaseHealthyCheck = CheckDatabase(db);
         
         if (databaseHealthyCheck)
         {
