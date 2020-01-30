@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@psd-430-failed-build-reporting')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -31,7 +31,7 @@ node {
     }
     stage('Build test image') {
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-    slackSend color: "#ff0000", message: """BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)"""
+    slackSend color: "#ff0000", message: """@here BUILD FAILED -- ${BUILD_TAG} (<${BUILD_URL}|Open>)"""
     }
     stage('Run tests') {
       defraUtils.runTests(imageName, BUILD_NUMBER)
