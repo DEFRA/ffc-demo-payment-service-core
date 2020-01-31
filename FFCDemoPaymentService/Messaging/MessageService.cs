@@ -13,8 +13,8 @@ namespace FFCDemoPaymentService.Messaging
     public class MessageService : BackgroundService, IMessageService
     {
         MessageConfig messageConfig;
-        SqsReceiver scheduleReceiver;
-        SqsReceiver paymentReceiver;
+        IReceiver scheduleReceiver;
+        IReceiver paymentReceiver;
         IMessageAction<Schedule> scheduleAction;
         IMessageAction<Payment> paymentAction;
 
@@ -23,14 +23,14 @@ namespace FFCDemoPaymentService.Messaging
             IMessageAction<Schedule> scheduleAction,
             IMessageAction<Payment> paymentAction,
             MessageConfig messageConfig, 
-            SqsReceiver scheduleReceiver = null, 
-            SqsReceiver paymentReceiver = null)
+            IReceiver scheduleReceiver = null, 
+            IReceiver paymentReceiver = null)
         {
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             this.messageConfig = messageConfig;
             this.scheduleReceiver = scheduleReceiver;
-            this.paymentReceiver = scheduleReceiver;
+            this.paymentReceiver = paymentReceiver;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)

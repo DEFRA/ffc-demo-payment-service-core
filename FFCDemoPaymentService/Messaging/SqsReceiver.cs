@@ -9,7 +9,7 @@ using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging
 {
-    public class SqsReceiver
+    public class SqsReceiver : IReceiver
     {
         SqsConfig sqsConfig;
         BasicAWSCredentials credentials;
