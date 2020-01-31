@@ -45,6 +45,10 @@ namespace FFCDemoPaymentService
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
                 .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
 
+            services.AddHealthChecks()
+                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
+
             services.AddControllers();
         }
 
