@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +14,7 @@ using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace FFCDemoPaymentService
 {
@@ -42,6 +41,10 @@ namespace FFCDemoPaymentService
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddHealthChecks()
+                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
+
             services.AddControllers();
         }
 
@@ -55,6 +58,17 @@ namespace FFCDemoPaymentService
 
             app.UseRouting();
             app.UseAuthorization();
+
+            app.UseHealthChecks("/healthy", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceReadinessCheck"
+            });        
+
+            app.UseHealthChecks("/healthz", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceLivenessCheck"
+            }); 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
