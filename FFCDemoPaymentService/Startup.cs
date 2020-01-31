@@ -7,8 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using FFCDemoPaymentService.Data;
+using FFCDemoPaymentService.Messaging;
+using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Models;
+using FFCDemoPaymentService.Scheduling;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace FFCDemoPaymentService
@@ -26,12 +31,20 @@ namespace FFCDemoPaymentService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+
+            services.AddSingleton(messageConfig);
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                            
 
             services.AddControllers();
         }
@@ -45,7 +58,6 @@ namespace FFCDemoPaymentService
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseHealthChecks("/healthy", new HealthCheckOptions()
@@ -70,7 +82,16 @@ namespace FFCDemoPaymentService
         {
             if (dbContext.Database.GetPendingMigrations().Any())
             {
-                dbContext.Database.Migrate();
+                Console.WriteLine("Pending migrations found, updating database");
+                try
+                {
+                    dbContext.Database.Migrate();
+                    Console.WriteLine("Database migration complete");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error running migrations ", ex);
+                }                
             }
         }
     }

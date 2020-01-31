@@ -47,18 +47,34 @@ spec:
           value: {{ quote .Values.postgresConnectionString }}        
         - name: PORT
           value: {{ quote .Values.container.port }}
-        - name: Messaging__Host
-          value: {{ quote .Values.container.messageQueueHost }}
-        - name: Messaging__Port
-          value: {{ quote .Values.container.messageQueuePort }}
-        - name: Messaging__UseSsl
-          value: {{ quote .Values.container.messageQueueUseSsl }} 
-        - name: Messaging__PaymentQueue
-          value: {{ quote .Values.container.paymentQueueAddress }} 
-        - name: Messaging__PaymentUsername
-          value: {{ quote .Values.container.paymentQueueUser }} 
-        - name: Messaging__PaymentPassword
-          value: {{ quote .Values.container.paymentQueuePassword }} 
+        - name: Messaging__ScheduleQueueName
+          value: {{ quote .Values.container.scheduleQueueName }}
+        - name: Messaging__ScheduleQueueEndpoint
+          value: {{ quote .Values.container.scheduleQueueEndpoint }}
+        - name: Messaging__ScheduleQueueUrl
+          value: {{ quote .Values.container.scheduleQueueUrl }}
+        - name: Messaging__ScheduleQueueRegion
+          value: {{ quote .Values.container.scheduleQueueRegion }}
+        - name: Messaging__ScheduleAccessKeyId
+          value: {{ quote .Values.container.scheduleQueueAccessKeyId }}
+        - name: Messaging__ScheduleAccessKey
+          value: {{ quote .Values.container.scheduleQueueSecretAccessKey }}
+        - name: Messaging__CreateScheduleQueue
+          value: {{ quote .Values.container.scheduleCreateQueue }}
+        - name: Messaging__PaymentQueueName
+          value: {{ quote .Values.container.paymentQueueName }}
+        - name: Messaging__PaymentQueueEndpoint
+          value: {{ quote .Values.container.paymentQueueEndpoint }}
+        - name: Messaging__PaymentQueueUrl
+          value: {{ quote .Values.container.paymentQueueUrl }}
+        - name: Messaging__PaymentQueueRegion
+          value: {{ quote .Values.container.paymentQueueRegion }}
+        - name: Messaging__PaymentAccessKeyId
+          value: {{ quote .Values.container.paymentQueueAccessKeyId }}
+        - name: Messaging__PaymentAccessKey
+          value: {{ quote .Values.container.paymentQueueSecretAccessKey }}
+        - name: Messaging__CreatePaymentQueue
+          value: {{ quote .Values.container.paymentCreateQueue }}
         ports:
         - containerPort: {{ .Values.container.port }}
         resources:
@@ -68,4 +84,25 @@ spec:
           limits:
             memory: {{ quote .Values.container.limitMemory }}
             cpu: {{ quote .Values.container.limitCpu }}
-        
+        livenessProbe:
+          httpGet:
+            path: {{ quote .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ quote .Values.readinessProbe.path }}
+            port: {{ .Values.readinessProbe.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        volumeMounts:
+        - mountPath: {{ .Values.volumeMounts.mountPath }}
+          name: {{ .Values.volumeMounts.name }}
+      volumes:
+      - name: {{ .Values.volumeMounts.name }}
+        emptyDir: {}
