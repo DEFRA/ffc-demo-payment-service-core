@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FFCDemoPaymentService.Data;
 using FFCDemoPaymentService.Messaging;
+using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Models;
+using FFCDemoPaymentService.Scheduling;
 using Microsoft.EntityFrameworkCore;
 
 namespace FFCDemoPaymentService
@@ -28,11 +31,18 @@ namespace FFCDemoPaymentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
-            services.AddSingleton(messageConfig);
-            services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+
+            services.AddSingleton(messageConfig);
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

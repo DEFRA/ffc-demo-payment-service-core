@@ -15,6 +15,7 @@ namespace FFCDemoPaymentService.Scheduling
 
         public void CreateSchedule(string claimId, DateTime startDate)
         {
+            Console.WriteLine("Creating Schedule for {0}", claimId);
             db.Schedule.AddRange(ScheduleBuilder(claimId, startDate));
             db.SaveChanges();
         }
@@ -24,17 +25,17 @@ namespace FFCDemoPaymentService.Scheduling
             List<Schedule> schedule = new List<Schedule>();
             DateTime paymentDate = startDate.Date;
 
-                for(int i = 0; i <= 6; i++)
+            for(int i = 0; i <= 6; i++)
+            {
+                schedule.Add(new Schedule() 
                 {
-                    schedule.Add(new Schedule() 
-                    {
-                        ClaimId = claimId,
-                        PaymentDate = paymentDate
-                    });
-                    paymentDate.AddMonths(1);
-                }
+                    ClaimId = claimId,
+                    PaymentDate = paymentDate
+                });
+                paymentDate = paymentDate.AddMonths(1);
+            }
 
-                return schedule;
+            return schedule;
         }
     }
 }

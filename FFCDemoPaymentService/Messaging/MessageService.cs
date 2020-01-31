@@ -5,16 +5,32 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using FFCDemoPaymentService.Messaging.Mapping;
+using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Models;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class MessageService : BackgroundService, IMessageService
     {
-        private MessageConfig messageConfig;
+        MessageConfig messageConfig;
+        SqsReceiver scheduleReceiver;
+        SqsReceiver paymentReceiver;
+        IMessageAction<Schedule> scheduleAction;
+        IMessageAction<Payment> paymentAction;
 
-        public MessageService(MessageConfig messageConfig)
+
+        public MessageService(
+            IMessageAction<Schedule> scheduleAction,
+            IMessageAction<Payment> paymentAction,
+            MessageConfig messageConfig, 
+            SqsReceiver scheduleReceiver = null, 
+            SqsReceiver paymentReceiver = null)
         {
+            this.scheduleAction = scheduleAction;
+            this.paymentAction = paymentAction;
             this.messageConfig = messageConfig;
+            this.scheduleReceiver = scheduleReceiver;
+            this.paymentReceiver = scheduleReceiver;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -26,22 +42,14 @@ namespace FFCDemoPaymentService.Messaging
         public void StartPolling()
         {
             SqsConfig scheduleQueueConfig = new ScheduleMap(messageConfig).MapToSqsConfig();
-            var scheduleReceiver = new SqsReceiver(scheduleQueueConfig, new Action<string>(ScheduleHandler));
+            scheduleReceiver = scheduleReceiver != null ? scheduleReceiver : 
+                new SqsReceiver(scheduleQueueConfig, new Action<string>(scheduleAction.ReceiveMessage));
             scheduleReceiver.StartPolling();
 
             SqsConfig paymentQueueConfig = new PaymentMap(messageConfig).MapToSqsConfig();
-            var paymentReceiver = new SqsReceiver(paymentQueueConfig, new Action<string>(PaymentHandler));
+            paymentReceiver = paymentReceiver != null ? paymentReceiver : 
+                new SqsReceiver(paymentQueueConfig, new Action<string>(paymentAction.ReceiveMessage));
             paymentReceiver.StartPolling();
-        }
-
-        public void ScheduleHandler(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void PaymentHandler(string message)
-        {
-            Console.WriteLine(message);
         }
     }
 }
