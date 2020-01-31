@@ -12,6 +12,9 @@ imagePullSecret:
 service:
   type: ClusterIP
   port: 80
+volumeMounts: 
+  mountPath: /var/www/
+  name: core-app-dir
 container:
   port: 3007
   registry:
@@ -46,3 +49,17 @@ container:
 minReadySeconds: 10
 maxSurge: 1
 maxUnavailable: 1
+readinessProbe:
+  path: /healthy
+  port: 3007
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 10
+livenessProbe:
+  path: /healthz
+  port: 3007
+  initialDelaySeconds: 70
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 10

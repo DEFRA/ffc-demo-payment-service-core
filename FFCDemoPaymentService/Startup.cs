@@ -41,17 +41,10 @@ namespace FFCDemoPaymentService
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
-
-            services.AddHealthChecks()
-                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
-
-            services.AddHealthChecks()
-                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                         
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                            
 
             services.AddControllers();
         }
