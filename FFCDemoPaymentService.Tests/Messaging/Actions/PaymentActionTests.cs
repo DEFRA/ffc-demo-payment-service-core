@@ -3,21 +3,21 @@ using NUnit.Framework;
 using Moq;
 using FFCDemoPaymentService.Messaging;
 using FFCDemoPaymentService.Messaging.Actions;
-using Microsoft.Extensions.DependencyInjection;
+using FFCDemoPaymentService.Tests.Mocks;
 
 namespace FFCDemoPaymentService.Tests.Messaging.Actions
 {
     [TestFixture]
     public class PaymentActionTests
     {
-        Mock<IServiceScopeFactory> serviceScopeFactory;
+        MockServiceScopeFactory mockServiceScopeFactory;
         PaymentAction paymentAction;
 
         [SetUp]
         public void SetUp()
         {
-            serviceScopeFactory = new Mock<IServiceScopeFactory>();
-            paymentAction = new PaymentAction(serviceScopeFactory.Object);
+            mockServiceScopeFactory = new MockServiceScopeFactory();
+            paymentAction = new PaymentAction(mockServiceScopeFactory.ServiceScopeFactory.Object);
         }
 
         [Test]
