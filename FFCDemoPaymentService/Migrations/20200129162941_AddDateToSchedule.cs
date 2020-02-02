@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FFCDemoPaymentService.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class AddDateToSchedule : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
