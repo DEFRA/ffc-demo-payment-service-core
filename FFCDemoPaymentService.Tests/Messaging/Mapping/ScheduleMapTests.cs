@@ -3,7 +3,7 @@ using NUnit.Framework;
 using FFCDemoPaymentService.Messaging;
 using FFCDemoPaymentService.Messaging.Mapping;
 
-namespace FFCDemoPaymentService.Tests.Messaging
+namespace FFCDemoPaymentService.Tests.Messaging.Mapping
 {
     [TestFixture]
     public class ScheduleMapTests

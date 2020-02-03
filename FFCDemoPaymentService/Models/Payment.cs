@@ -8,13 +8,13 @@ namespace FFCDemoPaymentService.Models
     [Table("payments")]
     public class Payment
     {
-        [Column("claimId")]        
+        [Column("claimId")]
         [Key]
-        [JsonProperty(PropertyName = "claimId")]
+        [JsonProperty(PropertyName = "claimId", Required = Required.Always)]
         public string ClaimId { get; set; }
 
         [Column("value")]
-        [JsonProperty(PropertyName = "value")]
+        [JsonProperty(PropertyName = "value", Required = Required.Always)]
         public decimal Value { get; set; }
     }
 }
