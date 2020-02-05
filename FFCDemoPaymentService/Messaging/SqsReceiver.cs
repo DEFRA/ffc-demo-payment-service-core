@@ -3,19 +3,17 @@ using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Amazon.Runtime;
-
 using System.Threading.Tasks;
-using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class SqsReceiver : IReceiver
     {
-        SqsConfig sqsConfig;
+        readonly SqsConfig sqsConfig;
         BasicAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
-        Action<string> messageAction;
+        readonly Action<string> messageAction;
 
         public SqsReceiver(SqsConfig sqsConfig, Action<string> messageAction)
         {
@@ -44,8 +42,11 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetConfiguration()
         {
-            amazonSQSConfig = new AmazonSQSConfig();
-            amazonSQSConfig.ServiceURL = sqsConfig.Endpoint;
+            amazonSQSConfig = new AmazonSQSConfig()
+            {
+                ServiceURL = sqsConfig.Endpoint
+            };
+
             if (!sqsConfig.CreateQueue)
             {
                 amazonSQSConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(sqsConfig.Region);
@@ -62,8 +63,7 @@ namespace FFCDemoPaymentService.Messaging
             Console.WriteLine("Creating queue {0}", sqsConfig.QueueName);
             try
             {
-                CreateQueueRequest createQueueRequest = new CreateQueueRequest();
-                createQueueRequest.QueueName = sqsConfig.QueueName;
+                CreateQueueRequest createQueueRequest = new CreateQueueRequest(sqsConfig.QueueName);
 
                 CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
             }
@@ -83,9 +83,11 @@ namespace FFCDemoPaymentService.Messaging
         {
             while (true)
             {
-                ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest();
-                receiveMessageRequest.QueueUrl = sqsConfig.QueueUrl;
-                receiveMessageRequest.WaitTimeSeconds = 5;
+                ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsConfig.QueueUrl)
+                {
+                    WaitTimeSeconds = 5
+                };
+
                 ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
                 if (receiveMessageResponse.Messages.Count > 0)
@@ -107,16 +109,27 @@ namespace FFCDemoPaymentService.Messaging
             catch (Exception ex)
             {
                 Console.WriteLine("Unable to process message", ex);
+                throw ex;
             }
         }
 
         private async Task DeleteMessage(string receiptHandle)
         {
-            DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest();
-            deleteMessageRequest.QueueUrl = sqsConfig.QueueUrl;
-            deleteMessageRequest.ReceiptHandle = receiptHandle;
+            DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest()
+            {
+                QueueUrl = sqsConfig.QueueUrl,
+                ReceiptHandle = receiptHandle
+            };
 
-            DeleteMessageResponse response = await amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
+            try
+            {
+                await amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to delete message", ex);
+                throw ex;
+            }
         }
     }
 }

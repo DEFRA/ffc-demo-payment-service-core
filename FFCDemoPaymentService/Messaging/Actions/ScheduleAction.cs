@@ -8,7 +8,7 @@ namespace FFCDemoPaymentService.Messaging.Actions
 {
     public class ScheduleAction : IMessageAction<Schedule>, IMessageDeserializer<Claim>
     {
-        IServiceScopeFactory serviceScopeFactory;
+        readonly IServiceScopeFactory serviceScopeFactory;
 
         public ScheduleAction(IServiceScopeFactory serviceScopeFactory)
         {

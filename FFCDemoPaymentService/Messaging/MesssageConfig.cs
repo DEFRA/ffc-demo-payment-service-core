@@ -1,5 +1,3 @@
-using System;
-using System.Configuration;
 
 namespace FFCDemoPaymentService.Messaging
 {
