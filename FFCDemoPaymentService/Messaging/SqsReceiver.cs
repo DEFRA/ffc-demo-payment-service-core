@@ -60,12 +60,12 @@ namespace FFCDemoPaymentService.Messaging
 
         private async Task CreateQueue()
         {
-            Console.WriteLine("Creating queue {0}", sqsConfig.QueueName);
+            Console.WriteLine("Creating queue: {0}", sqsConfig.QueueName);
             try
             {
                 CreateQueueRequest createQueueRequest = new CreateQueueRequest(sqsConfig.QueueName);
 
-                CreateQueueResponse createQueueResponse = await amazonSQSClient.CreateQueueAsync(createQueueRequest);
+                await amazonSQSClient.CreateQueueAsync(createQueueRequest);
             }
             catch (Exception ex)
             {
@@ -108,8 +108,8 @@ namespace FFCDemoPaymentService.Messaging
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Unable to process message", ex);
-                throw ex;
+                Console.WriteLine("Unable to process message: {0}", ex);
+                throw;
             }
         }
 
@@ -127,8 +127,8 @@ namespace FFCDemoPaymentService.Messaging
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Unable to delete message", ex);
-                throw ex;
+                Console.WriteLine("Unable to delete message: {0}", ex);
+                throw;
             }
         }
     }

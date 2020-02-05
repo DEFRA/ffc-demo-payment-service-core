@@ -12,6 +12,7 @@ using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using FFCDemoPaymentService.HealthChecks;
 
 namespace FFCDemoPaymentService
 {
@@ -87,7 +88,7 @@ namespace FFCDemoPaymentService
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error running migrations ", ex);
+                    Console.WriteLine("Error running migrations: {0}", ex);
                 }                
             }
         }

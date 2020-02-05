@@ -2,12 +2,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-public class LivenessCheck : IHealthCheck
+namespace FFCDemoPaymentService.HealthChecks
 {
-    public Task<HealthCheckResult> CheckHealthAsync(
-        HealthCheckContext context,
-        CancellationToken cancellationToken = default)
+    public class LivenessCheck : IHealthCheck
     {
-        return Task.FromResult(HealthCheckResult.Healthy("A healthy result."));
+        public Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(HealthCheckResult.Healthy("A healthy result."));
+        }
     }
 }

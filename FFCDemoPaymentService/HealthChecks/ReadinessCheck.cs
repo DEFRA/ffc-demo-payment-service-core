@@ -4,42 +4,46 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.Data;
 
-public class ReadinessCheck : IHealthCheck
+namespace FFCDemoPaymentService.HealthChecks
 {
-    private readonly ApplicationDbContext db;
 
-    public ReadinessCheck(ApplicationDbContext db)
+    public class ReadinessCheck : IHealthCheck
     {
-        this.db = db;
-    }
+        private readonly ApplicationDbContext db;
 
-    public Task<HealthCheckResult> CheckHealthAsync(
-        HealthCheckContext context,
-        CancellationToken cancellationToken = default)
-    {
-        bool databaseHealthyCheck = CheckDatabase(db);
-
-        if (databaseHealthyCheck)
+        public ReadinessCheck(ApplicationDbContext db)
         {
+            this.db = db;
+        }
+
+        public Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context,
+            CancellationToken cancellationToken = default)
+        {
+            bool databaseHealthyCheck = CheckDatabase(db);
+
+            if (databaseHealthyCheck)
+            {
+                return Task.FromResult(
+                    HealthCheckResult.Healthy("A healthy result."));
+            }
+
             return Task.FromResult(
-                HealthCheckResult.Healthy("A healthy result."));
+                HealthCheckResult.Unhealthy("An unhealthy result from Readiness check."));
         }
 
-        return Task.FromResult(
-            HealthCheckResult.Unhealthy("An unhealthy result from Readiness check."));
-    }
-
-    private bool CheckDatabase(ApplicationDbContext dbContext)
-    {
-        try
+        private bool CheckDatabase(ApplicationDbContext dbContext)
         {
-            dbContext.Database.EnsureCreatedAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            return false;
+            try
+            {
+                dbContext.Database.EnsureCreatedAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
         }
     }
 }
