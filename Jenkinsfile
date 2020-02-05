@@ -30,6 +30,7 @@ node {
       defraUtils.lintHelm(imageName)
     }
     stage('Build test image') {
+      throw new Exception("a test error")
       defraUtils.buildTestImage(imageName, BUILD_NUMBER)
     }
     stage('Run tests') {
