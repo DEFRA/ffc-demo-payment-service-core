@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
 
 public class ReadinessCheck : IHealthCheck
@@ -16,7 +15,7 @@ public class ReadinessCheck : IHealthCheck
 
     public Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
-        CancellationToken cancellationToken = default(CancellationToken))
+        CancellationToken cancellationToken = default)
     {
         bool databaseHealthyCheck = CheckDatabase(db);
 
