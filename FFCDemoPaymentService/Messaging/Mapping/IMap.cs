@@ -1,5 +1,3 @@
-using System;
-using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging.Mapping
 {

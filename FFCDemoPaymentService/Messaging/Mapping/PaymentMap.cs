@@ -1,11 +1,9 @@
-using System;
-using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Messaging.Mapping
 {
     public class PaymentMap : IMap
     {
-        MessageConfig messageConfig;
+        readonly MessageConfig messageConfig;
 
         public PaymentMap(MessageConfig messageConfig)
         {
