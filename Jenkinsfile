@@ -88,7 +88,7 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
-      defraUtils.notifySlackBuildFailure(e.message, "#jenkinsbuild")
+      defraUtils.notifySlackBuildFailure(e.message, "#generalbuildfailures")
       defraUtils.setGithubStatusFailure(e.message)
     throw e
   } 
