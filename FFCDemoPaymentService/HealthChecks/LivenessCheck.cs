@@ -6,17 +6,8 @@ public class LivenessCheck : IHealthCheck
 {
     public Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
-        CancellationToken cancellationToken = default(CancellationToken))
+        CancellationToken cancellationToken = default)
     {
-        var healthCheckResultHealthy = true;
-
-        if (healthCheckResultHealthy)
-        {
-            return Task.FromResult(
-                HealthCheckResult.Healthy("A healthy result."));
-        }
-
-        return Task.FromResult(
-            HealthCheckResult.Unhealthy("An unhealthy result from Liveness check."));
+        return Task.FromResult(HealthCheckResult.Healthy("A healthy result."));
     }
 }
