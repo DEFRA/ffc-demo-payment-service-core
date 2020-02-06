@@ -10,7 +10,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        BasicAWSCredentials credentials;
+        EnvironmentAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -37,7 +37,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetCredentials()
         {
-            credentials = new BasicAWSCredentials(sqsConfig.AccessKeyId, sqsConfig.AccessKey);
+            credentials = new EnvironmentAWSCredentials();
         }
 
         private void SetConfiguration()

@@ -16,6 +16,7 @@ spec:
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
     spec:
+      serviceAccountName: ffc-demo-payment-service-account
       restartPolicy: {{ quote .Values.container.restartPolicy }}
       {{- if .Values.imagePullSecret }}
       imagePullSecrets:
@@ -75,6 +76,8 @@ spec:
           value: {{ quote .Values.container.paymentQueueSecretAccessKey }}
         - name: Messaging__CreatePaymentQueue
           value: {{ quote .Values.container.paymentCreateQueue }}
+        - name: AWS_REGION
+          value: {{ quote .Values.container.paymentQueueRegion }}
         ports:
         - containerPort: {{ .Values.container.port }}
         resources:

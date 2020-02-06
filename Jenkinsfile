@@ -29,12 +29,12 @@ node {
     stage('Helm lint') {
       defraUtils.lintHelm(imageName)
     }
-    stage('Build test image') {
-      defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-    }
-    stage('Run tests') {
-      defraUtils.runTests(imageName, BUILD_NUMBER)
-    }
+    // stage('Build test image') {
+    //   defraUtils.buildTestImage(imageName, BUILD_NUMBER)
+    // }
+    // stage('Run tests') {
+    //   defraUtils.runTests(imageName, BUILD_NUMBER)
+    // }
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
     }
