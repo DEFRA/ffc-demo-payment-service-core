@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 using FFCDemoPaymentService.Messaging;
 using FFCDemoPaymentService.Messaging.Actions;

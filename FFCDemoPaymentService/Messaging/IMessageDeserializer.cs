@@ -1,8 +1,7 @@
-using System;
 
 namespace FFCDemoPaymentService.Messaging
 {
-    public interface IMessageDeserializer<T>
+    public interface IMessageDeserializer<out T>
     {
         T DeserializeMessage(string message);
     }

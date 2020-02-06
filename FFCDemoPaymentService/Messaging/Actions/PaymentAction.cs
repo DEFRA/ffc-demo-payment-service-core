@@ -1,4 +1,3 @@
-using System;
 using FFCDemoPaymentService.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +7,7 @@ namespace FFCDemoPaymentService.Messaging.Actions
 {
     public class PaymentAction : IMessageAction<Payment>, IMessageDeserializer<Payment>
     {
-        IServiceScopeFactory serviceScopeFactory;
+        readonly IServiceScopeFactory serviceScopeFactory;
 
         public PaymentAction(IServiceScopeFactory serviceScopeFactory)
         {

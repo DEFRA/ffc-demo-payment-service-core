@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using FFCDemoPaymentService.Data;
 using FFCDemoPaymentService.Messaging;
 using FFCDemoPaymentService.Messaging.Actions;
@@ -15,6 +12,7 @@ using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using FFCDemoPaymentService.HealthChecks;
 
 namespace FFCDemoPaymentService
 {
@@ -90,7 +88,7 @@ namespace FFCDemoPaymentService
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error running migrations ", ex);
+                    Console.WriteLine("Error running migrations: {0}", ex);
                 }                
             }
         }
