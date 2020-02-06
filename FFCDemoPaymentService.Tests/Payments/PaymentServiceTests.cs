@@ -13,7 +13,7 @@ namespace FFCDemoPaymentService.Tests.Paying
     public class PaymentServiceTests
     {
         string claimId;
-        decimal Value;
+        decimal value;
         private IPaymentService paymentService;
         Mock<ApplicationDbContext> mockContext;
         Mock<DbSet<Payment>> mockPaymentDbSet;
@@ -27,17 +27,22 @@ namespace FFCDemoPaymentService.Tests.Paying
             paymentService = new PaymentService(mockContext.Object);
         }
 
-        
-
         [Test]
         public void Test_CreatePayment_SavesChanges()
         {
             claimId = "ID123"; 
-            value ="10.35";
-        
+            value = 10.35m;
             paymentService.CreatePayment(claimId, value);
-
             mockContext.Verify(x => x.SaveChanges(), Times.AtMostOnce);
+        }
+
+        [Test]
+        public void Test_CreatePayment_AddsRange()
+        {
+            claimId = "ID123"; 
+            value = 10.35m;
+            paymentService.CreatePayment(claimId, value);
+            mockContext.Verify(x => x.AddRange(It.IsAny<Payment>()), Times.AtMostOnce);
         }
     }
 }
