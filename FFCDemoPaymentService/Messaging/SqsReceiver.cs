@@ -4,13 +4,14 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using Amazon.Runtime;
 using System.Threading.Tasks;
+using Amazon.Runtime.CredentialManagement;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        EnvironmentAWSCredentials credentials;
+        BasicAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -37,7 +38,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetCredentials()
         {
-            credentials = new EnvironmentAWSCredentials();
+            credentials = new BasicAWSCredentials(sqsConfig.AccessKeyId, sqsConfig.AccessKey);
         }
 
         private void SetConfiguration()
@@ -55,7 +56,11 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            var chain = new CredentialProfileStoreChain();
+            AWSCredentials awsCredentials;
+            chain.TryGetAWSCredentials("basic_profile", out awsCredentials);
+            Console.WriteLine("Credentials: {0}", awsCredentials);
+            amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
         }
 
         private async Task CreateQueue()
