@@ -1,4 +1,4 @@
-@Library('defra-library@psd-430-failed-build-reporting')
+@Library('defra-library@0.0.10')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -88,7 +88,7 @@ node {
     }
     defraUtils.setGithubStatusSuccess()
   } catch(e) {
-      defraUtils.notifySlackBuildFailure(e.message)
+      defraUtils.notifySlackBuildFailure(e.message, "#generalbuildfailures")
       defraUtils.setGithubStatusFailure(e.message)
     throw e
   } 
