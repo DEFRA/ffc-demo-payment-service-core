@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@psd-473-semver-tagging')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
