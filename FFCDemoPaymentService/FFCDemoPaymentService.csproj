@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.3.104.22" />
-    <PackageReference Include="AWSSDK.SecretsManager" Version="3.3.101.79" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.3.104.27" />
     <PackageReference Include="AWSSDK.SQS" Version="3.3.102.61" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
