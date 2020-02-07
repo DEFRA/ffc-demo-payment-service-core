@@ -48,7 +48,7 @@ namespace FFCDemoPaymentService.Messaging
         {
             amazonSQSConfig = new AmazonSQSConfig()
             {
-                ServiceURL = sqsConfig.Endpoint
+                ServiceURL = sqsConfig.QueueUrl
             };
 
             if (!sqsConfig.CreateQueue)
@@ -59,7 +59,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(new AnonymousAWSCredentials(), amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
