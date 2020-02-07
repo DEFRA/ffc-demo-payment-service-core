@@ -12,7 +12,7 @@ namespace FFCDemoPaymentService.Messaging
     {
         readonly SqsConfig sqsConfig;
         BasicAWSCredentials credentials;
-        Credentials tokenCredentials;        
+        //Credentials tokenCredentials;        
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
