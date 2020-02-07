@@ -36,12 +36,12 @@ spec:
         {{- end }}
         {{- end }}
         imagePullPolicy: {{ quote .Values.container.imagePullPolicy }}
-        securityContext:
-          fsGroup: 65534
-          runAsUser: {{ .Values.container.runAsUser }}
-          runAsNonRoot: {{ .Values.container.runAsNonRoot }}
-          readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
-          allowPrivilegeEscalation: {{ .Values.container.allowPrivilegeEscalation }}
+        # securityContext:
+        #   fsGroup: 65534
+        #   runAsUser: {{ .Values.container.runAsUser }}
+        #   runAsNonRoot: {{ .Values.container.runAsNonRoot }}
+        #   readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
+        #   allowPrivilegeEscalation: {{ .Values.container.allowPrivilegeEscalation }}
         env:
         - name: COMPlus_EnableDiagnostics
           value: {{ quote .Values.container.comPlusEnableDiagnostics }}
