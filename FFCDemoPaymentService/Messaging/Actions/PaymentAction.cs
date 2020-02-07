@@ -1,6 +1,7 @@
 using FFCDemoPaymentService.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
+using FFCDemoPaymentService.Payments;
 
 namespace FFCDemoPaymentService.Messaging.Actions
 {
@@ -16,8 +17,11 @@ namespace FFCDemoPaymentService.Messaging.Actions
         public void ReceiveMessage(string message)
         {
             var payment = DeserializeMessage(message);
-
-            // TODO persist payment in database, need to pull db context from service scope factory
+            using (var scope = serviceScopeFactory.CreateScope())
+            {
+                var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
+                paymentService.CreatePayment(payment.ClaimId, payment.Value);
+            }
         }
 
         public Payment DeserializeMessage(string message)
