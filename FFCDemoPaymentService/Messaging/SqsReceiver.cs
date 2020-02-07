@@ -91,6 +91,8 @@ namespace FFCDemoPaymentService.Messaging
 
                 ReceiveMessageResponse receiveMessageResponse = await amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest);
 
+                Console.WriteLine("{0} messages in queue", receiveMessageResponse.Messages.Count);
+
                 if (receiveMessageResponse.Messages.Count > 0)
                 {
                     await ReceiveMessages(receiveMessageResponse);
