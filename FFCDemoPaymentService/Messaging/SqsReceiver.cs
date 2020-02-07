@@ -59,7 +59,8 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(RegionEndpoint.EUWest2);
+            var creds = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
+            amazonSQSClient = new AmazonSQSClient(creds, amazonSQSConfig);
         }
 
         private async Task CreateQueue()
