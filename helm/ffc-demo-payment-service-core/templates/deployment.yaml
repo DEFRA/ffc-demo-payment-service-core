@@ -37,6 +37,7 @@ spec:
         {{- end }}
         imagePullPolicy: {{ quote .Values.container.imagePullPolicy }}
         securityContext:
+          fsGroup: 33
           runAsUser: {{ .Values.container.runAsUser }}
           runAsNonRoot: {{ .Values.container.runAsNonRoot }}
           readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
