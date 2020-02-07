@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@0.0.10')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -25,6 +25,9 @@ node {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
       defraUtils.setGithubStatusPending()
+    }
+    stage('Get version') {
+      println 'FFCDemoPaymentService is at version ' + defraUtils.getCSProjVersion('FFCDemoPaymentService')
     }
     stage('Helm lint') {
       defraUtils.lintHelm(imageName)
