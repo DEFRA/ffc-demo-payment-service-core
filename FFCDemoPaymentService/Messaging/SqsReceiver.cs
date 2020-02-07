@@ -59,6 +59,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
+            
             amazonSQSClient = new AmazonSQSClient();
         }
 
