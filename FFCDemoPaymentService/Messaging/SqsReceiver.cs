@@ -58,8 +58,14 @@ namespace FFCDemoPaymentService.Messaging
         }
 
         private void SetClient()
-        {            
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+        {
+            var chain = new CredentialProfileStoreChain();
+            AWSCredentials awsCredentials;
+            if (chain.TryGetAWSCredentials("basic_profile", out awsCredentials))
+            {
+                amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);
+            }
+            throw new Exception("Cannot get credentials");
         }
 
         private async Task CreateQueue()
