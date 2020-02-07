@@ -59,7 +59,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {            
-            amazonSQSClient = new AmazonSQSClient(sqsConfig);
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
