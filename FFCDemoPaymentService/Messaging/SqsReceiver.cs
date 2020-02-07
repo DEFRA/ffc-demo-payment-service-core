@@ -5,6 +5,8 @@ using Amazon.SQS.Model;
 using Amazon.Runtime;
 using System.Threading.Tasks;
 using Amazon.Runtime.CredentialManagement;
+using Amazon.SecurityToken;
+using Amazon.SecurityToken.Model;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -12,7 +14,6 @@ namespace FFCDemoPaymentService.Messaging
     {
         readonly SqsConfig sqsConfig;
         BasicAWSCredentials credentials;
-        //Credentials tokenCredentials;        
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -57,7 +58,9 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            var awsCredentials = new Amazon.Runtime.EnvironmentVariablesAWSCredentials();
+
+            amazonSQSClient = new AmazonSQSClient(awsCredentials, amazonSQSConfig);           
         }
 
         private async Task CreateQueue()
