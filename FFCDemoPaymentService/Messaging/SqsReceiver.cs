@@ -12,6 +12,7 @@ namespace FFCDemoPaymentService.Messaging
     {
         readonly SqsConfig sqsConfig;
         BasicAWSCredentials credentials;
+        Credentials tokenCredentials;        
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -56,7 +57,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
