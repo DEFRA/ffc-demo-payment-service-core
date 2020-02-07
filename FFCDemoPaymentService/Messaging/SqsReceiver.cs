@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Amazon.Runtime.CredentialManagement;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
+using Newtonsoft.Json;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -58,7 +59,8 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);           
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            Console.WriteLine(JsonConvert.SerializeObject(amazonSQSClient));
         }
 
         private async Task CreateQueue()
