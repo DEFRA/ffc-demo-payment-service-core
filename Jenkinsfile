@@ -23,7 +23,7 @@ node {
   checkout scm
   try {
     stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion())
+      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(repoName))
       defraUtils.setGithubStatusPending()
     }
     stage('Helm lint') {
