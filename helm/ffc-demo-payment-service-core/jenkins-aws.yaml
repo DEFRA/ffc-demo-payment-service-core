@@ -1,4 +1,5 @@
 name: ffc-demo-payment-service-core
+image: 562955126301.dkr.ecr.eu-west-2.amazonaws.com/ffc-demo-payment-service-core-pr22
 imagePullSecret: myregistrykey
 container:
   allowPrivilegeEscalation: true

@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.10')
+@Library('defra-library@feature/PSD-472-extract-version-from-csproj')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
