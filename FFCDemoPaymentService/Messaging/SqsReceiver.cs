@@ -27,7 +27,7 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            SetCredentials();
+            Task.Run(() => SetCredentials()).Wait();
             SetConfiguration();
             SetClient();
 
@@ -39,9 +39,11 @@ namespace FFCDemoPaymentService.Messaging
             Start();
         }
 
-        private void SetCredentials()
+        private async Task SetCredentials()
         {
-            credentials = new BasicAWSCredentials(sqsConfig.AccessKeyId, sqsConfig.AccessKey);
+            var role = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
+            var creds = await role.GetCredentialsAsync();
+            credentials = new BasicAWSCredentials(creds.AccessKey, creds.SecretKey);
         }
 
         private void SetConfiguration()
@@ -59,8 +61,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            var creds = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
-            amazonSQSClient = new AmazonSQSClient(creds, amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
         }
 
         private async Task CreateQueue()
