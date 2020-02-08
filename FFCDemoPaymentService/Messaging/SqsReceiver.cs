@@ -27,7 +27,7 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            Task.Run(() => SetCredentials()).Wait();
+            SetCredentials();
             SetConfiguration();
             SetClient();
 
