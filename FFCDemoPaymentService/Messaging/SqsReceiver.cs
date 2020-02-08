@@ -14,7 +14,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        SessionAWSCredentials credentials;
+        RefreshingAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -39,12 +39,11 @@ namespace FFCDemoPaymentService.Messaging
             Start();
         }
 
-        private async Task SetCredentials()
+        private void SetCredentials()
         {
-            var role = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
-            var creds = await role.GetCredentialsAsync();
-            Console.WriteLine(JsonConvert.SerializeObject(creds));
-            credentials = new SessionAWSCredentials(creds.AccessKey, creds.SecretKey, creds.Token);
+            credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
+            // var creds = await role.GetCredentialsAsync();
+            // credentials = new SessionAWSCredentials(creds.AccessKey, creds.SecretKey, creds.Token);
         }
 
         private void SetConfiguration()
