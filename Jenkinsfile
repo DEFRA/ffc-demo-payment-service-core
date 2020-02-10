@@ -1,4 +1,4 @@
-@Library('defra-library@psd-473-semver-tagging')
+@Library('defra-library@0.0.9')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -18,12 +18,11 @@ def localSrcFolder = '.'
 def lcovFile = './test-output/lcov.info'
 def timeoutInMinutes = 5
 
-
 node {
   checkout scm
   try {
     stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion('FFCDemoPaymentService'))
+      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
       defraUtils.setGithubStatusPending()
     }
     stage('Helm lint') {
@@ -47,7 +46,7 @@ node {
           string(credentialsId: 'JenkinsDeployUrl', variable: 'jenkinsDeployUrl'),
           string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'jenkinsToken')
         ]) {
-          defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':'1.0.0'])
+          defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':containerTag])
         }
       }
     } else {
