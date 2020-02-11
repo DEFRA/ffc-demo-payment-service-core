@@ -1,33 +1,39 @@
 # Base
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
-WORKDIR /app
-ENV ASPNETCORE_ENVIRONMENT=production
+ARG REGISTRY=562955126301.dkr.ecr.eu-west-2.amazonaws.com
 
-# Development
-FROM base AS development
-WORKDIR /FFCDemoPaymentService
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends unzip \
-  && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
-COPY ./FFCDemoPaymentService/*.csproj ./
-RUN dotnet restore
-COPY ./FFCDemoPaymentService ./
-ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:3007" ]
-
-# Test
-FROM development AS test 
-WORKDIR /FFCDemoPaymentService.Tests
-COPY ./FFCDemoPaymentService.Tests/*.csproj ./
-RUN dotnet restore
-COPY ./FFCDemoPaymentService.Tests ./
-ENTRYPOINT [ "dotnet", "test" ]
-
-# Production
-FROM base AS production
+FROM $REGISTRY/ffc-dotnet-parent/sdk:$BASE_VERSION AS build
 COPY ./FFCDemoPaymentService/*.csproj ./
 RUN dotnet restore
 COPY ./FFCDemoPaymentService ./
 RUN dotnet publish -c Release -o out
+EXPOSE 3007
+
+# Development
+FROM build AS development
+WORKDIR ${WORKING_DIR}
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends unzip \
+  && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+COPY ./$(WORKING_DIR)/*.csproj ./
+RUN dotnet restore
+COPY ./$(WORKING_DIR) ./
+ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:3007" ]
+
+# Test
+FROM development AS test
+WORKDIR ${WORKING_DIR}
+COPY ./$(WORKING_DIR)/*.csproj ./
+RUN dotnet restore
+COPY ./${WORKING_DIR} ./
+ENTRYPOINT [ "dotnet", "test" ]
+
+# Production
+FROM build AS production
+ARG WORKING_DIR
+ENV DLL_FILE ${WORKING_DIR}.dll
+COPY --from=production /app/out ./
+CMD ["${DLL_FILE}"]
+
 
 # Runtime
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
