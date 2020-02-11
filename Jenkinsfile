@@ -62,7 +62,7 @@ node {
       }
       stage('Trigger Release') {
         withCredentials([
-          string(credentialsId: 'ffc-demo-payment-service-core', variable: 'token') 
+          string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'token') 
         ]) {
           defraUtils.triggerRelease(containerTag, repoName, containerTag, token)
         }
