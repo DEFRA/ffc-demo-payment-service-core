@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@psd-475-release-tagged-with-version')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -37,6 +37,17 @@ node {
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
     }
+
+    //Temp - remove
+    stage('Trigger Release') {
+        withCredentials([
+          string(credentialsId: 'ffc-demo-payment-service-core', variable: 'token') 
+        ]) {
+          defraUtils.triggerRelease(containerTag, repoName, containerTag, token)
+        }
+      }
+    //temp
+
     if (pr == '') {
       stage('Publish chart') {
         defraUtils.publishChart(registry, imageName, containerTag)
@@ -47,6 +58,13 @@ node {
           string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'jenkinsToken')
         ]) {
           defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':containerTag])
+        }
+      }
+      stage('Trigger Release') {
+        withCredentials([
+          string(credentialsId: 'ffc-demo-payment-service-core', variable: 'token') 
+        ]) {
+          defraUtils.triggerRelease(containerTag, repoName, containerTag, token)
         }
       }
     } else {
