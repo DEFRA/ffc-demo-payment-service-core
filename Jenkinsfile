@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@psd-474-validate-version-increment')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -8,6 +8,7 @@ def kubeCredsId = 'FFCLDNEKSAWSS001_KUBECONFIG'
 def imageName = 'ffc-demo-payment-service-core'
 def jenkinsDeployJob = 'ffc-demo-payment-service-core-deploy'
 def repoName = 'ffc-demo-payment-service-core'
+def projectName = 'FFCDemoPaymentService'
 def pr = ''
 def mergedPrNo = ''
 def containerTag = ''
@@ -22,8 +23,17 @@ def timeoutInMinutes = 5
 node {
   checkout scm
   try {
+    stage('verify version incremented') {
+      def masterVersion = defraUtils.getCSProjVersionMaster(projectName)
+      def version =defraUtils.getCSProjVersion(projectName)
+      if (defraUtils.versionHasIncremented(masterVersion, version)) {
+        echo "version change valid '$masterVersion' -> '$version'"
+      } else {
+        error( "version change invalid '$masterVersion' -> '$version'")
+      }
+    }
     stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
+      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(projectName))
       defraUtils.setGithubStatusPending()
     }
     stage('Helm lint') {
