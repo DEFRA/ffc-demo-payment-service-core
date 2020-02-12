@@ -22,7 +22,7 @@
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/FFCDemoPaymentService": "${workspaceFolder}/FFCDemoPaymentService"
+        "/app/FFCDemoPaymentService": "${workspaceFolder}/FFCDemoPaymentService"
       }
     }]
 }

@@ -10,7 +10,7 @@ services:
     environment: 
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
     volumes: 
-      - ./FFCDemoPaymentService:/FFCDemoPaymentService
+      - ./FFCDemoPaymentService:/app/FFCDemoPaymentService
 
   ffc-demo-payment-core-postgres:
     image: postgres:11.4-alpine

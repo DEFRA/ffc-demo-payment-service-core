@@ -3,5 +3,5 @@ services:
   ffc-demo-payment-service-core: 
     entrypoint: ["dotnet", "watch", "test"]
     volumes: 
-      - ./FFCDemoPaymentService:/FFCDemoPaymentService
-      - ./FFCDemoPaymentService.Tests:/FFCDemoPaymentService.Tests
+      - ./FFCDemoPaymentService:/app/FFCDemoPaymentService
+      - ./FFCDemoPaymentService.Tests:/app/FFCDemoPaymentService.Tests

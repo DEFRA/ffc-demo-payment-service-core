@@ -1,12 +1,12 @@
 version: '3.7'
 services:
   ffc-demo-payment-service-core:
-    build: 
+    build:
       context: .
-      target: runtime
+      target: production
       args:
         REGISTRY: ${DOCKER_REGISTRY:-562955126301.dkr.ecr.eu-west-2.amazonaws.com}
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
-    environment: 
+    environment:
       COMPlus_EnableDiagnostics: 0
