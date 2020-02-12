@@ -41,9 +41,9 @@ node {
     //Temp - remove
     stage('Trigger Release') {
         withCredentials([
-          string(credentialsId: 'github_ffc_platform_repo', variable: 'token') 
+          string(credentialsId: 'github_ffc_platform_repo', variable: 'gitToken') 
         ]) {
-          defraUtils.triggerRelease(containerTag, repoName, containerTag, token)
+          defraUtils.triggerRelease(containerTag, repoName, containerTag, gitToken)
         }
       }
     //temp
