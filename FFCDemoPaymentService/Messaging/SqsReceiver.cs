@@ -44,7 +44,7 @@ namespace FFCDemoPaymentService.Messaging
             credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
             Console.WriteLine("Assume Creds: {0}", JsonConvert.SerializeObject(credentials));
             var creds = credentials.GetCredentials();
-            Console.WriteLine("GetCredentials: {0}", JsonConvert.SerializeObject(credentials))
+            Console.WriteLine("GetCredentials: {0}", JsonConvert.SerializeObject(credentials));
             // var creds = await role.GetCredentialsAsync();
             // credentials = new SessionAWSCredentials(creds.AccessKey, creds.SecretKey, creds.Token);
         }
