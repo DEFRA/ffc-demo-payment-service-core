@@ -21,22 +21,22 @@ def timeoutInMinutes = 5
 node {
   checkout scm
   try {
-    stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
-      defraUtils.setGithubStatusPending()
-    }
-    stage('Helm lint') {
-      defraUtils.lintHelm(imageName)
-    }
-    stage('Build test image') {
-      defraUtils.buildTestImage(imageName, BUILD_NUMBER)
-    }
-    stage('Run tests') {
-      defraUtils.runTests(imageName, BUILD_NUMBER)
-    }
-    stage('Push container image') {
-      defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
-    }
+    // stage('Set branch, PR, and containerTag variables') {
+    //   (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
+    //   defraUtils.setGithubStatusPending()
+    // }
+    // stage('Helm lint') {
+    //   defraUtils.lintHelm(imageName)
+    // }
+    // stage('Build test image') {
+    //   defraUtils.buildTestImage(imageName, BUILD_NUMBER)
+    // }
+    // stage('Run tests') {
+    //   defraUtils.runTests(imageName, BUILD_NUMBER)
+    // }
+    // stage('Push container image') {
+    //   defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
+    // }
 
     //Temp - remove
     stage('Trigger Release') {
@@ -62,9 +62,9 @@ node {
       }
       stage('Trigger Release') {
         withCredentials([
-          string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'token') 
+          string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'gitToken') 
         ]) {
-          defraUtils.triggerRelease(containerTag, repoName, containerTag, token)
+          defraUtils.triggerRelease(containerTag, repoName, containerTag, gitToken)
         }
       }
     } else {
