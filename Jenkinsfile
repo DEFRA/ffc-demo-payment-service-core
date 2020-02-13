@@ -24,7 +24,7 @@ node {
   checkout scm
   try {
     stage('verify version incremented') {
-      verifyCSProjVersionIncremented(projectName)
+      defraUtils.verifyCSProjVersionIncremented(projectName)
     }
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(projectName))
