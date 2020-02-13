@@ -24,13 +24,7 @@ node {
   checkout scm
   try {
     stage('verify version incremented') {
-      def masterVersion = defraUtils.getCSProjVersionMaster(projectName)
-      def version =defraUtils.getCSProjVersion(projectName)
-      if (defraUtils.versionHasIncremented(masterVersion, version)) {
-        echo "version change valid '$masterVersion' -> '$version'"
-      } else {
-        error( "version change invalid '$masterVersion' -> '$version'")
-      }
+      verifyCSProjVersionIncremented(projectName)
     }
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(projectName))
