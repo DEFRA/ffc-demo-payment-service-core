@@ -39,7 +39,7 @@ node {
     // }
 
     //Temp - remove
-    stage('Trigger Release') {
+    stage('Trigger Release1') {
         withCredentials([
           string(credentialsId: 'github_ffc_platform_repo', variable: 'gitToken') 
         ]) {
