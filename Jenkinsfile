@@ -43,7 +43,7 @@ node {
         withCredentials([
           string(credentialsId: 'github_ffc_platform_repo', variable: 'gitToken') 
         ]) {
-          containerTag = '1.0.16'
+          containerTag = '1.0.17'
           defraUtils.triggerRelease(containerTag, repoName, containerTag, gitToken)
         }
       }
