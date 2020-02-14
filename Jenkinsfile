@@ -16,6 +16,7 @@ def containerSrcFolder = '\\/usr\\/src\\/app'
 def localSrcFolder = '.'
 def lcovFile = './test-output/lcov.info'
 def timeoutInMinutes = 5
+def csProjectName = 'FFCDemoPaymentService'
 
 node {
   checkout scm
@@ -60,7 +61,7 @@ node {
       }
     } else {
       stage('Verify version incremented') {
-        defraUtils.verifyPackageJsonVersionIncremented()
+        defraUtils.verifyCSProjVersionIncremented(csProjectName)
       }
       stage('Helm install') {
         withCredentials([
