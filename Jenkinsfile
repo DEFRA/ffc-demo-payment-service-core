@@ -1,11 +1,10 @@
-@Library('defra-library@0.0.9')
+@Library('defra-library@0.0.16')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
 def registry = '562955126301.dkr.ecr.eu-west-2.amazonaws.com'
 def regCredsId = 'ecr:eu-west-2:ecr-user'
 def kubeCredsId = 'FFCLDNEKSAWSS001_KUBECONFIG'
-def imageName = 'ffc-demo-payment-service-core'
 def jenkinsDeployJob = 'ffc-demo-payment-service-core-deploy'
 def repoName = 'ffc-demo-payment-service-core'
 def pr = ''
@@ -17,40 +16,53 @@ def containerSrcFolder = '\\/usr\\/src\\/app'
 def localSrcFolder = '.'
 def lcovFile = './test-output/lcov.info'
 def timeoutInMinutes = 5
-
+def csProjectName = 'FFCDemoPaymentService'
 
 node {
   checkout scm
   try {
-    stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName)
+    stage('Set GitHub status as pending'){
       defraUtils.setGithubStatusPending()
     }
+    stage('Set branch, PR, and containerTag variables') {
+      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(csProjectName)) 
+    }
     stage('Helm lint') {
-      defraUtils.lintHelm(imageName)
+      defraUtils.lintHelm(repoName)
     }
     stage('Build test image') {
-      defraUtils.buildTestImage(imageName, BUILD_NUMBER)
+      defraUtils.buildTestImage(repoName, BUILD_NUMBER)
     }
     stage('Run tests') {
-      defraUtils.runTests(imageName, BUILD_NUMBER)
+      defraUtils.runTests(repoName, BUILD_NUMBER)
     }
     stage('Push container image') {
-      defraUtils.buildAndPushContainerImage(regCredsId, registry, imageName, containerTag)
-    }
+      defraUtils.buildAndPushContainerImage(regCredsId, registry, repoName, containerTag)
+    } 
+
     if (pr == '') {
       stage('Publish chart') {
-        defraUtils.publishChart(registry, imageName, containerTag)
+        defraUtils.publishChart(registry, repoName, containerTag)
+      }
+      stage('Trigger Release') {
+        withCredentials([
+          string(credentialsId: 'github_ffc_platform_repo', variable: 'gitToken') 
+        ]) {
+          defraUtils.triggerRelease(containerTag, repoName, containerTag, gitToken)
+        }
       }
       stage('Trigger Deployment') {
         withCredentials([
           string(credentialsId: 'JenkinsDeployUrl', variable: 'jenkinsDeployUrl'),
           string(credentialsId: 'ffc-demo-payment-service-core-deploy-token', variable: 'jenkinsToken')
         ]) {
-          defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':'1.0.0'])
+          defraUtils.triggerDeploy(jenkinsDeployUrl, jenkinsDeployJob, jenkinsToken, ['chartVersion':containerTag])
         }
       }
     } else {
+      stage('Verify version incremented') {
+        defraUtils.verifyCSProjVersionIncremented(csProjectName)
+      }
       stage('Helm install') {
         withCredentials([
           string(credentialsId: 'sqsQueueEndpoint', variable: 'sqsQueueEndpoint'),
@@ -84,19 +96,22 @@ node {
             "--set $helmValues"
           ].join(' ')
 
-          defraUtils.deployChart(kubeCredsId, registry, imageName, containerTag, extraCommands)
+          defraUtils.deployChart(kubeCredsId, registry, repoName, containerTag, extraCommands)
           echo "Build available for review"
         }
       }
     }
     if (mergedPrNo != '') {
       stage('Remove merged PR') {
-        defraUtils.undeployChart(kubeCredsId, imageName, mergedPrNo)
+        defraUtils.undeployChart(kubeCredsId, repoName, mergedPrNo)
       }
     }
-    defraUtils.setGithubStatusSuccess()
+    stage('Set GitHub status as success'){
+      defraUtils.setGithubStatusSuccess()
+    }
   } catch(e) {
     defraUtils.setGithubStatusFailure(e.message)
+    defraUtils.notifySlackBuildFailure(e.message, "#generalbuildfailures")
     throw e
   } 
 }
