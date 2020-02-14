@@ -1,4 +1,4 @@
-@Library('defra-library@0.0.13')
+@Library('defra-library@0.0.16')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -40,9 +40,6 @@ node {
     } 
 
     if (pr == '') {
-      stage('Verify version incremented') {
-        defraUtils.verifyPackageJsonVersionIncremented()
-      }
       stage('Publish chart') {
         defraUtils.publishChart(registry, repoName, containerTag)
       }
@@ -62,6 +59,9 @@ node {
         }
       }
     } else {
+      stage('Verify version incremented') {
+        defraUtils.verifyPackageJsonVersionIncremented()
+      }
       stage('Helm install') {
         withCredentials([
           string(credentialsId: 'sqsQueueEndpoint', variable: 'sqsQueueEndpoint'),
@@ -109,7 +109,7 @@ node {
       defraUtils.setGithubStatusSuccess()
     }
   } catch(e) {
-    defraUtils.setGithubStatusFailure(e.message)
+    defraUtils.setGithubStatusFailure(e.message, "#generalbuildfailures")
     throw e
   } 
 }
