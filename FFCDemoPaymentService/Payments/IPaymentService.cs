@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using FFCDemoPaymentService.Models;
-
 namespace FFCDemoPaymentService.Payments
 {
     public interface IPaymentService
