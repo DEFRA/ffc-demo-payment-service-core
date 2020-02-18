@@ -34,7 +34,7 @@ node {
       defraUtils.buildTestImage(repoName, BUILD_NUMBER)
     }
     stage('Scan Packages') {
-      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: './FFCDemoPaymentService/FFCDemoPaymentService.csproj'
+      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: './FFCDemoPaymentService/FFCDemoPaymentService.csproj', packageManager: 'nuget'
     }
     stage('Run tests') {
       defraUtils.runTests(repoName, BUILD_NUMBER)
