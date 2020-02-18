@@ -39,9 +39,7 @@ node {
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(regCredsId, registry, repoName, containerTag)
     } 
-    stage('Publish chart') {
-      defraUtils.publishChart(registry, repoName, containerTag)
-    }
+
     if (pr == '') {
       stage('Publish chart') {
         defraUtils.publishChart(registry, repoName, containerTag)
