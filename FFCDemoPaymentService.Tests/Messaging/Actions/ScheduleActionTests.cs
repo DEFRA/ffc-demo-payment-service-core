@@ -4,7 +4,6 @@ using FFCDemoPaymentService.Tests.Mocks;
 using System;
 using NUnit.Framework;
 using Moq;
-using FFCDemoPaymentService.Messaging;
 
 namespace FFCDemoPaymentService.Tests.Messaging.Actions
 {
