@@ -27,6 +27,9 @@ node {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(csProjectName)) 
     }
+    stage('Scan Packages') {
+      snykSecurity projectName: 'ffc-demo-payment-service-core', severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token'
+    }
     stage('Helm lint') {
       defraUtils.lintHelm(repoName)
     }
