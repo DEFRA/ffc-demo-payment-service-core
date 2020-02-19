@@ -111,7 +111,7 @@ node {
       defraUtils.setGithubStatusSuccess()
     }
     stage('Scan Packages') {
-      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token'
+      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: 'FFCDemoPaymentService.sln'
     }
   } catch(e) {
     defraUtils.setGithubStatusFailure(e.message)
