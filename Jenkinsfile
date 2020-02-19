@@ -27,9 +27,7 @@ node {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(csProjectName)) 
     }
-    stage('Scan Packages') {
-      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: 'FFCDemoPaymentService.sln'
-    }
+
     stage('Helm lint') {
       defraUtils.lintHelm(repoName)
     }
@@ -111,6 +109,9 @@ node {
     }
     stage('Set GitHub status as success'){
       defraUtils.setGithubStatusSuccess()
+    }
+    stage('Scan Packages') {
+      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: 'FFCDemoPaymentService.sln'
     }
   } catch(e) {
     defraUtils.setGithubStatusFailure(e.message)
