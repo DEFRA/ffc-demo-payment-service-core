@@ -1,4 +1,4 @@
-@Library('defra-library@fix-image-deployment')
+@Library('defra-library@1.0.0')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
