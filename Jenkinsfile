@@ -34,7 +34,7 @@ node {
       defraUtils.buildTestImage(repoName, BUILD_NUMBER)
     }
     stage('Scan Packages') {
-      snykSecurity additionalArguments: '--debug' severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: './FFCDemoPaymentService.sln'
+      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: '/FFCDemoPaymentService.sln'
     }
     stage('Run tests') {
       defraUtils.runTests(repoName, BUILD_NUMBER)
