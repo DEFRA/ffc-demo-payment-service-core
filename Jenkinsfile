@@ -27,14 +27,14 @@ node {
     stage('Set branch, PR, and containerTag variables') {
       (pr, containerTag, mergedPrNo) = defraUtils.getVariables(repoName, defraUtils.getCSProjVersion(csProjectName)) 
     }
+    stage('Scan Packages') {
+      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: 'FFCDemoPaymentService.sln'
+    }
     stage('Helm lint') {
       defraUtils.lintHelm(repoName)
     }
     stage('Build test image') {
       defraUtils.buildTestImage(repoName, BUILD_NUMBER)
-    }
-    stage('Scan Packages') {
-      snykSecurity severity: 'medium', snykInstallation: 'snyk-security-scanner', snykTokenId: 'Snyk-Token', targetFile: '${workspace}/FFCDemoPaymentService.sln'
     }
     stage('Run tests') {
       defraUtils.runTests(repoName, BUILD_NUMBER)
