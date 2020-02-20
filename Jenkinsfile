@@ -1,4 +1,4 @@
-@Library('defra-library@fix-image-deployment')
+@Library('defra-library@1.0.0')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -31,7 +31,7 @@ node {
       defraUtils.lintHelm(repoName)
     }
     stage('Build test image') {
-      defraUtils.buildTestImage(repoName, repoName, BUILD_NUMBER)
+      defraUtils.buildTestImage(repoName, BUILD_NUMBER)
     }
     stage('Run tests') {
       defraUtils.runTests(repoName, repoName, BUILD_NUMBER)
