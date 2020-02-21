@@ -13,7 +13,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        AssumeRoleWithWebIdentityCredentials credentials;
+        RefreshingAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
