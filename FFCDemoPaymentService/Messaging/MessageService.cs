@@ -41,7 +41,7 @@ namespace FFCDemoPaymentService.Messaging
         {
             SqsConfig scheduleQueueConfig = new ScheduleMap(messageConfig).MapToSqsConfig();
             scheduleReceiver ??= new SqsReceiver(scheduleQueueConfig, new Action<string>(scheduleAction.ReceiveMessage));
-            scheduleReceiver.StartPolling();
+            // scheduleReceiver.StartPolling();
 
             SqsConfig paymentQueueConfig = new PaymentMap(messageConfig).MapToSqsConfig();
             paymentReceiver ??= new SqsReceiver(paymentQueueConfig, new Action<string>(paymentAction.ReceiveMessage));

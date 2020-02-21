@@ -13,7 +13,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        SessionAWSCredentials sessionCredentials;
+        AssumeRoleWithWebIdentityCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -26,7 +26,7 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            //SetCredentials();
+            SetCredentials();
             SetConfiguration();
             SetClient();
 
@@ -38,27 +38,27 @@ namespace FFCDemoPaymentService.Messaging
             Start();
         }
 
-        private async Task SetCredentials()
+        private void SetCredentials()
         {
-            using (var stsClient = new AmazonSecurityTokenServiceClient())
-            {
-                var getSessionTokenRequest = new GetSessionTokenRequest
-                {
-                    DurationSeconds = 7200 // seconds
-                };
+            //using (var stsClient = new AmazonSecurityTokenServiceClient())
+            //{
+            //    var getSessionTokenRequest = new GetSessionTokenRequest
+            //    {
+            //        DurationSeconds = 7200 // seconds
+            //    };
 
-                GetSessionTokenResponse sessionTokenResponse =
-                              await stsClient.GetSessionTokenAsync(getSessionTokenRequest);
+            //    GetSessionTokenResponse sessionTokenResponse =
+            //                  await stsClient.GetSessionTokenAsync(getSessionTokenRequest);
 
-                Credentials credentials = sessionTokenResponse.Credentials;
+            //    Credentials credentials = sessionTokenResponse.Credentials;
 
-                sessionCredentials =
-                    new SessionAWSCredentials(credentials.AccessKeyId,
-                                              credentials.SecretAccessKey,
-                                              credentials.SessionToken);
-            }
+            //    sessionCredentials =
+            //        new SessionAWSCredentials(credentials.AccessKeyId,
+            //                                  credentials.SecretAccessKey,
+            //                                  credentials.SessionToken);
+            //}
 
-            //credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
+            credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
             //Console.WriteLine("Assume Creds: {0}", JsonConvert.SerializeObject(credentials));
             //var creds = credentials.GetCredentials();
             //Console.WriteLine("GetCredentials: {0}", JsonConvert.SerializeObject(credentials));
