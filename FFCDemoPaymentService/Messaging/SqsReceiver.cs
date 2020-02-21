@@ -4,9 +4,6 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using Amazon.Runtime;
 using System.Threading.Tasks;
-using Amazon.Runtime.CredentialManagement;
-using Amazon.SecurityToken;
-using Amazon.SecurityToken.Model;
 using Newtonsoft.Json;
 
 namespace FFCDemoPaymentService.Messaging
@@ -27,8 +24,8 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            SetCredentials();
-            SetConfiguration();
+            // SetCredentials();
+            // SetConfiguration();
             SetClient();
 
             if (sqsConfig.CreateQueue)
@@ -64,7 +61,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient();
         }
 
         private async Task CreateQueue()
