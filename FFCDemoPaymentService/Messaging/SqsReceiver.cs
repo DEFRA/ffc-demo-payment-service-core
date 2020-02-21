@@ -68,7 +68,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetConfiguration()
         {
-            //amazonSQSConfig = new AmazonSQSConfig()
+            amazonSQSConfig = new AmazonSQSConfig();
             //{
             //    ServiceURL = sqsConfig.Endpoint
             //};
