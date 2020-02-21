@@ -3,6 +3,8 @@ using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Amazon.Runtime;
+using Amazon.SecurityToken;
+using Amazon.SecurityToken.Model;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -11,7 +13,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        RefreshingAWSCredentials credentials;
+        SessionAWSCredentials sessionCredentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -24,8 +26,8 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            // SetCredentials();
-            // SetConfiguration();
+            //SetCredentials();
+            SetConfiguration();
             SetClient();
 
             if (sqsConfig.CreateQueue)
@@ -36,22 +38,40 @@ namespace FFCDemoPaymentService.Messaging
             Start();
         }
 
-        private void SetCredentials()
+        private async Task SetCredentials()
         {
-            credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
-            Console.WriteLine("Assume Creds: {0}", JsonConvert.SerializeObject(credentials));
-            var creds = credentials.GetCredentials();
-            Console.WriteLine("GetCredentials: {0}", JsonConvert.SerializeObject(credentials));
-            // var creds = await role.GetCredentialsAsync();
-            // credentials = new SessionAWSCredentials(creds.AccessKey, creds.SecretKey, creds.Token);
+            using (var stsClient = new AmazonSecurityTokenServiceClient())
+            {
+                var getSessionTokenRequest = new GetSessionTokenRequest
+                {
+                    DurationSeconds = 7200 // seconds
+                };
+
+                GetSessionTokenResponse sessionTokenResponse =
+                              await stsClient.GetSessionTokenAsync(getSessionTokenRequest);
+
+                Credentials credentials = sessionTokenResponse.Credentials;
+
+                sessionCredentials =
+                    new SessionAWSCredentials(credentials.AccessKeyId,
+                                              credentials.SecretAccessKey,
+                                              credentials.SessionToken);
+            }
+
+            //credentials = AssumeRoleWithWebIdentityCredentials.FromEnvironmentVariables();
+            //Console.WriteLine("Assume Creds: {0}", JsonConvert.SerializeObject(credentials));
+            //var creds = credentials.GetCredentials();
+            //Console.WriteLine("GetCredentials: {0}", JsonConvert.SerializeObject(credentials));
+            //var creds = await role.GetCredentialsAsync();
+            //credentials = new SessionAWSCredentials(creds.AccessKey, creds.SecretKey, creds.Token);
         }
 
         private void SetConfiguration()
         {
-            amazonSQSConfig = new AmazonSQSConfig()
-            {
-                ServiceURL = sqsConfig.Endpoint
-            };
+            //amazonSQSConfig = new AmazonSQSConfig()
+            //{
+            //    ServiceURL = sqsConfig.Endpoint
+            //};
 
             if (!sqsConfig.CreateQueue)
             {
@@ -61,7 +81,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient();
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
