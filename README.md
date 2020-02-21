@@ -46,14 +46,14 @@ The following environment variables are required by the application container. V
 Tests should be run in a container.  Docker compose files are provided to aide with this.
 
 ### docker-compose.test.yaml
-This file runs all tests and exits the container.  If any tests fails the error will be output.
+This file runs all tests and exits the container. If any tests fails the error will be output. Use the docker-compose `-p` flag to avoid conflicting with a running app instance:
 
-`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml up`
+`docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
-This file is inteded to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.  
+This file is intended to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up`
+`docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
@@ -70,23 +70,28 @@ docker-compose build
 ```
 
 ### Start and stop the service
-Use Docker Compose to run service locally. 
+Use Docker Compose to run service locally.
 
-`docker-compose up`
+```
+# Start the service in development
+docker-compose up
+```
 
-Additional Docker Compose files are provided for scenarios such as linking to other running services and aiding local development.
+### docker-compose.override.yaml
 
-An override, `docker-compose.override.yaml` is provided which includes port mapping to `3007` and an ActiveMQ Artermis message queue for development.
+The default `docker-compose.yaml` and `docker-compose.override.yaml` provide the following features to aid local development:
 
-### docker-compose.development.yaml
-This is an override file to `docker-compose.yaml` and will watch for changes to application and test files.  It will also create an instance of a postgreSQL database.
+- map port 3007 from the host to the app container
+- bind-mount application code into the app container
+- run the application behind a file watcher, automatically reloading the app on change
+- run a database and message queue alongside the application
 
-`docker-compose -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.development.yaml up`
+Additional Docker Compose files are provided for scenarios such as linking to other running services and running automated tests.
 
 ### docker-compose.link.yaml
 This will link to other FFC Demo services running locally.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.link.yaml up`  
+`docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up`
 
 ### Deploy to Kubernetes
 

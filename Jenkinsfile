@@ -21,7 +21,7 @@ node {
       defraUtils.setGithubStatusPending()
     }
     stage('Set branch, PR, and containerTag variables') {
-      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(serviceName, defraUtils.getCSProjVersion(csProjectName)) 
+      (pr, containerTag, mergedPrNo) = defraUtils.getVariables(serviceName, defraUtils.getCSProjVersion(csProjectName))
     }
     stage('Helm lint') {
       defraUtils.lintHelm(serviceName)
@@ -34,7 +34,7 @@ node {
     }
     stage('Push container image') {
       defraUtils.buildAndPushContainerImage(DOCKER_REGISTRY_CREDENTIALS_ID, DOCKER_REGISTRY, serviceName, containerTag)
-    } 
+    }
 
     if (pr == '') {
       stage('Publish chart') {
@@ -42,7 +42,7 @@ node {
       }
       stage('Trigger Release') {
         withCredentials([
-          string(credentialsId: 'github-auth-token', variable: 'gitToken') 
+          string(credentialsId: 'github-auth-token', variable: 'gitToken')
         ]) {
           defraUtils.triggerRelease(containerTag, serviceName, containerTag, gitToken)
         }
@@ -109,5 +109,5 @@ node {
     defraUtils.setGithubStatusFailure(e.message)
     defraUtils.notifySlackBuildFailure(e.message, "#generalbuildfailures")
     throw e
-  } 
+  }
 }
