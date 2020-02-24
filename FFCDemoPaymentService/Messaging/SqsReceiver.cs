@@ -26,7 +26,7 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            Task.Run(()=> SetCredentials()).Wait();
+            // Task.Run(()=> SetCredentials()).Wait();
             SetConfiguration();
             SetClient();
 
@@ -81,7 +81,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(sessionCredentials, amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
