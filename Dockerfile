@@ -6,7 +6,7 @@ FROM $PARENT_REGISTRY/ffc-dotnet-sdk:$PARENT_VERSION AS development
 ARG PARENT_VERSION
 ARG PARENT_REGISTRY
 ARG PORT=3007
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-node-development:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnet-sdk:${PARENT_VERSION}
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
 RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
@@ -22,7 +22,7 @@ FROM $PARENT_REGISTRY/ffc-dotnet-runtime:$PARENT_VERSION AS production
 ARG PARENT_VERSION
 ARG PARENT_REGISTRY
 ARG PORT=3007
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-node-development:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnet-sdk:${PARENT_VERSION}
 ENV ASPNETCORE_URLS=http://*:${PORT}
 EXPOSE ${PORT}
 COPY --from=development /home/dotnet/out/ ./
