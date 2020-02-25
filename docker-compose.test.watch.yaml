@@ -8,7 +8,7 @@ services:
     build:
       target: development
     image: ffc-demo-payment-service-core-development
-    command: [ "watch", "--project", "./FFCDemoPaymentService.Tests", "test" ]
+    entrypoint: dotnet watch --project ./FFCDemoPaymentService.Tests test
     volumes:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
       - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
