@@ -4,6 +4,8 @@ services:
     build: 
       context: .
       target: runtime
+      args:
+        REGISTRY: ${DOCKER_REGISTRY:-562955126301.dkr.ecr.eu-west-2.amazonaws.com}
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
     environment: 
