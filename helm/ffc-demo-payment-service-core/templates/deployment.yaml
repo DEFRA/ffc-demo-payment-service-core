@@ -6,6 +6,7 @@ metadata:
     app: {{ quote .Values.name }}
     environment: {{ quote .Values.environment }}
 spec:
+  priorityClassName: {{ quote .Values.container.priorityClassName }}
   replicas: {{ .Values.replicaCount }}
   minReadySeconds: {{ .Values.minReadySeconds }}
   template:
@@ -15,7 +16,7 @@ spec:
         environment: {{ quote .Values.environment }}
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
-    spec:
+    spec:      
       restartPolicy: {{ quote .Values.container.restartPolicy }}
       {{- if .Values.imagePullSecret }}
       imagePullSecrets:

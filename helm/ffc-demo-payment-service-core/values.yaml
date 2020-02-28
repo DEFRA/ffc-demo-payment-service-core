@@ -19,6 +19,7 @@ container:
   port: 3007
   registry:
   tag: latest
+  priorityClassName: low
   imagePullPolicy: IfNotPresent
   requestMemory: 60Mi
   requestCpu: 40m
