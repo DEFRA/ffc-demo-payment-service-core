@@ -7,6 +7,7 @@ postgresExternalName:
 postgresHost: ffc-demo-payments-core-postgres
 postgresPort: 5432
 name: ffc-demo-payment-service-core
+namespace: ffc-demo
 image: ffc-demo-payment-service-core
 imagePullSecret:
 service:

@@ -5,6 +5,7 @@ metadata:
   labels:
     app: {{ quote .Values.name }}
     environment: {{ quote .Values.environment }}
+  namespace: {{ quote .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   minReadySeconds: {{ .Values.minReadySeconds }}
