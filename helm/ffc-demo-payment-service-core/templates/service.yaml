@@ -5,6 +5,7 @@ metadata:
   name: {{ .Values.postgresHost }}
   labels:
     environment: {{ quote .Values.environment }}
+  namespace: {{ quote .Values.namespace }}
 spec:
   type: ExternalName
   externalName: {{ quote .Values.postgresExternalName }}

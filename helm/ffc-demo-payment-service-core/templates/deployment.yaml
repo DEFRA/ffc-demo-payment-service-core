@@ -5,6 +5,7 @@ metadata:
   labels:
     app: {{ quote .Values.name }}
     environment: {{ quote .Values.environment }}
+  namespace: {{ quote .Values.namespace }}
 spec:
   priorityClassName: {{ quote .Values.container.priorityClassName }}
   replicas: {{ .Values.replicaCount }}
