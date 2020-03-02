@@ -1,11 +1,11 @@
-ARG PARENT_VERSION=latest
-ARG PARENT_REGISTRY=562955126301.dkr.ecr.eu-west-2.amazonaws.com
+ARG PARENT_VERSION=pr3
+ARG PARENT_REGISTRY=171014905211.dkr.ecr.eu-west-2.amazonaws.com
 
 # Development
-FROM $PARENT_REGISTRY/ffc-dotnet-sdk:$PARENT_VERSION AS development
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION} AS development
 ARG PARENT_VERSION
 ARG PARENT_REGISTRY
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnet-sdk:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION}
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
 RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
@@ -21,10 +21,10 @@ EXPOSE ${PORT}
 ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:${PORT}"
 
 # Production
-FROM $PARENT_REGISTRY/ffc-dotnet-runtime:$PARENT_VERSION AS production
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION} AS production
 ARG PARENT_VERSION
 ARG PARENT_REGISTRY
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnet-sdk:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
 ARG PORT=3007
 ENV ASPNETCORE_URLS http://*:${PORT}

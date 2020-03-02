@@ -5,7 +5,7 @@ services:
       context: .
       target: production
       args:
-        REGISTRY: ${DOCKER_REGISTRY:-562955126301.dkr.ecr.eu-west-2.amazonaws.com}
+        REGISTRY: ${DOCKER_REGISTRY:-171014905211.dkr.ecr.eu-west-2.amazonaws.com}
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
     depends_on:
