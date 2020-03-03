@@ -1,31 +1,33 @@
-# Base
-ARG REGISTRY=562955126301.dkr.ecr.eu-west-2.amazonaws.com
+ARG PARENT_VERSION=1.0.0-dotnet12.16.0
+ARG PARENT_REGISTRY=171014905211.dkr.ecr.eu-west-2.amazonaws.com
 
 # Development
-# FROM $REGISTRY/ffc-dotnet-parent/sdk:$BASE_VERSION AS 
-FROM dotnet-sdk-parent AS development
-RUN mkdir -p /app/FFCDemoPaymentService/
-WORKDIR /app/FFCDemoPaymentService/
-COPY --chown=www-data:www-data ./FFCDemoPaymentService/*.csproj ./
-RUN dotnet restore
-COPY --chown=www-data:www-data ./FFCDemoPaymentService/ ./
-RUN dotnet publish -c Release -o /app/out
-CMD ["--urls", "http://*:3007"]
-
-# Test
-FROM developent AS test
-RUN mkdir -p /app/FFCDemoPaymentService.Tests/
-WORKDIR /app/FFCDemoPaymentService.Tests/
-COPY --chown=www-data:www-data ./FFCDemoPaymentService.Tests/*.csproj ./
-RUN dotnet restore
-COPY --chown=www-data:www-data ./FFCDemoPaymentService.Tests/ ./
-ENTRYPOINT [ "dotnet", "test" ]
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION} AS development
+ARG PARENT_VERSION
+ARG PARENT_REGISTRY
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION}
+RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
+RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/*.csproj ./FFCDemoPaymentService/
+RUN dotnet restore ./FFCDemoPaymentService/FFCDemoPaymentService.csproj
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/ ./FFCDemoPaymentService.Tests/
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/ ./FFCDemoPaymentService/
+RUN dotnet publish ./FFCDemoPaymentService/ -c Release -o /home/dotnet/out
+ARG PORT=3007
+ENV PORT ${PORT}
+EXPOSE ${PORT}
+# Override entrypoint using shell form so that environment variables are picked up
+ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:${PORT}"
 
 # Production
-FROM dotnet-runtime-parent AS production
-WORKDIR /app/
-ENV ASPNETCORE_URLS=http://*:3007
-EXPOSE 3007
-COPY --from=build /app/out/ ./
-CMD ["FFCDemoPaymentService.dll"]
-
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION} AS production
+ARG PARENT_VERSION
+ARG PARENT_REGISTRY
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION}
+COPY --from=development /home/dotnet/out/ ./
+ARG PORT=3007
+ENV ASPNETCORE_URLS http://*:${PORT}
+EXPOSE ${PORT}
+# Override entrypoint using shell form so that environment variables are picked up
+ENTRYPOINT dotnet FFCDemoPaymentService.dll

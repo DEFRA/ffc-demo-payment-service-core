@@ -1,7 +1,14 @@
 version: '3.7'
-services: 
-  ffc-demo-payment-service-core: 
-    entrypoint: ["dotnet", "watch", "test"]
-    volumes: 
-      - ./FFCDemoPaymentService:/app/FFCDemoPaymentService
-      - ./FFCDemoPaymentService.Tests:/app/FFCDemoPaymentService.Tests
+
+# This override file should be used to run a file watcher to
+# automatically execute tests whenever code is modified.
+
+services:
+  ffc-demo-payment-service-core:
+    build:
+      target: development
+    image: ffc-demo-payment-service-core-development
+    entrypoint: dotnet watch --project ./FFCDemoPaymentService.Tests test
+    volumes:
+      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/

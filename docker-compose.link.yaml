@@ -5,11 +5,17 @@ version: '3.7'
 
 services:
   ffc-demo-payment-service-core:
-    ports:
-      - "3007:3007"
+    build:
+      target: development
+    image: ffc-demo-payment-service-core-development
     networks:
       - default
       - ffc-demo
+    ports:
+      - "3007:3007"
+    volumes:
+      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
 
 networks:
   ffc-demo:

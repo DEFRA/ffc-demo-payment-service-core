@@ -13,7 +13,7 @@ imagePullSecret:
 service:
   type: ClusterIP
   port: 80
-volumeMounts: 
+volumeMounts:
   mountPath: /var/www/
   name: core-app-dir
 container:
@@ -27,7 +27,7 @@ container:
   limitMemory: 120Mi
   limitCpu: 80m
   runAsNonRoot: true
-  runAsUser: 33
+  runAsUser: 1000
   readOnlyRootFilesystem: false
   allowPrivilegeEscalation: false
   redeployOnChange: update this field to force a change
