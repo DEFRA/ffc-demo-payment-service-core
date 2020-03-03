@@ -17,7 +17,7 @@ spec:
         environment: {{ quote .Values.environment }}
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
-    spec:      
+    spec:
       restartPolicy: {{ quote .Values.container.restartPolicy }}
       {{- if .Values.imagePullSecret }}
       imagePullSecrets:
@@ -46,7 +46,7 @@ spec:
         - name: COMPlus_EnableDiagnostics
           value: {{ quote .Values.container.comPlusEnableDiagnostics }}
         - name: ConnectionStrings__DefaultConnection
-          value: {{ quote .Values.postgresConnectionString }}        
+          value: {{ quote .Values.postgresConnectionString }}
         - name: PORT
           value: {{ quote .Values.container.port }}
         - name: Messaging__ScheduleQueueName
