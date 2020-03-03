@@ -44,6 +44,7 @@ container:
   paymentQueueAccessKeyId: elasticmq
   paymentQueueSecretAccessKey: elasticmq
   paymentCreateQueue: true
+  serviceAccountName: ffc-demo-payment-service-account
   replicaCount: 1
   comPlusEnableDiagnostics: 0
 minReadySeconds: 10
@@ -63,3 +64,6 @@ livenessProbe:
   periodSeconds: 10
   failureThreshold: 3
   timeoutSeconds: 10
+serviceAccount:
+  name: ffc-demo-payment-service-account
+  roleArn: arn:aws:iam::562955126301:role/ffc_demo_payment_service_role_001

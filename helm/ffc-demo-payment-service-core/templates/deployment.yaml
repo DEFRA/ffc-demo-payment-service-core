@@ -16,7 +16,7 @@ spec:
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
     spec:
-      serviceAccountName: ffc-demo-payment-service-account
+      serviceAccountName: {{ quote .Values.container.serviceAccountName }}
       restartPolicy: {{ quote .Values.container.restartPolicy }}
       {{- if .Values.imagePullSecret }}
       imagePullSecrets:
