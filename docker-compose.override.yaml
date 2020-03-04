@@ -5,11 +5,12 @@ version: '3.7'
 
 services:
   ffc-demo-payment-service-core:
-    ports:
-      - "3007:3007"
+    build:
+      target: development
+    image: ffc-demo-payment-service-core-development
     depends_on:
       - ffc-demo-payment-message-queue
-    environment: 
+    environment:
       Messaging__Host: ffc-demo-payment-message-queue
       Messaging__ScheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
       Messaging__ScheduleQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/schedule
@@ -19,6 +20,11 @@ services:
       Messaging__PaymentQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/payment
       Messaging__PaymentAccessKeyId: elasticmq
       Messaging__PaymentAccessKey: elasticmq
+    ports:
+      - "3007:3007"
+    volumes:
+      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
 
   ffc-demo-payment-message-queue:
     image: softwaremill/elasticmq
