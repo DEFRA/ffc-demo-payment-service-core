@@ -1,17 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Data;
+using FFCDemoPaymentService.Messaging;
+using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Models;
+using FFCDemoPaymentService.Scheduling;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using FFCDemoPaymentService.HealthChecks;
 
 namespace FFCDemoPaymentService
 {
@@ -24,12 +25,23 @@ namespace FFCDemoPaymentService
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+
+            services.AddSingleton(messageConfig);
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            
+            services.AddHealthChecks()
+                .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                            
 
             services.AddControllers();
         }
@@ -43,8 +55,17 @@ namespace FFCDemoPaymentService
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
+
+            app.UseHealthChecks("/healthy", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceReadinessCheck"
+            });        
+
+            app.UseHealthChecks("/healthz", new HealthCheckOptions()
+            {
+                Predicate = check => check.Name == "ServiceLivenessCheck"
+            }); 
 
             app.UseEndpoints(endpoints =>
             {
@@ -58,7 +79,16 @@ namespace FFCDemoPaymentService
         {
             if (dbContext.Database.GetPendingMigrations().Any())
             {
-                dbContext.Database.Migrate();
+                Console.WriteLine("Pending migrations found, updating database");
+                try
+                {
+                    dbContext.Database.Migrate();
+                    Console.WriteLine("Database migration complete");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error running migrations: {0}", ex);
+                }                
             }
         }
     }

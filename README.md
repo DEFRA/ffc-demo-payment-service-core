@@ -18,7 +18,7 @@ Or:
 Or:
 - .Net Core SDK 3.1
 - PostgreSQL database
-- AMQP 1.0 message queue
+- SQS compatible message queue
 
 ## Environment variables
 
@@ -26,20 +26,34 @@ The following environment variables are required by the application container. V
 
 | Name                                | Description                  | Required | Default     | Valid                       | Notes |
 |-------------------------------------|------------------------------|:--------:|-------------|-----------------------------|-------|
-| ConnectionStrings__DefaultConnection| Database conneciton string   | yes      |             |                             |       |
+| ConnectionStrings__DefaultConnection| Database connection string   | yes      |             |                             |       |
+| COMPlus_EnableDiagnostics           | Enable COM diagnostics       | yes      |             |                             | Should be set to 0 when running in Kubernetes read only file system      |
+| Messaging__ScheduleQueueName        | Schedule queue name          | no       | schedule    |                             |       |
+| Messaging__ScheduleQueueEndpoint    | Schedule queue endpoint      | no       | http://localhost:9324 |                   |       |
+| Messaging__ScheduleQueueUrl         | Schedule queue url           | no       | http://localhost:9324/queue/schedule |    |       |
+| Messaging__ScheduleQueueRegion      | Schedule queue AWS region    | no       | eu-west-2   |                             |       |
+| Messaging__ScheduleAccessKeyId      | Schedule queue key Id        | yes      |             |                             |       |
+| Messaging__ScheduleAccessKey        | Schedule queue key           | yes      |             |                             |       |
+| Messaging__CreateScheduleQueue      | Create schedule queue on startup | no   | true        |                             |       |
+| Messaging__PaymentQueueName         | Payment queue name           | no       | payment     |                             |       |
+| Messaging__PaymentQueueEndpoint     | Payment queue endpoint       | no       | http://localhost:9324 |                   |       |
+| Messaging__PaymentQueueUrl          | Payment queue url            | no       | http://localhost:9324/queue/payment |     |       |
+| Messaging__PaymentAccessKeyId       | Payment queue key Id         | yes      |             |                             |       |
+| Messaging__PaymentAccessKey         | Payment queue key            | yes      |             |                             |       |
+| Messaging__CreatePaymentQueue       | Create payment queue on startup | no    | false       |                             |       |
 
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.
 
 ### docker-compose.test.yaml
-This file runs all tests and exits the container.  If any tests fails the error will be output.
+This file runs all tests and exits the container. If any tests fails the error will be output. Use the docker-compose `-p` flag to avoid conflicting with a running app instance:
 
-`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml up`
+`docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
-This file is inteded to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.  
+This file is intended to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up`
+`docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
@@ -56,23 +70,28 @@ docker-compose build
 ```
 
 ### Start and stop the service
-Use Docker Compose to run service locally. 
+Use Docker Compose to run service locally.
 
-`docker-compose up`
+```
+# Start the service in development
+docker-compose up
+```
 
-Additional Docker Compose files are provided for scenarios such as linking to other running services and aiding local development.
+### docker-compose.override.yaml
 
-An override, `docker-compose.override.yaml` is provided which includes port mapping to `3007` and an ActiveMQ Artermis message queue for development.
+The default `docker-compose.yaml` and `docker-compose.override.yaml` provide the following features to aid local development:
 
-### docker-compose.development.yaml
-This is an override file to `docker-compose.yaml` and will watch for changes to application and test files.  It will also create an instance of a postgreSQL database.
+- map port 3007 from the host to the app container
+- bind-mount application code into the app container
+- run the application behind a file watcher, automatically reloading the app on change
+- run a database and message queue alongside the application
 
-`docker-compose -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.development.yaml up`
+Additional Docker Compose files are provided for scenarios such as linking to other running services and running automated tests.
 
 ### docker-compose.link.yaml
 This will link to other FFC Demo services running locally.
 
-`docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.link.yaml up`  
+`docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up`
 
 ### Deploy to Kubernetes
 
@@ -96,10 +115,6 @@ The service has both an Http readiness probe and an Http liveness probe configur
 Readiness: `/healthy`
 Liveness: `/healthz`
 
-The readiness probe will test for both the availability of a PostgreSQL database and the two active message queue connections.
-
-Sequelize's `authenticate` function is used to test database connectivity.  This function tries to run a basic query within the database.
-
 ## License
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
@@ -113,4 +128,3 @@ The following attribution statement MUST be cited in your products and applicati
 The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable information providers in the public sector to license the use and re-use of their information under a common open licence.
 
 It is designed to encourage use and re-use of information freely and flexibly, with only a few conditions.
-

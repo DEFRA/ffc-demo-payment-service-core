@@ -29,3 +29,9 @@ msbuild.wrn
 
 # Other
 .vs/
+tasks.json
+
+#Test Files
+TestResults/
+coverage.json
+lcov.info

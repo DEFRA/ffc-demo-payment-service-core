@@ -1,10 +1,29 @@
 version: '3.7'
 services:
   ffc-demo-payment-service-core:
-    build: 
+    build:
       context: .
-      target: runtime
+      target: production
+      args:
+        PARENT_REGISTRY: ${DOCKER_REGISTRY:-171014905211.dkr.ecr.eu-west-2.amazonaws.com}
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
-    environment: 
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    environment:
       COMPlus_EnableDiagnostics: 0
+      ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
+
+  ffc-demo-payment-core-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: ffc_demo_payments
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: ppp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}

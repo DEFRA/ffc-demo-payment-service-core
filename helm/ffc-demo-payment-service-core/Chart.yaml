@@ -3,3 +3,16 @@ appVersion: "1.0"
 description: A Helm chart for Kubernetes
 name: ffc-demo-payment-service-core
 version: 1.0.0
+
+probes:
+  liveness:
+    path: /healthz
+    initialDelaySeconds: 20
+    periodSeconds: 5
+    port: 3007
+  readiness:
+    path: /healthy
+    timeoutSeconds: 5
+    initialDelaySeconds: 20
+    periodSeconds: 15
+    port: 3007

@@ -1,39 +1,33 @@
-# Base
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
-WORKDIR /app
-ENV ASPNETCORE_ENVIRONMENT=production
+ARG PARENT_VERSION=1.0.0-dotnet12.16.0
+ARG PARENT_REGISTRY=171014905211.dkr.ecr.eu-west-2.amazonaws.com
 
 # Development
-FROM base AS development
-WORKDIR /FFCDemoPaymentService
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends unzip \
-  && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
-COPY ./FFCDemoPaymentService/*.csproj ./
-RUN dotnet restore
-COPY ./FFCDemoPaymentService ./
-ENTRYPOINT [ "dotnet", "watch", "run", "--urls", "http://0.0.0.0:3007" ]
-
-# Test
-FROM development AS test 
-WORKDIR /FFCDemoPaymentService.Tests
-COPY ./FFCDemoPaymentService.Tests/*.csproj ./
-RUN dotnet restore
-COPY ./FFCDemoPaymentService.Tests ./
-ENTRYPOINT [ "dotnet", "test" ]
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION} AS development
+ARG PARENT_VERSION
+ARG PARENT_REGISTRY
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION}
+RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
+RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/*.csproj ./FFCDemoPaymentService/
+RUN dotnet restore ./FFCDemoPaymentService/FFCDemoPaymentService.csproj
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/ ./FFCDemoPaymentService.Tests/
+COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/ ./FFCDemoPaymentService/
+RUN dotnet publish ./FFCDemoPaymentService/ -c Release -o /home/dotnet/out
+ARG PORT=3007
+ENV PORT ${PORT}
+EXPOSE ${PORT}
+# Override entrypoint using shell form so that environment variables are picked up
+ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:${PORT}"
 
 # Production
-FROM base AS production
-COPY ./FFCDemoPaymentService/*.csproj ./
-RUN dotnet restore
-COPY ./FFCDemoPaymentService ./
-RUN dotnet publish -c Release -o out
-
-# Runtime
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
-WORKDIR /app
-COPY --from=production /app/out ./
-RUN chown -R www-data:www-data /app
-ENV ASPNETCORE_URLS=http://*:3007
-EXPOSE 3007
-ENTRYPOINT [ "dotnet", "FFCDemoPaymentService.dll" ]
+FROM ${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION} AS production
+ARG PARENT_VERSION
+ARG PARENT_REGISTRY
+LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION}
+COPY --from=development /home/dotnet/out/ ./
+ARG PORT=3007
+ENV ASPNETCORE_URLS http://*:${PORT}
+EXPOSE ${PORT}
+# Override entrypoint using shell form so that environment variables are picked up
+ENTRYPOINT dotnet FFCDemoPaymentService.dll

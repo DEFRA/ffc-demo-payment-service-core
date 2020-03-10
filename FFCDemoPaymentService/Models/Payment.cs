@@ -1,6 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace FFCDemoPaymentService.Models
 {
@@ -9,9 +9,11 @@ namespace FFCDemoPaymentService.Models
     {
         [Column("claimId")]
         [Key]
+        [JsonProperty(PropertyName = "claimId", Required = Required.Always)]
         public string ClaimId { get; set; }
 
         [Column("value")]
-        public decimal Decimal { get; set; }
+        [JsonProperty(PropertyName = "value", Required = Required.Always)]
+        public decimal Value { get; set; }
     }
 }
