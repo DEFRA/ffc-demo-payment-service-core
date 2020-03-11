@@ -14,7 +14,6 @@ labels:
   instance:
   version: 1.0.0
   component: service
-  managedBy: helm
 service:
   type: ClusterIP
   port: 80
