@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ quote .Values.name }}
   labels:
-    app: {{ quote .Values.name }}
+    app: {{ quote .Values.namespace }}
     environment: {{ quote .Values.environment }}
     app.kubernetes.io/name: {{ quote .Values.name }}
     app.kubernetes.io/instance: {{ quote .Values.labels.instance }}
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ quote .Values.name }}
+        app: {{ quote .Values.namespace }}
         app.kubernetes.io/name: {{ quote .Values.name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/version: {{ quote .Values.labels.version }}
