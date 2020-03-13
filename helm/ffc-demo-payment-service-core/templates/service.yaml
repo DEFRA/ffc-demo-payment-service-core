@@ -3,8 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: {{ .Values.postgresHost }}
-  labels:
-    environment: {{ quote .Values.environment }}
+  labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 2 }}
   namespace: {{ quote .Values.namespace }}
 spec:
   type: ExternalName
@@ -19,9 +18,7 @@ kind: Service
 metadata:
   name: {{ quote .Values.name }}
   namespace: {{ quote .Values.namespace }}
-  labels:
-    app: {{ quote .Values.name }}
-    environment: {{ quote .Values.environment }}
+  labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 2 }}
 spec:
   ports:
   - port: {{ .Values.service.port }}
@@ -29,5 +26,7 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: {{ quote .Values.name }}
+    app: {{ quote .Values.namespace }}
+    app.kubernetes.io/name: {{ quote .Values.name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
   type: {{ quote .Values.service.type }}
