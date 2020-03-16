@@ -10,6 +10,7 @@ spec:
   minReadySeconds: {{ .Values.minReadySeconds }}
   template:
     metadata:
+      namespace: {{ quote .Values.namespace }}
       labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 6 }}
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
