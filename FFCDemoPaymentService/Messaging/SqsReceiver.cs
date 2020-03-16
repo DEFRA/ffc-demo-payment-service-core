@@ -9,6 +9,7 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
+        BasicAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -21,15 +22,21 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
+            SetCredentials();
             SetConfiguration();
             SetClient();
 
             if (sqsConfig.CreateQueue)
-            {
+            {                
                 Task.Run(() => CreateQueue()).Wait();
             }
 
             Start();
+        }
+
+        private void SetCredentials()
+        {
+            credentials = new BasicAWSCredentials(sqsConfig.AccessKeyId, sqsConfig.AccessKey);
         }
 
         private void SetConfiguration()
@@ -48,8 +55,7 @@ namespace FFCDemoPaymentService.Messaging
             }
             else
             {
-                // for development elasticMQ requires dummy credentials
-                amazonSQSClient = new AmazonSQSClient(new BasicAWSCredentials("elasticmq", "elasticmq"), amazonSQSConfig);
+                amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
             }
         }
 

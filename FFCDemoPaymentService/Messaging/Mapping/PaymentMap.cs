@@ -15,6 +15,8 @@ namespace FFCDemoPaymentService.Messaging.Mapping
             return new SqsConfig(messageConfig.PaymentQueueEndpoint,
                 messageConfig.PaymentQueueName,
                 messageConfig.PaymentQueueUrl,
+                messageConfig.DevAccessKeyId, 
+                messageConfig.DevAccessKey,
                 messageConfig.CreatePaymentQueue);
         }
     }
