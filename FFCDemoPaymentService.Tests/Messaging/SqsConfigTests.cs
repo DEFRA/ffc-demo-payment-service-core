@@ -11,19 +11,13 @@ namespace FFCDemoPaymentService.Tests.Messaging
         [SetUp]
         public void SetUp()
         {
-            sqsConfig = new SqsConfig("endpoint", "region", "queueName", "queueUrl", "accessKeyId", "accessKey", true);
+            sqsConfig = new SqsConfig("endpoint", "queueName", "queueUrl", true);
         }
 
         [Test]
         public void Test_SqsConfig_Maps_Endpoint()
         {
             Assert.AreEqual("endpoint", sqsConfig.Endpoint);
-        }
-
-        [Test]
-        public void Test_SqsConfig_Maps_Region()
-        {
-            Assert.AreEqual("region", sqsConfig.Region);
         }
 
         [Test]
@@ -36,18 +30,6 @@ namespace FFCDemoPaymentService.Tests.Messaging
         public void Test_SqsConfig_Maps_QueueUrl()
         {
             Assert.AreEqual("queueUrl", sqsConfig.QueueUrl);
-        }
-
-        [Test]
-        public void Test_SqsConfig_Maps_AccessKeyId()
-        {
-            Assert.AreEqual("accessKeyId", sqsConfig.AccessKeyId);
-        }
-
-        [Test]
-        public void Test_SqsConfig_Maps_AccessKey()
-        {
-            Assert.AreEqual("accessKey", sqsConfig.AccessKey);
         }
 
         [Test]

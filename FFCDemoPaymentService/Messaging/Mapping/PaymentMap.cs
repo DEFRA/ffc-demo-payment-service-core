@@ -13,11 +13,8 @@ namespace FFCDemoPaymentService.Messaging.Mapping
         public SqsConfig MapToSqsConfig()
         {
             return new SqsConfig(messageConfig.PaymentQueueEndpoint,
-                messageConfig.PaymentQueueRegion,
                 messageConfig.PaymentQueueName,
                 messageConfig.PaymentQueueUrl,
-                messageConfig.PaymentAccessKeyId, 
-                messageConfig.PaymentAccessKey,
                 messageConfig.CreatePaymentQueue);
         }
     }
