@@ -30,16 +30,9 @@ The following environment variables are required by the application container. V
 | COMPlus_EnableDiagnostics           | Enable COM diagnostics       | yes      |             |                             | Should be set to 0 when running in Kubernetes read only file system      |
 | Messaging__ScheduleQueueName        | Schedule queue name          | no       | schedule    |                             |       |
 | Messaging__ScheduleQueueEndpoint    | Schedule queue endpoint      | no       | http://localhost:9324 |                   |       |
-| Messaging__ScheduleQueueUrl         | Schedule queue url           | no       | http://localhost:9324/queue/schedule |    |       |
-| Messaging__ScheduleQueueRegion      | Schedule queue AWS region    | no       | eu-west-2   |                             |       |
-| Messaging__ScheduleAccessKeyId      | Schedule queue key Id        | yes      |             |                             |       |
-| Messaging__ScheduleAccessKey        | Schedule queue key           | yes      |             |                             |       |
 | Messaging__CreateScheduleQueue      | Create schedule queue on startup | no   | true        |                             |       |
 | Messaging__PaymentQueueName         | Payment queue name           | no       | payment     |                             |       |
 | Messaging__PaymentQueueEndpoint     | Payment queue endpoint       | no       | http://localhost:9324 |                   |       |
-| Messaging__PaymentQueueUrl          | Payment queue url            | no       | http://localhost:9324/queue/payment |     |       |
-| Messaging__PaymentAccessKeyId       | Payment queue key Id         | yes      |             |                             |       |
-| Messaging__PaymentAccessKey         | Payment queue key            | yes      |             |                             |       |
 | Messaging__CreatePaymentQueue       | Create payment queue on startup | no    | false       |                             |       |
 
 ## How to run tests
