@@ -10,7 +10,6 @@ namespace FFCDemoPaymentService.Messaging
     public class SqsReceiver : IReceiver
     {
         readonly SqsConfig sqsConfig;
-        BasicAWSCredentials credentials;
         AmazonSQSConfig amazonSQSConfig;
         AmazonSQSClient amazonSQSClient;
         readonly Action<string> messageAction;
@@ -23,7 +22,6 @@ namespace FFCDemoPaymentService.Messaging
 
         public void StartPolling()
         {
-            SetCredentials();
             SetConfiguration();
             SetClient();
 
@@ -35,27 +33,17 @@ namespace FFCDemoPaymentService.Messaging
             Start();
         }
 
-        private void SetCredentials()
-        {
-            credentials = new BasicAWSCredentials(sqsConfig.AccessKeyId, sqsConfig.AccessKey);
-        }
-
         private void SetConfiguration()
         {
             amazonSQSConfig = new AmazonSQSConfig()
             {
                 ServiceURL = sqsConfig.Endpoint
             };
-
-            if (!sqsConfig.CreateQueue)
-            {
-                amazonSQSConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(sqsConfig.Region);
-            }
         }
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
         }
 
         private async Task CreateQueue()
