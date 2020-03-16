@@ -1,6 +1,5 @@
 name: ffc-demo-payment-service-core
 namespace: ffc-demo
-imagePullSecret: myregistrykey
 container:
   allowPrivilegeEscalation: true
   imagePullPolicy: Always

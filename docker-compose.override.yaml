@@ -14,12 +14,8 @@ services:
       Messaging__Host: ffc-demo-payment-message-queue
       Messaging__ScheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
       Messaging__ScheduleQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/schedule
-      Messaging__ScheduleAccessKeyId: elasticmq
-      Messaging__ScheduleAccessKey: elasticmq
       Messaging__PaymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
       Messaging__PaymentQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/payment
-      Messaging__PaymentAccessKeyId: elasticmq
-      Messaging__PaymentAccessKey: elasticmq
     ports:
       - "3007:3007"
     volumes:
@@ -28,5 +24,3 @@ services:
 
   ffc-demo-payment-message-queue:
     image: softwaremill/elasticmq
-    ports:
-      - "9324:9324"

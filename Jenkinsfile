@@ -69,7 +69,8 @@ node {
           string(credentialsId: 'payment-queue-access-key-id-listen', variable: 'paymentQueueAccessKeyId'),
           string(credentialsId: 'payment-queue-secret-access-key-listen', variable: 'paymentQueueSecretAccessKey'),
           string(credentialsId: 'postgres-external-name-pr', variable: 'postgresExternalName'),
-          string(credentialsId: 'payments-service-core-postgres-connection-string', variable: 'postgresConnectionString')
+          string(credentialsId: 'payments-service-core-postgres-connection-string', variable: 'postgresConnectionString'),
+          string(credentialsId: 'payment-service-account-role-arn', variable: 'serviceAccountRoleArn'),
         ]) {
           def helmValues = [
             /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,
@@ -85,7 +86,8 @@ node {
             /container.redeployOnChange="$pr-$BUILD_NUMBER"/,
             /postgresExternalName="$postgresExternalName"/,
             /postgresConnectionString="$postgresConnectionString"/,
-            /labels.version="$containerTag"/
+            /labels.version="$containerTag"/,
+            /serviceAccount.roleArn="$serviceAccountRoleArn"/
           ].join(',')
 
           def extraCommands = [
