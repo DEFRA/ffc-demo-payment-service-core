@@ -10,6 +10,7 @@ using FFCDemoPaymentService.Messaging;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
+using FFCDemoPaymentService.Payments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
@@ -34,8 +35,7 @@ namespace FFCDemoPaymentService
 
             services.AddSingleton(messageConfig);
             services.AddScoped<IScheduleService, ScheduleService>();
-            services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
-            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
             

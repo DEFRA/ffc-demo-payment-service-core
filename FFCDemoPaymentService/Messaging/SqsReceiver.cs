@@ -42,7 +42,15 @@ namespace FFCDemoPaymentService.Messaging
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            if (!sqsConfig.CreateQueue)
+            {
+                amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            }
+            else
+            {
+                // for development elasticMQ requires dummy credentials
+                amazonSQSClient = new AmazonSQSClient(new BasicAWSCredentials("elasticmq", "elasticmq"), amazonSQSConfig);
+            }
         }
 
         private async Task CreateQueue()
