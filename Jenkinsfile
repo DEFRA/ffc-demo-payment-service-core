@@ -62,14 +62,18 @@ node {
       stage('Helm install') {
         withCredentials([
           string(credentialsId: 'sqs-queue-endpoint', variable: 'sqsQueueEndpoint'),
+          string(credentialsId: 'schedule-queue-name-pr', variable: 'scheduleQueueName'),
+          string(credentialsId: 'payment-queue-name-pr', variable: 'paymentQueueName'),
           string(credentialsId: 'postgres-external-name-pr', variable: 'postgresExternalName'),
           string(credentialsId: 'payments-service-core-postgres-connection-string', variable: 'postgresConnectionString'),
           string(credentialsId: 'payment-service-account-role-arn', variable: 'serviceAccountRoleArn'),
         ]) {
           def helmValues = [
-            /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,            
+            /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,
+            /container.scheduleQueueName="$scheduleQueueName"/,        
             /container.scheduleCreateQueue="false"/,
-            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,            
+            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,          
+            /container.paymentQueueName="$paymentQueueName"/,  
             /container.paymentCreateQueue="false"/,
             /container.redeployOnChange="$pr-$BUILD_NUMBER"/,
             /postgresExternalName="$postgresExternalName"/,
