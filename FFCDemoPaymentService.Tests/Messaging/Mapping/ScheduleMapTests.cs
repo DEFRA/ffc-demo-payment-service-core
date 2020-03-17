@@ -17,7 +17,6 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
             {
                 ScheduleQueueName = "queue",
                 ScheduleQueueEndpoint = "endpoint",
-                ScheduleQueueUrl = "url",
                 DevAccessKeyId = "keyId",
                 DevAccessKey = "key",
                 CreateScheduleQueue = true
@@ -47,7 +46,7 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
         {
             var result = scheduleMap.MapToSqsConfig().QueueUrl;
 
-            Assert.AreEqual("url", result);
+            Assert.AreEqual("endpoint/queue/queue", result);
         }
 
         [Test]
