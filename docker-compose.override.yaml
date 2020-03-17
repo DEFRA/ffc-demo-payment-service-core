@@ -20,6 +20,10 @@ services:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
       - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
 
+  ffc-demo-payment-core-postgres:
+    ports:
+      - "5432:5432"
+
   ffc-demo-payment-message-queue:
     image: softwaremill/elasticmq
     ports:
