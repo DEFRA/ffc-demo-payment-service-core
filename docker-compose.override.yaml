@@ -13,9 +13,7 @@ services:
     environment:
       Messaging__Host: ffc-demo-payment-message-queue
       Messaging__ScheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-      Messaging__ScheduleQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/schedule
       Messaging__PaymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-      Messaging__PaymentQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/payment
     ports:
       - "3007:3007"
     volumes:
