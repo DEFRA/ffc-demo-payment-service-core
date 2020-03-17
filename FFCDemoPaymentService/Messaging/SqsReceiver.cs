@@ -1,5 +1,4 @@
 using System;
-using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Amazon.Runtime;
@@ -28,7 +27,7 @@ namespace FFCDemoPaymentService.Messaging
             SetClient();
 
             if (sqsConfig.CreateQueue)
-            {
+            {                
                 Task.Run(() => CreateQueue()).Wait();
             }
 
@@ -46,16 +45,18 @@ namespace FFCDemoPaymentService.Messaging
             {
                 ServiceURL = sqsConfig.Endpoint
             };
-
-            if (!sqsConfig.CreateQueue)
-            {
-                amazonSQSConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(sqsConfig.Region);
-            }
         }
 
         private void SetClient()
         {
-            amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            if (!sqsConfig.CreateQueue)
+            {
+                amazonSQSClient = new AmazonSQSClient(amazonSQSConfig);
+            }
+            else
+            {
+                amazonSQSClient = new AmazonSQSClient(credentials, amazonSQSConfig);
+            }
         }
 
         private async Task CreateQueue()

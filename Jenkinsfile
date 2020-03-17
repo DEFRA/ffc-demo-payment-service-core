@@ -62,30 +62,24 @@ node {
       stage('Helm install') {
         withCredentials([
           string(credentialsId: 'sqs-queue-endpoint', variable: 'sqsQueueEndpoint'),
-          string(credentialsId: 'schedule-queue-url-pr', variable: 'scheduleQueueUrl'),
-          string(credentialsId: 'schedule-queue-access-key-id-listen', variable: 'scheduleQueueAccessKeyId'),
-          string(credentialsId: 'schedule-queue-secret-access-key-listen', variable: 'scheduleQueueSecretAccessKey'),
-          string(credentialsId: 'payment-queue-url-pr', variable: 'paymentQueueUrl'),
-          string(credentialsId: 'payment-queue-access-key-id-listen', variable: 'paymentQueueAccessKeyId'),
-          string(credentialsId: 'payment-queue-secret-access-key-listen', variable: 'paymentQueueSecretAccessKey'),
+          string(credentialsId: 'schedule-queue-name-pr', variable: 'scheduleQueueName'),
+          string(credentialsId: 'payment-queue-name-pr', variable: 'paymentQueueName'),
           string(credentialsId: 'postgres-external-name-pr', variable: 'postgresExternalName'),
-          string(credentialsId: 'payments-service-core-postgres-connection-string', variable: 'postgresConnectionString')
+          string(credentialsId: 'payments-service-core-postgres-connection-string', variable: 'postgresConnectionString'),
+          string(credentialsId: 'payment-service-account-role-arn', variable: 'serviceAccountRoleArn'),
         ]) {
           def helmValues = [
             /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,
-            /container.scheduleQueueUrl="$scheduleQueueUrl"/,
-            /container.scheduleQueueAccessKeyId="$scheduleQueueAccessKeyId"/,
-            /container.scheduleQueueSecretAccessKey="$scheduleQueueSecretAccessKey"/,
+            /container.scheduleQueueName="$scheduleQueueName"/,        
             /container.scheduleCreateQueue="false"/,
-            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,
-            /container.paymentQueueUrl="$paymentQueueUrl"/,
-            /container.paymentQueueAccessKeyId="$paymentQueueAccessKeyId"/,
-            /container.paymentQueueSecretAccessKey="$paymentQueueSecretAccessKey"/,
+            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,          
+            /container.paymentQueueName="$paymentQueueName"/,  
             /container.paymentCreateQueue="false"/,
             /container.redeployOnChange="$pr-$BUILD_NUMBER"/,
             /postgresExternalName="$postgresExternalName"/,
             /postgresConnectionString="$postgresConnectionString"/,
-            /labels.version="$containerTag"/
+            /labels.version="$containerTag"/,
+            /serviceAccount.roleArn="$serviceAccountRoleArn"/
           ].join(',')
 
           def extraCommands = [

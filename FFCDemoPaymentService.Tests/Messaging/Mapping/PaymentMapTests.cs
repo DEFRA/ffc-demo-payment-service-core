@@ -17,10 +17,8 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
             {
                 PaymentQueueName = "queue",
                 PaymentQueueEndpoint = "endpoint",
-                PaymentQueueUrl = "url",
-                PaymentQueueRegion = "region",
-                PaymentAccessKeyId = "keyId",
-                PaymentAccessKey = "key",
+                DevAccessKeyId = "keyId",
+                DevAccessKey = "key",
                 CreatePaymentQueue = true
             };
 
@@ -36,14 +34,6 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
         }
 
         [Test]
-        public void Test_MapToSqsConfig_Maps_Region()
-        {
-            var result = paymentMap.MapToSqsConfig().Region;
-
-            Assert.AreEqual("region", result);
-        }
-
-        [Test]
         public void Test_MapToSqsConfig_Maps_QueueName()
         {
             var result = paymentMap.MapToSqsConfig().QueueName;
@@ -56,7 +46,7 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
         {
             var result = paymentMap.MapToSqsConfig().QueueUrl;
 
-            Assert.AreEqual("url", result);
+            Assert.AreEqual("endpoint/queue/queue", result);
         }
 
         [Test]

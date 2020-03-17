@@ -17,10 +17,8 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
             {
                 ScheduleQueueName = "queue",
                 ScheduleQueueEndpoint = "endpoint",
-                ScheduleQueueUrl = "url",
-                ScheduleQueueRegion = "region",
-                ScheduleAccessKeyId = "keyId",
-                ScheduleAccessKey = "key",
+                DevAccessKeyId = "keyId",
+                DevAccessKey = "key",
                 CreateScheduleQueue = true
             };
 
@@ -36,14 +34,6 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
         }
 
         [Test]
-        public void Test_MapToSqsConfig_Maps_Region()
-        {
-            var result = scheduleMap.MapToSqsConfig().Region;
-
-            Assert.AreEqual("region", result);
-        }
-
-        [Test]
         public void Test_MapToSqsConfig_Maps_QueueName()
         {
             var result = scheduleMap.MapToSqsConfig().QueueName;
@@ -56,7 +46,7 @@ namespace FFCDemoPaymentService.Tests.Messaging.Mapping
         {
             var result = scheduleMap.MapToSqsConfig().QueueUrl;
 
-            Assert.AreEqual("url", result);
+            Assert.AreEqual("endpoint/queue/queue", result);
         }
 
         [Test]

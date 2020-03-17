@@ -12,12 +12,11 @@ namespace FFCDemoPaymentService.Messaging.Mapping
 
         public SqsConfig MapToSqsConfig()
         {
-            return new SqsConfig(messageConfig.ScheduleQueueEndpoint,
-                messageConfig.ScheduleQueueRegion,
+            return new SqsConfig(messageConfig.ScheduleQueueEndpoint,                
                 messageConfig.ScheduleQueueName,
                 messageConfig.ScheduleQueueUrl,
-                messageConfig.ScheduleAccessKeyId, 
-                messageConfig.ScheduleAccessKey,
+                messageConfig.DevAccessKeyId, 
+                messageConfig.DevAccessKey,
                 messageConfig.CreateScheduleQueue);
         }
     }

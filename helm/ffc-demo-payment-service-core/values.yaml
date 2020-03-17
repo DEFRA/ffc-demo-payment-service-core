@@ -39,17 +39,9 @@ container:
   restartPolicy: Always
   scheduleQueueName: schedule
   scheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  scheduleQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/schedule
-  scheduleQueueRegion: eu-west-2
-  scheduleQueueAccessKeyId: elasticmq
-  scheduleQueueSecretAccessKey: elasticmq
   scheduleCreateQueue: true
   paymentQueueName: payment
   paymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  paymentQueueUrl: http://ffc-demo-payment-message-queue:9324/queue/payment
-  paymentQueueRegion: eu-west-2
-  paymentQueueAccessKeyId: elasticmq
-  paymentQueueSecretAccessKey: elasticmq
   paymentCreateQueue: true
   replicaCount: 1
   comPlusEnableDiagnostics: 0
@@ -70,3 +62,6 @@ livenessProbe:
   periodSeconds: 10
   failureThreshold: 3
   timeoutSeconds: 10
+serviceAccount:
+  name: ffc-demo-payment-service-account
+  roleArn:
