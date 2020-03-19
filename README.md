@@ -37,6 +37,18 @@ The following environment variables are required by the application container. V
 | Messaging__PaymentQueueUrl          | Payment queue url            | no       | http://localhost:9324/queue/payment |     |       |
 | Messaging__CreatePaymentQueue       | Create payment queue on startup | no    | false       |                             |       |
 
+## Building the project locally
+
+To build the project locally the Docker client must be authenticated against the private Defra container registry to retrieve the parent image.
+An ECR registry provides exact commands for authenticating the Docker client.
+These can be found by selecting a repository and clicking the `View push commands` button.
+
+The environment variable `DOCKER_REGISTRY` must be set to the registry holding the Defra parent image,
+i.e.
+```
+export DOCKER_REGISTRY=registryid.myprivatedockersite.com
+```
+
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.
 

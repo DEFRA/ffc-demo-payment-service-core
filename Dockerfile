@@ -1,5 +1,5 @@
 ARG PARENT_VERSION=1.0.1-dotnet12.16.0
-ARG PARENT_REGISTRY=171014905211.dkr.ecr.eu-west-2.amazonaws.com
+ARG PARENT_REGISTRY
 
 # Development
 FROM ${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION} AS development
