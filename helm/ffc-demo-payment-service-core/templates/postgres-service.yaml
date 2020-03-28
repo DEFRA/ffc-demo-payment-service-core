@@ -1,0 +1,18 @@
+{{- if .Values.postgresExternalName }}
+{{- include "ffc-helm-library.service" (list . "ffc-demo-payment-service-core.postgres-service") -}}
+{{- end }}
+{{- define "ffc-demo-payment-service-core.postgres-service" -}}
+{{- if .Values.postgresExternalName }}
+metadata:
+  name: {{ .Values.postgresHost }}
+spec:
+  type: ExternalName
+  externalName: {{ quote .Values.postgresExternalName }}
+  ports:
+    - name: port
+      port: {{ .Values.postgresPort }}
+{{- end }}
+{{- end -}}
+
+
+
