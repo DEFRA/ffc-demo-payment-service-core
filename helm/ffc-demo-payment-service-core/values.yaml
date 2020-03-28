@@ -9,10 +9,6 @@ labels:
   version: 1.0.0
   component: service
 
-service:
-  type: ClusterIP
-  port: 80
-
 serviceAccount:
   name: ffc-demo-payment-service-account
   roleArn:
