@@ -1,0 +1,41 @@
+{{- define "ffc-demo-payment-service-core.container" -}}
+name: {{ quote .Values.name }}
+env:
+- name: COMPlus_EnableDiagnostics
+  value: {{ quote .Values.container.comPlusEnableDiagnostics }}
+- name: ConnectionStrings__DefaultConnection
+  value: {{ quote .Values.postgresConnectionString }}
+- name: PORT
+  value: {{ quote .Values.container.port }}
+- name: Messaging__ScheduleQueueName
+  value: {{ quote .Values.container.scheduleQueueName }}
+- name: Messaging__ScheduleQueueEndpoint
+  value: {{ quote .Values.container.scheduleQueueEndpoint }}
+- name: Messaging__CreateScheduleQueue
+  value: {{ quote .Values.container.scheduleCreateQueue }}
+- name: Messaging__PaymentQueueName
+  value: {{ quote .Values.container.paymentQueueName }}
+- name: Messaging__PaymentQueueEndpoint
+  value: {{ quote .Values.container.paymentQueueEndpoint }}
+- name: Messaging__CreatePaymentQueue
+  value: {{ quote .Values.container.paymentCreateQueue }}
+ports:
+- containerPort: {{ .Values.container.port }}
+livenessProbe:
+  httpGet:
+    path: {{ quote .Values.livenessProbe.path }}
+    port: {{ .Values.livenessProbe.port }}
+  initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+  periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+  failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+readinessProbe:
+  httpGet:
+    path: {{ quote .Values.readinessProbe.path }}
+    port: {{ .Values.readinessProbe.port }}
+  initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+  periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+  failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+volumeMounts:
+- mountPath: {{ .Values.volumeMounts.mountPath }}
+  name: {{ .Values.volumeMounts.name }}
+{{- end -}}
