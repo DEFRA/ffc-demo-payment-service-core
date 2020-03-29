@@ -1,5 +1,5 @@
-{{- template "ffc-helm-library.deployment" (list . "ffc-demo-payment-service.deployment") -}}
-{{- define "ffc-demo-payment-service.deployment" -}}
+{{- template "ffc-helm-library.deployment" (list . "ffc-demo-payment-service-core.deployment") -}}
+{{- define "ffc-demo-payment-service-core.deployment" -}}
 spec:
   template:
     spec:
