@@ -5,7 +5,6 @@ metadata:
   labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 2 }}
   namespace: {{ quote .Values.namespace }}
 spec:
-  priorityClassName: {{ quote .Values.container.priorityClassName }}
   replicas: {{ .Values.replicaCount }}
   minReadySeconds: {{ .Values.minReadySeconds }}
   selector:
@@ -19,6 +18,7 @@ spec:
       annotations:
         redeployOnChange: {{ quote .Values.container.redeployOnChange }}
     spec:
+      priorityClassName: {{ quote .Values.container.priorityClassName }}
       {{- if .Values.serviceAccount.roleArn }}
       serviceAccountName: {{ quote .Values.serviceAccount.name }}
       {{- end }}
