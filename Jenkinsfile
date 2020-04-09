@@ -1,4 +1,4 @@
-@Library('defra-library@3.0.1')
+@Library('defra-library@4')
 import uk.gov.defra.ffc.DefraUtils
 def defraUtils = new DefraUtils()
 
@@ -70,10 +70,10 @@ node {
         ]) {
           def helmValues = [
             /container.scheduleQueueEndpoint="$sqsQueueEndpoint"/,
-            /container.scheduleQueueName="$scheduleQueueName"/,        
+            /container.scheduleQueueName="$scheduleQueueName"/,
             /container.scheduleCreateQueue="false"/,
-            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,          
-            /container.paymentQueueName="$paymentQueueName"/,  
+            /container.paymentQueueEndpoint="$sqsQueueEndPoint"/,
+            /container.paymentQueueName="$paymentQueueName"/,
             /container.paymentCreateQueue="false"/,
             /container.redeployOnChange="$pr-$BUILD_NUMBER"/,
             /postgresExternalName="$postgresExternalName"/,
