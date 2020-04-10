@@ -1,3 +1,3 @@
-@Library('defra-library@psd-653-dotnet-core-pipeline') _
+@Library('defra-library@4') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
