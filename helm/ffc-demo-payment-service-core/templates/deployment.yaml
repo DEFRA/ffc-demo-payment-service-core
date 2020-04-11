@@ -1,10 +1,10 @@
-{{- template "ffc-helm-library.deployment" (list . "ffc-demo-payment-service-core.deployment") -}}
+{{- include "ffc-helm-library.deployment" (list . "ffc-demo-payment-service-core.deployment") -}}
 {{- define "ffc-demo-payment-service-core.deployment" -}}
 spec:
   template:
     spec:
       containers:
-      - {{ template "ffc-helm-library.container" (list . "ffc-demo-payment-service-core.container") }}
+      - {{ include "ffc-helm-library.container" (list . "ffc-demo-payment-service-core.container") }}
       volumes:
       - name: {{ .Values.volumeMounts.name }}
         emptyDir: {}
