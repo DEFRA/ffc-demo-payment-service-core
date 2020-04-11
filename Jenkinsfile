@@ -1,4 +1,6 @@
-@Library('defra-library@4') _
+@Library('defra-library@4')
+import uk.gov.defra.ffc.DefraUtils
+def defraUtils = new DefraUtils()
 
 def containerSrcFolder = '\\/usr\\/src\\/app'
 def csProjectName = 'FFCDemoPaymentService'
