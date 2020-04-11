@@ -38,7 +38,7 @@ container:
   comPlusEnableDiagnostics: 0
 
 postgresService:
-  postgresConnectionString: Dummy
+  postgresConnectionString: User Id=postgres;Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;Password=ppp;
   # postgresExternalName is the external host name to which PostgreSQL
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost
