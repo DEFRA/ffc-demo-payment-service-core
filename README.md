@@ -26,8 +26,7 @@ The following environment variables are required by the application container. V
 
 | Name                                | Description                  | Required | Default     | Valid                       | Notes |
 |-------------------------------------|------------------------------|:--------:|-------------|-----------------------------|-------|
-| ConnectionStrings__DefaultConnection| Database connection string   | yes      |             |                             |       |
-| COMPlus_EnableDiagnostics           | Enable COM diagnostics       | yes      |             |                             | Should be set to 0 when running in Kubernetes read only file system      |
+| ConnectionStrings__DefaultConnection| Database connection string   | yes      |             |                             |       | read only file system      |
 | Messaging__ScheduleQueueName        | Schedule queue name          | no       | schedule    |                             |       |
 | Messaging__ScheduleQueueEndpoint    | Schedule queue endpoint      | no       | http://localhost:9324 |                   |       |
 | Messaging__ScheduleQueueUrl         | Schedule queue url           | no       | http://localhost:9324/queue/schedule |    |       |
