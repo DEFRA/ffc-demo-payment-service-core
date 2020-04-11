@@ -4,7 +4,7 @@ env:
 - name: COMPlus_EnableDiagnostics
   value: {{ quote .Values.container.comPlusEnableDiagnostics }}
 - name: ConnectionStrings__DefaultConnection
-  value: {{ quote .Values.postgresConnectionString }}
+  value: {{ quote .Values.postgresService.postgresConnectionString }}
 - name: PORT
   value: {{ quote .Values.container.port }}
 - name: Messaging__ScheduleQueueName
