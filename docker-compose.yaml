@@ -10,8 +10,7 @@ services:
     container_name: ffc-demo-payment-service-core
     depends_on:
       - ffc-demo-payment-core-postgres
-    environment:
-      COMPlus_EnableDiagnostics: 0
+    environment:      
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
 
   ffc-demo-payment-core-postgres:
