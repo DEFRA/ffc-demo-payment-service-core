@@ -84,7 +84,7 @@ node {
 
           echo "HELM INSTALL, POSTGRES:"
           sh "echo $postgresExternalName | base64"
-          sh "echo $postgresConnectionString | base64"
+          sh "echo '$postgresConnectionString' | base64"
 
           def extraCommands = [
             "--values ./helm/ffc-demo-payment-service-core/jenkins-aws.yaml",
