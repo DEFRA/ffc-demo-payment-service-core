@@ -63,5 +63,5 @@ livenessProbe:
   failureThreshold: 3
   timeoutSeconds: 10
 serviceAccount:
-  name: ffc-demo-payment-service-account
+  name: ffc-demo-payment-service-core-account
   roleArn:
