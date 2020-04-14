@@ -1,3 +1,3 @@
 @Library('defra-library@4') _
 
-buildNodeJs environment: 'dev'
+buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
