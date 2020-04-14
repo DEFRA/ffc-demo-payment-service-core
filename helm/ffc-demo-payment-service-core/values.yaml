@@ -1,67 +1,60 @@
 environment: development
-postgresConnectionString: Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;
-# postgresExternalName is the external host name to which PostgreSQL
-# requests should be forwarded. If empty, PostgreSQL is assumed to be
-# within the cluster and accessible via postgresHost
-postgresExternalName:
-postgresHost: ffc-demo-payments-core-postgres
-postgresPort: 5432
 name: ffc-demo-payment-service-core
 namespace: ffc-demo
 workstream: ffc-demo
 image: ffc-demo-payment-service-core
-imagePullSecret:
-labels:
-  instance:
-  version: 1.0.0
-  component: service
-service:
-  type: ClusterIP
-  port: 80
-volumeMounts:
-  mountPath: /var/www/
-  name: core-app-dir
-container:
-  port: 3007
-  registry:
-  tag: latest
+
+labels: {}
+
+serviceAccount:
+  name: ffc-demo-payment-service-core-account
+
+deployment:
+  restartPolicy: Always
   priorityClassName: low
+  replicas: 1
+  minReadySeconds: 5
+  redeployOnChange: update this field to force a change
+  imagePullSecret:
+  runAsNonRoot: true
+  runAsUser: 1000
+
+container:
   imagePullPolicy: IfNotPresent
   requestMemory: 60Mi
   requestCpu: 40m
   limitMemory: 120Mi
   limitCpu: 80m
-  runAsNonRoot: true
-  runAsUser: 1000
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
-  redeployOnChange: update this field to force a change
-  restartPolicy: Always
+  port: 3007
   scheduleQueueName: schedule
   scheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
   scheduleCreateQueue: true
   paymentQueueName: payment
   paymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
   paymentCreateQueue: true
-  replicaCount: 1
   comPlusEnableDiagnostics: 0
-minReadySeconds: 10
-maxSurge: 1
-maxUnavailable: 1
+
+postgresService:
+  postgresConnectionString: User Id=postgres;Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;Password=ppp;
+  postgresHost: ffc-demo-payments-core-postgres
+  postgresPort: 5432
+
 readinessProbe:
   path: /healthy
   port: 3007
   initialDelaySeconds: 60
   periodSeconds: 10
   failureThreshold: 3
-  timeoutSeconds: 10
+
 livenessProbe:
   path: /healthz
   port: 3007
   initialDelaySeconds: 70
   periodSeconds: 10
   failureThreshold: 3
-  timeoutSeconds: 10
-serviceAccount:
-  name: ffc-demo-payment-service-core-account
-  roleArn:
+
+volumeMounts:
+  mountPath: /var/www/
+  name: core-app-dir

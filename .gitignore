@@ -35,3 +35,5 @@ tasks.json
 TestResults/
 coverage.json
 lcov.info
+*.tgz
+helm/**/*.lock

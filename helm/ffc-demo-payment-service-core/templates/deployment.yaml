@@ -1,98 +1,11 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: {{ quote .Values.name }}
-  labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 2 }}
-  namespace: {{ quote .Values.namespace }}
+{{- include "ffc-helm-library.deployment" (list . "ffc-demo-payment-service-core.deployment") -}}
+{{- define "ffc-demo-payment-service-core.deployment" -}}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  minReadySeconds: {{ .Values.minReadySeconds }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ quote .Values.name }}
-      app: {{ quote .Values.namespace }}
   template:
-    metadata:
-      namespace: {{ quote .Values.namespace }}
-      labels: {{ include "ffc-demo.labels" . | trimSuffix "\n" | indent 6 }}
-      annotations:
-        redeployOnChange: {{ quote .Values.container.redeployOnChange }}
     spec:
-      priorityClassName: {{ quote .Values.container.priorityClassName }}
-      {{- if .Values.serviceAccount.roleArn }}
-      serviceAccountName: {{ quote .Values.serviceAccount.name }}
-      {{- end }}
-      restartPolicy: {{ quote .Values.container.restartPolicy }}
-      {{- if .Values.imagePullSecret }}
-      imagePullSecrets:
-      - name: {{ quote .Values.imagePullSecret }}
-      {{- end }}
       containers:
-      - name: {{ quote .Values.name }}
-        image: {{ quote .Values.image }}
-        {{- if .Values.container.command }}
-        {{- with .Values.container.command }}
-        command:
-          {{- toYaml . | nindent 12 }}
-        {{- end }}
-        {{- with .Values.container.args }}
-        args:
-          {{- toYaml . | nindent 12 }}
-        {{- end }}
-        {{- end }}
-        imagePullPolicy: {{ quote .Values.container.imagePullPolicy }}
-        securityContext:
-          runAsUser: {{ .Values.container.runAsUser }}
-          runAsNonRoot: {{ .Values.container.runAsNonRoot }}
-          readOnlyRootFilesystem: {{ .Values.container.readOnlyRootFilesystem }}
-          allowPrivilegeEscalation: {{ .Values.container.allowPrivilegeEscalation }}
-        env:
-        - name: COMPlus_EnableDiagnostics
-          value: {{ quote .Values.container.comPlusEnableDiagnostics }}
-        - name: ConnectionStrings__DefaultConnection
-          value: {{ quote .Values.postgresConnectionString }}
-        - name: PORT
-          value: {{ quote .Values.container.port }}
-        - name: Messaging__ScheduleQueueName
-          value: {{ quote .Values.container.scheduleQueueName }}
-        - name: Messaging__ScheduleQueueEndpoint
-          value: {{ quote .Values.container.scheduleQueueEndpoint }}
-        - name: Messaging__CreateScheduleQueue
-          value: {{ quote .Values.container.scheduleCreateQueue }}
-        - name: Messaging__PaymentQueueName
-          value: {{ quote .Values.container.paymentQueueName }}
-        - name: Messaging__PaymentQueueEndpoint
-          value: {{ quote .Values.container.paymentQueueEndpoint }}
-        - name: Messaging__CreatePaymentQueue
-          value: {{ quote .Values.container.paymentCreateQueue }}
-        ports:
-        - containerPort: {{ .Values.container.port }}
-        resources:
-          requests:
-            memory: {{ quote .Values.container.requestMemory }}
-            cpu: {{ quote .Values.container.requestCpu }}
-          limits:
-            memory: {{ quote .Values.container.limitMemory }}
-            cpu: {{ quote .Values.container.limitCpu }}
-        livenessProbe:
-          httpGet:
-            path: {{ quote .Values.livenessProbe.path }}
-            port: {{ .Values.livenessProbe.port }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        readinessProbe:
-          httpGet:
-            path: {{ quote .Values.readinessProbe.path }}
-            port: {{ .Values.readinessProbe.port }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-        volumeMounts:
-        - mountPath: {{ .Values.volumeMounts.mountPath }}
-          name: {{ .Values.volumeMounts.name }}
+      - {{ include "ffc-helm-library.container" (list . "ffc-demo-payment-service-core.container") }}
       volumes:
       - name: {{ .Values.volumeMounts.name }}
         emptyDir: {}
+{{- end -}}
