@@ -3,6 +3,3 @@
 {{- end }}
 {{- define "ffc-demo-payment-service-core.postgres-service" -}}
 {{- end -}}
-
-
-
