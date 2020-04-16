@@ -30,10 +30,10 @@ container:
   port: 3007
   scheduleQueueName: schedule
   scheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  scheduleCreateQueue: true
+  scheduleCreateQueue: false
   paymentQueueName: payment
   paymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  paymentCreateQueue: true
+  paymentCreateQueue: false
   comPlusEnableDiagnostics: 0
 
 postgresService:
