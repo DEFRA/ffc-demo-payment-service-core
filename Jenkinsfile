@@ -1,7 +1,8 @@
 @Library('defra-library@psd-656-grouped-steps') _
 
 buildDotNetCore environment: 'dev', 
-project: 'FFCDemoPaymentService',
+project: 'FFCDemoPaymentService'
+
 def validateClosure = {
   stage('Validate Closure') {
     echo 'IN VALIDATE CLOSURE'
