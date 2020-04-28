@@ -1,7 +1,6 @@
 @Library('defra-library@psd-656-grouped-steps') _
 
-buildDotNetCore environment: 'dev', 
-project: 'FFCDemoPaymentService'
+buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
 
 def validateClosure = {
   stage('Validate Closure') {
@@ -39,10 +38,11 @@ def finallyClosure = {
   }
 }
 
-buildNodeJs environment: 'dev',
-            validateClosure: validateClosure,
-            buildClosure: buildClosure,
-            testClosure: testClosure,
-            deployClosure: deployClosure,
-            failureClosure: failureClosure,
-            finallyClosure: finallyClosure
+buildDotNetCore environment: 'dev', 
+                project: 'FFCDemoPaymentService',
+                validateClosure: validateClosure,
+                buildClosure: buildClosure,
+                testClosure: testClosure,
+                deployClosure: deployClosure,
+                failureClosure: failureClosure,
+                finallyClosure: finallyClosure
