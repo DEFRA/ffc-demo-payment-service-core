@@ -4,8 +4,6 @@ services:
     build:
       context: .
       target: production
-      args:
-        PARENT_REGISTRY: ${DOCKER_REGISTRY}
     image: ffc-demo-payment-service-core
     container_name: ffc-demo-payment-service-core
     depends_on:
