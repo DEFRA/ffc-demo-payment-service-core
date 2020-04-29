@@ -1,11 +1,10 @@
-ARG PARENT_VERSION=1.0.1-dotnet12.16.0
-ARG PARENT_REGISTRY
+ARG PARENT_VERSION=1.0.1-dotnet3.1
 
 # Development
-FROM ${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION} AS development
+FROM defradigital/dotnetcore-development:${PARENT_VERSION} AS development
 ARG PARENT_VERSION
-ARG PARENT_REGISTRY
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore-development:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore-development:${PARENT_VERSION}
+
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
 RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
@@ -14,6 +13,7 @@ RUN dotnet restore ./FFCDemoPaymentService/FFCDemoPaymentService.csproj
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/ ./FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/ ./FFCDemoPaymentService/
 RUN dotnet publish ./FFCDemoPaymentService/ -c Release -o /home/dotnet/out
+
 ARG PORT=3007
 ENV PORT ${PORT}
 EXPOSE ${PORT}
@@ -21,10 +21,9 @@ EXPOSE ${PORT}
 ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:${PORT}"
 
 # Production
-FROM ${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION} AS production
+FROM defradigital/dotnetcore:${PARENT_VERSION} AS production
 ARG PARENT_VERSION
-ARG PARENT_REGISTRY
-LABEL uk.gov.defra.ffc.parent-image=${PARENT_REGISTRY}/ffc-dotnetcore:${PARENT_VERSION}
+LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
 ARG PORT=3007
 ENV ASPNETCORE_URLS http://*:${PORT}

@@ -36,18 +36,6 @@ The following environment variables are required by the application container. V
 | Messaging__PaymentQueueUrl          | Payment queue url            | no       | http://localhost:9324/queue/payment |     |       |
 | Messaging__CreatePaymentQueue       | Create payment queue on startup | no    | false       |                             |       |
 
-## Building the project locally
-
-To build the project locally the Docker client must be authenticated against the private Defra container registry to retrieve the parent image.
-An ECR registry provides exact commands for authenticating the Docker client.
-These can be found by selecting a repository and clicking the `View push commands` button.
-
-The environment variable `DOCKER_REGISTRY` must be set to the registry holding the Defra parent image,
-i.e.
-```
-export DOCKER_REGISTRY=registryid.myprivatedockersite.com
-```
-
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.
 
@@ -121,7 +109,7 @@ The service has both an Http readiness probe and an Http liveness probe configur
 Readiness: `/healthy`
 Liveness: `/healthz`
 
-## License
+## Licence
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
 <http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3>
@@ -130,7 +118,7 @@ The following attribution statement MUST be cited in your products and applicati
 
 > Contains public sector information licensed under the Open Government license v3
 
-### About the license
+### About the licence
 The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable information providers in the public sector to license the use and re-use of their information under a common open licence.
 
 It is designed to encourage use and re-use of information freely and flexibly, with only a few conditions.
