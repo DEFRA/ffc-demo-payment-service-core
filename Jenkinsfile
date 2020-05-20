@@ -1,3 +1,3 @@
-@Library('defra-library@psd-661-refactor') _
+@Library('defra-library@v-6') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
