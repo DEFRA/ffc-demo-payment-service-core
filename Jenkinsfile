@@ -1,3 +1,3 @@
-@Library('defra-library@psd-313-synk') _
+@Library('defra-library@psd-313-snyk-net') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
