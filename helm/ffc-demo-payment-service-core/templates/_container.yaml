@@ -1,5 +1,4 @@
 {{- define "ffc-demo-payment-service-core.container" -}}
-name: {{ quote .Values.name }}
 ports:
 - containerPort: {{ .Values.container.port }}
 livenessProbe: {{ include "ffc-helm-library.http-get-probe" (list . .Values.livenessProbe) | nindent 4}}
