@@ -1,4 +1,4 @@
-{{- include "ffc-helm-library.config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
+{{- include "ffc-helm-library.container-config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
 {{- define "ffc-demo-payment-service-core.config-map" -}}
 data:
   COMPlus_EnableDiagnostics: {{ quote .Values.container.comPlusEnableDiagnostics }}
