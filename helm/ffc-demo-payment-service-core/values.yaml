@@ -6,6 +6,9 @@ image: ffc-demo-payment-service-core
 
 labels: {}
 
+configMap:
+  name: my-config-map
+
 serviceAccount:
   name: ffc-demo-payment-service-core-account
 
