@@ -7,10 +7,10 @@ image: ffc-demo-payment-service-core
 labels: {}
 
 containerConfigMap:
-  name: my-config-map
+  name: ffc-demo-payment-service-core-config-map
 
 containerSecret:
-  name: ffc-demo-web-container-secret
+  name: ffc-demo-payment-service-core-container-secret
   type: Opaque
 
 
