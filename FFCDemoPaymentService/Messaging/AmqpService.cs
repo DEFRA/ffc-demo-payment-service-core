@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Amqp;
-using Amqp.Listener;
+using Amqp.Framing;
 using Microsoft.Extensions.Hosting;
 
 namespace FFCDemoPaymentService.Messaging
@@ -11,52 +11,34 @@ namespace FFCDemoPaymentService.Messaging
     {
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("starting AMQP service");
             Address address = new Address("amqp://artemis:artemis@ffc-demo-payment-artemis-queue:5672");
-            ContainerHost host = new Amqp.Listener.ContainerHost(address);
-            host.Open();
-            Console.WriteLine("Container host is listening on {0}:{1}", address.Host, address.Port);
-            int prefetchLimit = 5;
-            var paymentProcessor = new PaymentMessageProcessor(prefetchLimit);
-            host.RegisterMessageProcessor("payment", paymentProcessor);
-            var scheduleProcessor = new ScheduleMessageProcessor(prefetchLimit);
-            host.RegisterMessageProcessor("schedule", scheduleProcessor);
+
+            Console.WriteLine("Establishing a connection...");
+            Connection connection = new Connection(address);
+
+            Console.WriteLine("Creating a session...");
+            Session session = new Session(connection);
+
+            string name = "payment";
+            Console.WriteLine("Accepting a message session: payment");
+            // Map filters = new Map();
+            // filters.Add(new Symbol("com.microsoft:session-filter"), sessionId);
+
+            ReceiverLink receiver = new ReceiverLink(
+                session,
+                "sessionful-receiver-link",
+                new Source() { Address = name },
+                null);
+
+            MessageCallback onMessage = (link, message) =>
+            {
+                Console.WriteLine("Received message");
+                link.Accept(message);
+            };
+            receiver.Start(5, onMessage);
 
             return Task.CompletedTask;
         }
     }
 
-    public class ScheduleMessageProcessor : IMessageProcessor
-    {
-        public ScheduleMessageProcessor(int credit = 1)
-        {
-            Credit = credit;
-        }
-
-        public void Process(MessageContext messageContext)
-        {
-            var message = messageContext.Message;
-            Console.WriteLine("schedule message body: {0}", message.Body);
-            messageContext.Complete();
-        }
-
-        public int Credit { get; }
-    }
-
-    public class PaymentMessageProcessor : IMessageProcessor
-    {
-        public PaymentMessageProcessor(int credit = 1)
-        {
-            Credit = credit;
-        }
-
-        public void Process(MessageContext messageContext)
-        {
-            var message = messageContext.Message;
-            Console.WriteLine("payment message body: {0}", message.Body);
-            messageContext.Complete();
-        }
-
-        public int Credit { get; }
-    }
 }
