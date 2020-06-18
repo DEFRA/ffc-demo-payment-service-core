@@ -21,7 +21,7 @@ namespace FFCDemoPaymentService
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddHostedService<MessageService>();
+                    services.AddHostedService<AmqpService>();
                 });
     }
 }
