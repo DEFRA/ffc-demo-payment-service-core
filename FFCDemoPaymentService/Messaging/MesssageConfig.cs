@@ -25,6 +25,10 @@ namespace FFCDemoPaymentService.Messaging
         public bool CreatePaymentQueue { get; set; }
         public string DevAccessKeyId { get; set; }
         public string DevAccessKey { get; set; }
+        public string MessageQueueHost { get; set; }
+        public string MessageQueuePort { get; set; }
+        public string MessageQueueUser { get; set; }
+        public string MessageQueuePassword { get; set; }
 
         private string GetQueueUrl(string endpoint, string queueName, bool isDevelopment = false)
         {

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Amqp;
-using Amqp.Framing;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using Microsoft.Extensions.Hosting;
@@ -14,57 +13,45 @@ namespace FFCDemoPaymentService.Messaging
         readonly IMessageAction<Schedule> scheduleAction;
         readonly IMessageAction<Payment> paymentAction;
 
-        private ReceiverLink paymentReceiver;
-        private ReceiverLink scheduleReceiver;
+        private AmqpReceiver<Payment> paymentReceiver;
+        private AmqpReceiver<Schedule> scheduleReceiver;
         private Session session;
         private Connection connection;
+        private string paymentQueue;
+        private string scheduleQueue;
+        private Address address;
 
         public AmqpService(
+            MessageConfig messageConfig,
             IMessageAction<Schedule> scheduleAction,
             IMessageAction<Payment> paymentAction)
         {
+            this.paymentQueue = messageConfig.PaymentQueueName;
+            this.scheduleQueue = messageConfig.ScheduleQueueName;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
+
+
+            this.address = new Address(
+                messageConfig.MessageQueueHost,
+                Int32.Parse(messageConfig.MessageQueuePort),
+                messageConfig.MessageQueueUser,
+                messageConfig.MessageQueuePassword,
+                "/",
+                messageConfig.MessageQueuePort == "5672" ? "AMQP" : "AMQPS"
+                );
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            string paymentQueue = "payment";
-            string scheduleQueue = "schedule";
-            string amqpAddress = "amqp://artemis:artemis@ffc-demo-payment-artemis-queue:5672";
-            Address address = new Address(amqpAddress);
-            Console.WriteLine("Establishing a connection...");
+            Console.WriteLine("opening connection...");
             connection = new Connection(address);
-            Console.WriteLine("Creating a session...");
+            Console.WriteLine("creating session...");
             session = new Session(connection);
-
-            paymentReceiver = CreateReceiver(paymentQueue, paymentAction);
-            scheduleReceiver = CreateReceiver(scheduleQueue, scheduleAction);
+            paymentReceiver = new AmqpReceiver<Payment>(session, paymentQueue, paymentAction);
+            scheduleReceiver = new AmqpReceiver<Schedule>(session, scheduleQueue, scheduleAction);
 
             return Task.CompletedTask;
-        }
-
-        private ReceiverLink CreateReceiver<T>(string queueName, IMessageAction<T> messageAction)
-        {
-            Console.WriteLine($"Creating a {queueName} receiver");
-            var receiver = new ReceiverLink(
-                session,
-                $"{queueName}Receiver",
-                new Source() {Address = queueName},
-                null);
-
-            MessageCallback onMessage = (link, message) =>
-            {
-                // the below extension method will not resolve for some reason, so having to use ToString.
-                // var messageBody = message.GetBody<string>();
-                string messageBody = message.Body.ToString();
-                Console.WriteLine("Received message");
-                Console.WriteLine(messageBody);
-                messageAction.ReceiveMessage(messageBody);
-                link.Accept(message);
-            };
-            receiver.Start(5, onMessage);
-            return receiver;
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
