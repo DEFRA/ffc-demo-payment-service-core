@@ -29,7 +29,7 @@ namespace FFCDemoPaymentService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
 
