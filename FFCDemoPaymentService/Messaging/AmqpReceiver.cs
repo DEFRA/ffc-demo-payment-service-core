@@ -33,7 +33,7 @@ namespace FFCDemoPaymentService.Messaging
         }
 
 
-        void OnMessage(IReceiverLink link, Message message)
+        private void OnMessage(IReceiverLink link, Message message)
         {
             // the below extension method will not resolve for some reason, so having to use ToString.
             // var messageBody = message.GetBody<string>();

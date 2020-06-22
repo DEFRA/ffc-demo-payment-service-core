@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using Amqp;
 using Amqp.Framing;
 using Amqp.Listener;
-using Amqp.Types;
 using NUnit.Framework;
 
 namespace FFCDemoPaymentService.Tests.AMQP
@@ -13,41 +11,8 @@ namespace FFCDemoPaymentService.Tests.AMQP
     [TestFixture]
     public class AmqpReceiverTest
     {
-        TimeSpan Timeout = TimeSpan.FromMilliseconds(5000);
-
-        // [Test]
-        // public void Test_Can_Host()
-        // {
-        //     Address address = new Address("amqp://artemis:artemis@127.0.0.1:5672");
-        //     ContainerHost host = new Amqp.Listener.ContainerHost(address);
-        //     host.Open();
-        //     Console.WriteLine("Container host listening on {0}:{1}", address.Host, address.Port);
-        //     int prefetchLimit = 5;
-        //     var processor = new PaymentMessageProcessor();
-        //     host.RegisterMessageProcessor("payment", processor);
-        //     var connection = new Connection(address);
-        //     var session = new Session(connection);
-        //     string name = "payment";
-        //     var sender = new SenderLink(session, "send-link", name);
-        //
-        //     int count = 5;
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         var message = new Message("msg" + i);
-        //         message.Properties = new Properties() {GroupId = name};
-        //         sender.Send(message, Timeout);
-        //     }
-        //
-        //     sender.Close();
-        //     session.Close();
-        //     connection.Close();
-        //     Assert.AreEqual(1, 1);
-        //
-        //     Assert.AreEqual(count, processor.Messages.Count);
-        // }
-        //
-
         [Test]
+        [Ignore("WIP")]
         public void Test_Can_Send()
         {
             Address address = new Address("amqp://artemis:artemis@127.0.0.1:5672");
@@ -82,6 +47,7 @@ namespace FFCDemoPaymentService.Tests.AMQP
         }
 
         [Test]
+        [Ignore("WIP")]
         public void Test_Can_Receive()
         {
             Address address = new Address("amqp://artemis:artemis@127.0.0.1:5672");

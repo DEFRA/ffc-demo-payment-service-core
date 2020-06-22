@@ -10,16 +10,16 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class AmqpService : BackgroundService
     {
-        readonly IMessageAction<Schedule> scheduleAction;
-        readonly IMessageAction<Payment> paymentAction;
+        private readonly IMessageAction<Schedule> scheduleAction;
+        private readonly IMessageAction<Payment> paymentAction;
+        private readonly string paymentQueue;
+        private readonly string scheduleQueue;
+        private readonly Address address;
 
         private AmqpReceiver<Payment> paymentReceiver;
         private AmqpReceiver<Schedule> scheduleReceiver;
         private Session session;
         private Connection connection;
-        private string paymentQueue;
-        private string scheduleQueue;
-        private Address address;
 
         public AmqpService(
             MessageConfig messageConfig,

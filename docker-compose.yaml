@@ -11,6 +11,12 @@ services:
       - ffc-demo-payment-artemis-queue
     environment:      
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
+      Messaging__ScheduleQueueName: "schedule"
+      Messaging__PaymentQueueName: "payment"
+      Messaging__MessageQueueHost: "ffc-demo-payment-artemis-queue"
+      Messaging__MessageQueuePort: "5672"
+      Messaging__MessageQueueUser: "artemis"
+      Messaging__MessageQueuePassword: "artemis"
 
   ffc-demo-payment-core-postgres:
     image: postgres:11.4-alpine
@@ -26,9 +32,6 @@ services:
     environment:
       ARTEMIS_USERNAME: artemis
       ARTEMIS_PASSWORD: artemis
-    ports:
-      - "8161:8161"
-      - "5672:5672"
 
 volumes:
   postgres_data: {}

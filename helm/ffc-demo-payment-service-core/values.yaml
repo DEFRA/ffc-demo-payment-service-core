@@ -37,11 +37,11 @@ container:
   allowPrivilegeEscalation: false
   port: 3007
   scheduleQueueName: schedule
-  scheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  scheduleCreateQueue: false
   paymentQueueName: payment
-  paymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-  paymentCreateQueue: false
+  messageQueueHost: amq
+  messageQueuePort: 5672
+  messageQueueUser: artemis
+  messageQueuePassword: artemis
   comPlusEnableDiagnostics: 0
 
 postgresService:
