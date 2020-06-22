@@ -9,4 +9,4 @@ data:
   Messaging__MessageQueuePort: {{ quote .Values.container.messageQueuePort }}
   Messaging__MessageQueueUser: {{ quote .Values.container.messageQueueUser }}
   Messaging__MessageQueuePassword: {{ quote .Values.container.messageQueuePassword }}
-{{- end -}}s
+{{- end -}}
