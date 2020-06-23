@@ -18,7 +18,7 @@ Or:
 Or:
 - .Net Core SDK 3.1
 - PostgreSQL database
-- SQS compatible message queue
+- AMQP compatible message queue
 
 ## Environment variables
 
@@ -28,13 +28,12 @@ The following environment variables are required by the application container. V
 |-------------------------------------|------------------------------|:--------:|-------------|-----------------------------|-------|
 | ConnectionStrings__DefaultConnection| Database connection string   | yes      |             |                             |       | read only file system      |
 | Messaging__ScheduleQueueName        | Schedule queue name          | no       | schedule    |                             |       |
-| Messaging__ScheduleQueueEndpoint    | Schedule queue endpoint      | no       | http://localhost:9324 |                   |       |
-| Messaging__ScheduleQueueUrl         | Schedule queue url           | no       | http://localhost:9324/queue/schedule |    |       |
-| Messaging__CreateScheduleQueue      | Create schedule queue on startup | no   | true        |                             |       |
 | Messaging__PaymentQueueName         | Payment queue name           | no       | payment     |                             |       |
-| Messaging__PaymentQueueEndpoint     | Payment queue endpoint       | no       | http://localhost:9324 |                   |       |
-| Messaging__PaymentQueueUrl          | Payment queue url            | no       | http://localhost:9324/queue/payment |     |       |
-| Messaging__CreatePaymentQueue       | Create payment queue on startup | no    | false       |                             |       |
+| Messaging__MessageQueueHost         | AMQP host name               | yes      |             |                             |       |
+| Messaging__MessageQueuePort         | AMQP host port               | yes      |             |                             |       |
+| Messaging__MessageQueuePreFetch     | No of messages to pre fetch  | no       |             |                             |       |
+| Messaging__MessageQueueUser         | AMQP username                | yes      |             |                             |       |
+| Messaging__MessageQueuePassword     | AMQP password                | yes      |             |                             |       |
 
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.
