@@ -3,3 +3,10 @@ container.allowPrivilegeEscalation
 container.imagePullPolicy
 postgresService.postgresExternalName
 postgresService.paymentCoreConnectionString
+container.messageQueueHost
+container.messageQueuePort
+container.messageQueueTransport
+container.scheduleQueueName
+container.paymentQueueName
+container.messageQueueUser
+container.messageQueuePassword
