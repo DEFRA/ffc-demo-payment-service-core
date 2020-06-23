@@ -1,135 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using Amqp;
 using Amqp.Framing;
-using Amqp.Listener;
+using FFCDemoPaymentService.Messaging;
+using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Models;
 using NUnit.Framework;
 
 namespace FFCDemoPaymentService.Tests.AMQP
 {
     [TestFixture]
-    public class AmqpReceiverTest
+    public partial class AmqpReceiverTest
     {
         [Test]
-        [Ignore("WIP")]
-        public void Test_Can_Send()
-        {
-            Address address = new Address("amqp://artemis:artemis@127.0.0.1:5672");
-
-            Console.WriteLine("Establishing a connection...");
-            Connection connection = new Connection(address);
-
-            Console.WriteLine("Creating a session...");
-            Session session = new Session(connection);
-
-            Console.WriteLine("Creating a sender link...");
-
-            string name = "payment";
-            SenderLink sender = new SenderLink(session, "sessionful-sender-link", name);
-
-            int count = 5;
-            Console.WriteLine("Sending {0} messages...", count);
-            for (int i = 0; i < count; i++)
-            {
-                Message message = new Message();
-                message.Properties = new Properties() {GroupId = name};
-                message.BodySection = new Amqp.Framing.Data() {Binary = Encoding.UTF8.GetBytes("msg" + i)};
-                sender.Send(message);
-            }
-
-            Console.WriteLine("Finished sending. Shutting down...");
-            Console.WriteLine("");
-
-            sender.Close();
-            session.Close();
-            connection.Close();
-        }
-
-        [Test]
-        [Ignore("WIP")]
         public void Test_Can_Receive()
         {
-            Address address = new Address("amqp://artemis:artemis@127.0.0.1:5672");
+            WaitForMessageServer();
 
-            Console.WriteLine("Establishing a connection...");
+            Address address = new Address("amqp://artemis:artemis@ffc-demo-payment-artemis-queue:5672");
+
             Connection connection = new Connection(address);
-
-            Console.WriteLine("Creating a session...");
             Session session = new Session(connection);
 
-            string name = "payment";
-            Console.WriteLine("Accepting a message session: payment");
-            // Map filters = new Map();
-            // filters.Add(new Symbol("com.microsoft:session-filter"), sessionId);
+            var testAction = new TestAction();
+            string queueName = "payment";
+            var receiver = new AmqpReceiver<Payment>(session, queueName, testAction);
 
-            ReceiverLink receiver = new ReceiverLink(
-                session,
-                "sessionful-receiver-link",
-                new Source() {Address = name},
-                null);
+            Assert.AreEqual(0, testAction.messages.Count);
+            SenderLink sender = new SenderLink(session, "test-sender", queueName);
 
-            MessageCallback onMessage = (link, message) =>
-            {
-                Console.WriteLine("Received message");
-                link.Accept(message);
-            };
-            receiver.Start(5, onMessage);
+            Message message = new Message();
+            message.Properties = new Properties() { GroupId = queueName };
+            message.BodySection = new Amqp.Framing.Data() { Binary = Encoding.UTF8.GetBytes("test message") };
+            sender.Send(message);
+  
 
-            // int count = 5;
-            // for (int i = 0; i < count; i++)
-            // {
-            //     Message message = receiver.Receive();
-            //     if (message == null)
-            //     {
-            //         break;
-            //     }
-            //
-            //     if (i == 0)
-            //     {
-            //         Console.WriteLine("Received message from session '{0}'", message.Properties.GroupId);
-            //     }
-            //
-            //     receiver.Accept(message);
-            // }
-
-            Console.WriteLine("Finished receiving. Shutting down...");
-            Console.WriteLine("");
-
+            sender.Close();
             receiver.Close();
             session.Close();
             connection.Close();
-        }
-    }
 
-    public class PaymentMessageProcessor : IMessageProcessor
-    {
-        public PaymentMessageProcessor()
-            : this(20, new List<Message>())
-        {
+            Assert.AreEqual(1, testAction.messages.Count);
         }
 
-        public PaymentMessageProcessor(int credit, List<Message> messages)
+        private static void WaitForMessageServer()
         {
-            this.Credit = credit;
-            this.Messages = messages;
+            HttpWebRequest request = WebRequest.CreateHttp("http://ffc-demo-payment-artemis-queue:8161");
+            RetryHelper.RetryOnException(5, TimeSpan.FromSeconds(10), () => request.GetResponse());
         }
 
-        public void Process(MessageContext messageContext)
+        class TestAction : IMessageAction<Payment>
         {
-            if (this.Messages != null)
+            public List<string> messages;
+
+            public TestAction()
             {
-                var message = messageContext.Message;
-                Console.WriteLine("message body: {0}", message.Body);
-                this.Messages.Add(messageContext.Message);
+                this.messages = new List<string>();
             }
 
-            messageContext.Complete();
+            public void ReceiveMessage(string message)
+            {
+                this.messages.Add(message);
+            }
         }
-
-        public int Credit { get; }
-
-
-        public List<Message> Messages { get; }
     }
 }

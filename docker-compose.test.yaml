@@ -10,3 +10,6 @@ services:
     image: ffc-demo-payment-service-core-development
     container_name: ffc-demo-payment-service-core-test
     entrypoint: dotnet test ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
+    depends_on:
+      - ffc-demo-payment-core-postgres
+      - ffc-demo-payment-artemis-queue
