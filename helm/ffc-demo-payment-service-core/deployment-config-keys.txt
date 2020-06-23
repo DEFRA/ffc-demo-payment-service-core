@@ -2,7 +2,7 @@ environment
 container.allowPrivilegeEscalation
 container.imagePullPolicy
 postgresService.postgresExternalName
-postgresService.paymentCoreConnectionString
+postgresService.postgresConnectionString
 container.messageQueueHost
 container.messageQueuePort
 container.messageQueueTransport
