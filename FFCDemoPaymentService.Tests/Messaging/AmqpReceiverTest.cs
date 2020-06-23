@@ -9,7 +9,7 @@ using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using NUnit.Framework;
 
-namespace FFCDemoPaymentService.Tests.AMQP
+namespace FFCDemoPaymentService.Tests.Messaging
 {
     [TestFixture]
     public partial class AmqpReceiverTest

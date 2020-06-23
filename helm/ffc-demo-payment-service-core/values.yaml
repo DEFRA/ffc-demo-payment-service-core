@@ -40,6 +40,7 @@ container:
   paymentQueueName: payment
   messageQueueHost: amq
   messageQueuePort: 5672
+  messageQueuePreFetch: 1
   messageQueueUser: artemis
   messageQueuePassword: artemis
   comPlusEnableDiagnostics: 0

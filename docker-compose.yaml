@@ -15,6 +15,7 @@ services:
       Messaging__PaymentQueueName: "payment"
       Messaging__MessageQueueHost: "ffc-demo-payment-artemis-queue"
       Messaging__MessageQueuePort: "5672"
+      Messaging__MessageQueuePreFetch: "5"
       Messaging__MessageQueueUser: "artemis"
       Messaging__MessageQueuePassword: "artemis"
 

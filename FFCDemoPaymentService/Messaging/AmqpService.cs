@@ -20,6 +20,7 @@ namespace FFCDemoPaymentService.Messaging
         private AmqpReceiver<Schedule> scheduleReceiver;
         private Session session;
         private Connection connection;
+        private readonly int credits;
 
         public AmqpService(
             MessageConfig messageConfig,
@@ -30,6 +31,7 @@ namespace FFCDemoPaymentService.Messaging
             this.scheduleQueue = messageConfig.ScheduleQueueName;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
+            this.credits = Int32.Parse(messageConfig.MessageQueuePreFetch);
 
 
             this.address = new Address(
@@ -48,8 +50,8 @@ namespace FFCDemoPaymentService.Messaging
             connection = new Connection(address);
             Console.WriteLine("creating session...");
             session = new Session(connection);
-            paymentReceiver = new AmqpReceiver<Payment>(session, paymentQueue, paymentAction);
-            scheduleReceiver = new AmqpReceiver<Schedule>(session, scheduleQueue, scheduleAction);
+            paymentReceiver = new AmqpReceiver<Payment>(session, paymentQueue, paymentAction, credits);
+            scheduleReceiver = new AmqpReceiver<Schedule>(session, scheduleQueue, scheduleAction, credits);
 
             return Task.CompletedTask;
         }

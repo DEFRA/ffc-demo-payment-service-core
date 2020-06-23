@@ -8,5 +8,6 @@ data:
   Messaging__MessageQueueHost: {{ quote .Values.container.messageQueueHost }}
   Messaging__MessageQueuePort: {{ quote .Values.container.messageQueuePort }}
   Messaging__MessageQueueUser: {{ quote .Values.container.messageQueueUser }}
+  Messaging__MessageQueuePreFetch: {{ quote .Values.container.messageQueuePreFetch }}
   Messaging__MessageQueuePassword: {{ quote .Values.container.messageQueuePassword }}
 {{- end -}}
