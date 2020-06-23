@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System.Diagnostics.CodeAnalysis;
-
 
 namespace FFCDemoPaymentService.Migrations
 {
-    [ExcludeFromCodeCoverage]
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,9 +25,9 @@ namespace FFCDemoPaymentService.Migrations
                 columns: table => new
                 {
                     scheduleId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     claimId = table.Column<string>(nullable: true),
-                    value = table.Column<decimal>(nullable: false)
+                    paymentDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
