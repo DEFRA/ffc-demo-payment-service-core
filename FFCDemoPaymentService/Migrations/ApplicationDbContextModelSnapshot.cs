@@ -3,12 +3,11 @@ using System;
 using FFCDemoPaymentService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System.Diagnostics.CodeAnalysis;
 
 namespace FFCDemoPaymentService.Migrations
 {
-    [ExcludeFromCodeCoverage]
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
@@ -16,8 +15,8 @@ namespace FFCDemoPaymentService.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("FFCDemoPaymentService.Models.Payment", b =>
@@ -26,7 +25,7 @@ namespace FFCDemoPaymentService.Migrations
                         .HasColumnName("claimId")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Decimal")
+                    b.Property<decimal>("Value")
                         .HasColumnName("value")
                         .HasColumnType("numeric");
 
@@ -41,7 +40,7 @@ namespace FFCDemoPaymentService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("scheduleId")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("ClaimId")
                         .HasColumnName("claimId")
