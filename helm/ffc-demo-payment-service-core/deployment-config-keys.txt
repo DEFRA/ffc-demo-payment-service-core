@@ -1,0 +1,12 @@
+environment
+container.allowPrivilegeEscalation
+container.imagePullPolicy
+postgresService.postgresExternalName
+postgresService.postgresConnectionString
+container.messageQueueHost
+container.messageQueuePort
+container.messageQueueTransport
+container.scheduleQueueAddress
+container.paymentQueueAddress
+container.messageQueueUser
+container.messageQueuePassword

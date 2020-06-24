@@ -3,11 +3,9 @@
 data:
   COMPlus_EnableDiagnostics: {{ quote .Values.container.comPlusEnableDiagnostics }}
   PORT: {{ quote .Values.container.port }}
-  Messaging__ScheduleQueueName: {{ quote .Values.container.scheduleQueueName }}
-  Messaging__PaymentQueueName: {{ quote .Values.container.paymentQueueName }}
+  Messaging__ScheduleQueueName: {{ quote .Values.container.scheduleQueueAddress }}
+  Messaging__PaymentQueueName: {{ quote .Values.container.paymentQueueAddress }}
   Messaging__MessageQueueHost: {{ quote .Values.container.messageQueueHost }}
   Messaging__MessageQueuePort: {{ quote .Values.container.messageQueuePort }}
-  Messaging__MessageQueueUser: {{ quote .Values.container.messageQueueUser }}
   Messaging__MessageQueuePreFetch: {{ quote .Values.container.messageQueuePreFetch }}
-  Messaging__MessageQueuePassword: {{ quote .Values.container.messageQueuePassword }}
 {{- end -}}
