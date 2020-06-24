@@ -10,7 +10,7 @@ namespace FFCDemoPaymentService.Messaging
         private readonly IMessageAction<T> action;
         private ReceiverLink receiver;
 
-        public AmqpReceiver(Session session, string queueName, IMessageAction<T> messageAction, int credit = 5)
+        public AmqpReceiver(Session session, string queueName, IMessageAction<T> messageAction, int credit = 1)
         {
             this.action = messageAction;
             CreateReceiver(session, queueName);
@@ -35,8 +35,6 @@ namespace FFCDemoPaymentService.Messaging
 
         private void OnMessage(IReceiverLink link, Message message)
         {
-            // the below extension method will not resolve for some reason, so having to use ToString.
-            // var messageBody = message.GetBody<string>();
             string messageBody = message.Body.ToString();
             Console.WriteLine("Received message");
             Console.WriteLine(messageBody);
