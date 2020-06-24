@@ -6,7 +6,7 @@ postgresService.postgresConnectionString
 container.messageQueueHost
 container.messageQueuePort
 container.messageQueueTransport
-container.scheduleQueueName
-container.paymentQueueName
+container.scheduleQueueAddress
+container.paymentQueueAddress
 container.messageQueueUser
 container.messageQueuePassword
