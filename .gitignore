@@ -32,6 +32,7 @@ msbuild.wrn
 tasks.json
 
 #Test Files
+test-output/
 TestResults/
 coverage.json
 lcov.info
