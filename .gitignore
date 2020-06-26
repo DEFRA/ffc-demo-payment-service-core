@@ -39,3 +39,4 @@ lcov.info
 *.tgz
 helm/**/*.lock
 test-output/
+.sonarqube/
