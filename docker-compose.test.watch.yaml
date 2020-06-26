@@ -12,3 +12,4 @@ services:
     volumes:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
       - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
+      - ./test-output/:/home/node/test-output/

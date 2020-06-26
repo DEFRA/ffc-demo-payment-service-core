@@ -37,3 +37,4 @@ coverage.json
 lcov.info
 *.tgz
 helm/**/*.lock
+test-output/
