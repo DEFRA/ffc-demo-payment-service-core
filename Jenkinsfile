@@ -1,3 +1,3 @@
-@Library('defra-library@v-7') _
+@Library('defra-library@github-statuses') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
