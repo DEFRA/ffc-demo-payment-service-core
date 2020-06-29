@@ -32,8 +32,8 @@ container:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   port: 3007
-  scheduleQueueName: schedule
-  paymentQueueName: payment
+  scheduleQueueAddress: schedule
+  paymentQueueAddress: payment
   messageQueueHost: amq
   messageQueuePort: 5672
   messageQueuePreFetch: 1
