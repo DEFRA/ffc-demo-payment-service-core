@@ -36,9 +36,7 @@ namespace FFCDemoPaymentService.HealthChecks
         {
             try
             {
-                var result = await dbContext.Database.CanConnectAsync();
-                Console.WriteLine("DB status: " + result);
-                return result;
+               return await dbContext.Database.CanConnectAsync();
             }
             catch (Exception ex)
             {
