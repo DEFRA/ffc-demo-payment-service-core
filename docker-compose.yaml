@@ -9,7 +9,8 @@ services:
     depends_on:
       - ffc-demo-payment-core-postgres
       - ffc-demo-payment-artemis-queue
-    environment:      
+    environment:
+      APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       ConnectionStrings__DefaultConnection: "Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;User Id=postgres;Password=ppp;"
       Messaging__ScheduleQueueName: "schedule"
       Messaging__PaymentQueueName: "payment"

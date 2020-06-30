@@ -14,10 +14,12 @@ using FFCDemoPaymentService.Payments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace FFCDemoPaymentService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -28,6 +30,10 @@ namespace FFCDemoPaymentService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer("ffc-demo-payment-service-core"));
+            services.AddApplicationInsightsTelemetry();
+            services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, o) => { module.EnableSqlCommandTextInstrumentation = true; });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
 
@@ -37,11 +43,11 @@ namespace FFCDemoPaymentService
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
-            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
-            
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>(); 
+
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                            
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
             services.AddControllers();
         }
