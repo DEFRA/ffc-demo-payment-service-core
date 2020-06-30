@@ -14,7 +14,6 @@ using FFCDemoPaymentService.Payments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
-using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
 
 namespace FFCDemoPaymentService
@@ -30,9 +29,7 @@ namespace FFCDemoPaymentService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer("ffc-demo-payment-service-core"));
-            services.AddApplicationInsightsTelemetry();
-            services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, o) => { module.EnableSqlCommandTextInstrumentation = true; });
+            AddTelemetry(services);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
@@ -50,6 +47,14 @@ namespace FFCDemoPaymentService
                 .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
             services.AddControllers();
+        }
+
+        private void AddTelemetry(IServiceCollection services)
+        {
+            string cloudRole = Environment.GetEnvironmentVariable("APPINSIGHTS_CLOUDROLE") ??
+                               "ffc-demo-payment-service-core";
+            services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
