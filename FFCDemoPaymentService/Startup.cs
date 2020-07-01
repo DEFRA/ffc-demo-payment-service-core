@@ -51,8 +51,7 @@ namespace FFCDemoPaymentService
 
         private void AddTelemetry(IServiceCollection services)
         {
-            string cloudRole = Environment.GetEnvironmentVariable("APPINSIGHTS_CLOUDROLE") ??
-                               "ffc-demo-payment-service-core";
+            string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
             services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
             services.AddApplicationInsightsTelemetry();
         }
