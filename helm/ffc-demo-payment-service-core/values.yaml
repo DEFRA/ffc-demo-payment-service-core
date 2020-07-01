@@ -6,6 +6,9 @@ image: ffc-demo-payment-service-core
 
 labels: {}
 
+appInsights:
+  key:
+
 containerConfigMap:
   name: ffc-demo-payment-service-core-config-map
 

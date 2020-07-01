@@ -14,10 +14,11 @@ using FFCDemoPaymentService.Payments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace FFCDemoPaymentService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -28,6 +29,8 @@ namespace FFCDemoPaymentService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            AddTelemetry(services);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
 
@@ -37,13 +40,20 @@ namespace FFCDemoPaymentService
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
-            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
-            
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>(); 
+
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
-                .AddCheck<LivenessCheck>("ServiceLivenessCheck");                            
+                .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
             services.AddControllers();
+        }
+
+        private void AddTelemetry(IServiceCollection services)
+        {
+            string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
+            services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
