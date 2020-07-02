@@ -11,4 +11,4 @@ services:
     container_name: ffc-demo-payment-service-core-test
     entrypoint: dotnet test ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./test-output/'
     volumes: 
-      - ./test-output/:/home/dotnet/test-output/
+      - ./test-output/:/home/dotnet/FFCDemoPaymentService.Tests/test-output/
