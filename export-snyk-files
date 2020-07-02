@@ -1,4 +1,10 @@
 echo "copying FFCDemoPaymentService files"
 cp -r ./obj/FFCDemoPaymentService ./FFCDemoPaymentService/obj
+echo "changing FFCDemoPaymentService file permissions so they can be deleted by Jenkins"
+find ./FFCDemoPaymentService/obj -type d -exec chmod 777 {} ";"
+find ./FFCDemoPaymentService/obj -type f -exec chmod 666 {} ";"
 echo "copying FFCDemoPaymentService.Test files"
 cp -r ./obj/FFCDemoPaymentService.Tests ./FFCDemoPaymentService.Tests/obj
+echo "changing FFCDemoPaymentService.Tests file permissions so they can be deleted by Jenkins"
+find ./FFCDemoPaymentService.Tests/obj -type d -exec chmod 777 {} ";"
+find ./FFCDemoPaymentService/obj -type f -exec chmod 666 {} ";"
