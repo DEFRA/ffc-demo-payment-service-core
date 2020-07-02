@@ -24,16 +24,18 @@ Or:
 
 The following environment variables are required by the application container. Values for development are set in the Docker Compose configuration. Default values for production-like deployments are set in the Helm chart and may be overridden by build and release pipelines.
 
-| Name                                | Description                  | Required | Default     | Valid                       | Notes |
-|-------------------------------------|------------------------------|:--------:|-------------|-----------------------------|-------|
-| ConnectionStrings__DefaultConnection| Database connection string   | yes      |             |                             |       | read only file system      |
-| Messaging__ScheduleQueueName        | Schedule queue name          | no       | schedule    |                             |       |
-| Messaging__PaymentQueueName         | Payment queue name           | no       | payment     |                             |       |
-| Messaging__MessageQueueHost         | AMQP host name               | yes      |             |                             |       |
-| Messaging__MessageQueuePort         | AMQP host port               | yes      |             |                             |       |
-| Messaging__MessageQueuePreFetch     | No of messages to pre fetch  | no       |             |                             |       |
-| Messaging__MessageQueueUser         | AMQP username                | yes      |             |                             |       |
-| Messaging__MessageQueuePassword     | AMQP password                | yes      |             |                             |       |
+| Name                                | Description                         | Required | Default                       | Valid                       | Notes |
+|-------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
+| ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
+| Messaging__ScheduleQueueName            | Schedule queue name             | no       | schedule                      |                             |       |
+| Messaging__PaymentQueueName             | Payment queue name              | no       | payment                       |                             |       |
+| Messaging__MessageQueueHost             | AMQP host name                  | yes      |                               |                             |       |
+| Messaging__MessageQueuePort             | AMQP host port                  | yes      |                               |                             |       |
+| Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                               |                             |       |
+| Messaging__MessageQueueUser             | AMQP username                   | yes      |                               |                             |       |
+| Messaging__MessageQueuePassword         | AMQP password                   | yes      |                               |                             |       |
+| ApplicationInsights__InstrumentationKey | App Insights key                | no       |                               |                             |       | will log to Azure Application Insights if set
+| ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core |                             |       | Set to `ffc-demo-payment-service-core-local` in docker compose files
 
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.

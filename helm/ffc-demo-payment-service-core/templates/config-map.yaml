@@ -8,4 +8,5 @@ data:
   Messaging__MessageQueueHost: {{ quote .Values.container.messageQueueHost }}
   Messaging__MessageQueuePort: {{ quote .Values.container.messageQueuePort }}
   Messaging__MessageQueuePreFetch: {{ quote .Values.container.messageQueuePreFetch }}
+  ApplicationInsights__CloudRole: {{ quote .Values.name }}
 {{- end -}}
