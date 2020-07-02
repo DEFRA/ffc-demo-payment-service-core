@@ -8,8 +8,8 @@ services:
     build:
       target: development
     image: ffc-demo-payment-service-core-development
-    entrypoint: dotnet watch --project ./FFCDemoPaymentService.Tests test
+    entrypoint: dotnet watch --project ./FFCDemoPaymentService.Tests test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./test-output/'
     volumes:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
       - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
-      - ./test-output/:/home/node/test-output/
+      - ./test-output/:/home/dotnet/FFCDemoPaymentService.Tests/test-output/
