@@ -1,0 +1,17 @@
+version: '3.7'
+
+# This override file should be used when running this service in isolation
+# to provide required sibling services for local testing
+
+services:
+  ffc-demo-payment-service-core:
+    build:
+      context: .
+      target: development
+    image: ffc-demo-payment-service-core-snyk
+    command: export-snyk-files
+    entrypoint: /bin/sh
+    volumes:
+      - ./export-snyk-files:/home/dotnet/export-snyk-files
+      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
