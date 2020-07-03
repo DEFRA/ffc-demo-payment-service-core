@@ -9,7 +9,8 @@ services:
       context: .
       target: development
     image: ffc-demo-payment-service-core-snyk
-    command: -c "cp -r ./obj/FFCDemoPaymentService/project.assets.json ./FFCDemoPaymentService/obj/project.assets.json"
+    command: -c "rm -r ./FFCDemoPaymentService.Tests/obj/* && rm -r ./FFCDemoPaymentService/obj/* && cp -r ./obj/FFCDemoPaymentService/project.assets.json ./FFCDemoPaymentService/obj/project.assets.json"
     entrypoint: /bin/sh
     volumes:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
