@@ -1,7 +1,7 @@
 version: '3.7'
 
-# This override file should be used when running this service in isolation
-# to provide required sibling services for local testing
+# This file is used to copy obj files from the built container to
+# the correct place on the local file system so Snyk can be run
 
 services:
   ffc-demo-payment-service-core:
@@ -9,7 +9,7 @@ services:
       context: .
       target: development
     image: ffc-demo-payment-service-core-snyk
-    command: -c "cp -r ./obj/FFCDemoPaymentService/* ./FFCDemoPaymentService/obj"
+    command: -c "cp -r ./obj/FFCDemoPaymentService/project.assets.json ./FFCDemoPaymentService/obj/project.assets.json"
     entrypoint: /bin/sh
     volumes:
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
