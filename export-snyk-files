@@ -1,4 +1,4 @@
 echo "copying FFCDemoPaymentService files"
-cp -r ./obj/FFCDemoPaymentService ./FFCDemoPaymentService/obj
+cp -r ./obj/FFCDemoPaymentService/* ./FFCDemoPaymentService/obj
 echo "copying FFCDemoPaymentService.Test files"
-cp -r ./obj/FFCDemoPaymentService.Tests ./FFCDemoPaymentService.Tests/obj
+cp -r ./obj/FFCDemoPaymentService.Tests/* ./FFCDemoPaymentService.Tests/obj
