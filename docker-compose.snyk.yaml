@@ -9,9 +9,7 @@ services:
       context: .
       target: development
     image: ffc-demo-payment-service-core-snyk
-    command: export-snyk-files
+    command: -c "cp -r ./obj/FFCDemoPaymentService/* ./FFCDemoPaymentService/obj"
     entrypoint: /bin/sh
     volumes:
-      - ./export-snyk-files:/home/dotnet/export-snyk-files
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
-      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/

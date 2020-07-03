@@ -1,2 +1,0 @@
-echo "copying FFCDemoPaymentService obj files to local file system"
-cp -r ./obj/FFCDemoPaymentService/* ./FFCDemoPaymentService/obj
