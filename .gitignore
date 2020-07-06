@@ -30,6 +30,8 @@ msbuild.wrn
 # Other
 .vs/
 tasks.json
+.vscode/
+!.vscode/launch.json
 
 #Test Files
 test-output/
@@ -38,5 +40,4 @@ coverage.json
 lcov.info
 *.tgz
 helm/**/*.lock
-test-output/
 .sonarqube/
