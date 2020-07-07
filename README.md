@@ -25,7 +25,7 @@ Or:
 The following environment variables are required by the application container. Values for development are set in the Docker Compose configuration. Default values for production-like deployments are set in the Helm chart and may be overridden by build and release pipelines.
 
 | Name                                | Description                         | Required | Default                       | Valid                       | Notes |
-|-------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
+|-----------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
 | ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
 | Messaging__ScheduleQueueName            | Schedule queue name             | no       | schedule                      |                             |       |
 | Messaging__PaymentQueueName             | Payment queue name              | no       | payment                       |                             |       |
