@@ -12,5 +12,5 @@ services:
     command: extract-project-assets
     entrypoint: /bin/sh
     volumes:
-      - ./extract-project-assets:/home/dotnet/extract-project-assets
+      - ./scripts/extract-project-assets:/home/dotnet/extract-project-assets
       - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
