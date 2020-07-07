@@ -1,0 +1,16 @@
+version: '3.7'
+
+# This file is used to copy obj files from the built container to
+# the correct place on the local file system so Snyk can be run
+
+services:
+  ffc-demo-payment-service-core:
+    build:
+      context: .
+      target: development
+    image: ffc-demo-payment-service-core-snyk
+    command: extract-project-assets
+    entrypoint: /bin/sh
+    volumes:
+      - ./scripts/extract-project-assets:/home/dotnet/extract-project-assets
+      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
