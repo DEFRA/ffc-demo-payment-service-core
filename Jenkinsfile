@@ -1,3 +1,3 @@
-@Library('defra-library@psd-477-sonarcloud-netcore') _
+@Library('defra-library@v-8') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
