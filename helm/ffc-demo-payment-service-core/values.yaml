@@ -37,11 +37,10 @@ container:
   port: 3007
   scheduleQueueAddress: schedule
   paymentQueueAddress: payment
-  messageQueueHost: amq
-  messageQueuePort: 5672
+  messageQueueHost: servicebus
   messageQueuePreFetch: 1
-  messageQueueUser: artemis
-  messageQueuePassword: artemis
+  messageQueueUser: user
+  messageQueuePassword: password
   comPlusEnableDiagnostics: 0
 
 postgresService:

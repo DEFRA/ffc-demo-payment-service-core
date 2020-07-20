@@ -15,10 +15,15 @@ Or:
 - Kubernetes
 - Helm
 
-Or:
-- .Net Core SDK 3.1
-- PostgreSQL database
-- AMQP compatible message queue
+### Azure Service Bus
+This service depends on a valid Azure Service Bus connection string for asynchronous communication.  The following environment variables need to be set in any environment before the Docker container is started.
+
+| Name                             | Description                                                                                |
+|----------------------------------|--------------------------------------------------------------------------------------------|
+| MESSAGE_QUEUE_HOST               | Azure Service Bus hostname, eg `myservicebus.servicebus.windows.net`                       |
+| MESSAGE_QUEUE_USER               | Azure Service Bus SAS policy name, eg `RootManageSharedAccessKey`                          |
+| MESSAGE_QUEUE_PASSWORD           | Azure Service Bus SAS policy key                                                           |
+| MESSAGE_QUEUE_SUFFIX             | Developer specific queue suffix to prevent collisions, only required for local development |
 
 ## Environment variables
 
@@ -27,13 +32,12 @@ The following environment variables are required by the application container. V
 | Name                                | Description                         | Required | Default                       | Valid                       | Notes |
 |-------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
 | ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
-| Messaging__ScheduleQueueName            | Schedule queue name             | no       | schedule                      |                             |       |
-| Messaging__PaymentQueueName             | Payment queue name              | no       | payment                       |                             |       |
-| Messaging__MessageQueueHost             | AMQP host name                  | yes      |                               |                             |       |
-| Messaging__MessageQueuePort             | AMQP host port                  | yes      |                               |                             |       |
+| Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-            |                             |       |
+| Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-             |                             |       |
+| Messaging__MessageQueueHost             | Service Bus name                | yes      |                               |                             |       |
 | Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                               |                             |       |
-| Messaging__MessageQueueUser             | AMQP username                   | yes      |                               |                             |       |
-| Messaging__MessageQueuePassword         | AMQP password                   | yes      |                               |                             |       |
+| Messaging__MessageQueueUser             | Service Bus username            | yes      |                               |                             |       |
+| Messaging__MessageQueuePassword         | Service Bus password            | yes      |                               |                             |       |
 | ApplicationInsights__InstrumentationKey | App Insights key                | no       |                               |                             |       | will log to Azure Application Insights if set
 | ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core |                             |       | Set to `ffc-demo-payment-service-core-local` in docker compose files
 
@@ -90,7 +94,7 @@ This will link to other FFC Demo services running locally.
 
 ### Deploy to Kubernetes
 
-For production deployments, a helm chart is included in the `.\helm` folder. This service connects to an AMQP 1.0 message broker, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
+For production deployments, a helm chart is included in the `.\helm` folder. This service connects to Azure Service Bus, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
 
 #### Accessing the pod
 By default, the service is not exposed via an endpoint within Kubernetes.

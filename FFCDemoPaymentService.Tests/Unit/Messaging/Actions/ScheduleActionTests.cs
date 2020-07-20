@@ -1,11 +1,11 @@
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Scheduling;
-using FFCDemoPaymentService.Tests.Mocks;
+using FFCDemoPaymentService.Tests.Unit.Mocks;
 using System;
 using NUnit.Framework;
 using Moq;
 
-namespace FFCDemoPaymentService.Tests.Messaging.Actions
+namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
 {
     [TestFixture]
     public class SchedukeActionTests
