@@ -1,8 +1,6 @@
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Tests.Unit.Mocks;
-using System;
 using NUnit.Framework;
-using Moq;
 
 namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
 {
