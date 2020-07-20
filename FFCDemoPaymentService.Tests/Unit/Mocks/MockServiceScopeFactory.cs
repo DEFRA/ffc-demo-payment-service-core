@@ -2,7 +2,7 @@ using System;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FFCDemoPaymentService.Tests.Mocks
+namespace FFCDemoPaymentService.Tests.Unit.Mocks
 {
     public class MockServiceScopeFactory
     {

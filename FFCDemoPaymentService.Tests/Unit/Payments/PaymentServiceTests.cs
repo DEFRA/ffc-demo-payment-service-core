@@ -5,7 +5,7 @@ using FFCDemoPaymentService.Data;
 using FFCDemoPaymentService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FFCDemoPaymentService.Tests.Paying
+namespace FFCDemoPaymentService.Tests.Unit.Paying
 {
     [TestFixture]
     public class PaymentServiceTests

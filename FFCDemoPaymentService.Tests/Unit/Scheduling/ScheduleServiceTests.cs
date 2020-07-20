@@ -7,7 +7,7 @@ using FFCDemoPaymentService.Data;
 using FFCDemoPaymentService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FFCDemoPaymentService.Tests.Scheduling
+namespace FFCDemoPaymentService.Tests.Unit.Scheduling
 {
     [TestFixture]
     public class ScheduleServiceTests
