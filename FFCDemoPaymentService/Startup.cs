@@ -22,6 +22,7 @@ namespace FFCDemoPaymentService
     {
         public Startup(IConfiguration configuration)
         {
+            var test = "hello";
             Configuration = configuration;
         }
 
