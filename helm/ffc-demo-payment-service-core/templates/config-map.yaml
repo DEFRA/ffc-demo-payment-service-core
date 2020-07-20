@@ -6,7 +6,6 @@ data:
   Messaging__ScheduleQueueName: {{ quote .Values.container.scheduleQueueAddress }}
   Messaging__PaymentQueueName: {{ quote .Values.container.paymentQueueAddress }}
   Messaging__MessageQueueHost: {{ quote .Values.container.messageQueueHost }}
-  Messaging__MessageQueuePort: {{ quote .Values.container.messageQueuePort }}
   Messaging__MessageQueuePreFetch: {{ quote .Values.container.messageQueuePreFetch }}
   ApplicationInsights__CloudRole: {{ quote .Values.name }}
 {{- end -}}
