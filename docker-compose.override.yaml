@@ -8,10 +8,6 @@ services:
     build:
       target: development
     image: ffc-demo-payment-service-core-development
-    environment:
-      Messaging__Host: ffc-demo-payment-message-queue
-      Messaging__ScheduleQueueEndpoint: http://ffc-demo-payment-message-queue:9324
-      Messaging__PaymentQueueEndpoint: http://ffc-demo-payment-message-queue:9324
     ports:
       - "3007:3007"
     volumes:
@@ -21,8 +17,3 @@ services:
   ffc-demo-payment-core-postgres:
     ports:
       - "5432:5432"
-
-  ffc-demo-payment-artemis-queue:
-    ports:
-      - "8161:8161"
-      - "5672:5672"

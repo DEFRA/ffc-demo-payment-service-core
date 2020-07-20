@@ -26,7 +26,7 @@ namespace FFCDemoPaymentService.Tests.Messaging
 
             var testAction = new TestAction();
             string queueName = "payment";
-            var receiver = new AmqpReceiver<Payment>(session, queueName, testAction);
+            var receiver = new Receiver<Payment>(session, queueName, testAction);
 
             Assert.AreEqual(0, testAction.messages.Count);
             SenderLink sender = new SenderLink(session, "test-sender", queueName);

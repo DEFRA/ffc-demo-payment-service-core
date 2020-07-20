@@ -10,5 +10,12 @@ namespace FFCDemoPaymentService.Messaging
         public string MessageQueuePreFetch { get; set; }
         public string MessageQueueUser { get; set; }
         public string MessageQueuePassword { get; set; }
+        public string ConnectionString
+        {
+            get
+            {
+                return $"Endpoint=sb://{MessageQueueHost}/;SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
+            }
+        }
     }
 }
