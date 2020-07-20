@@ -15,10 +15,15 @@ Or:
 - Kubernetes
 - Helm
 
-Or:
-- .Net Core SDK 3.1
-- PostgreSQL database
-- AMQP compatible message queue
+### Azure Service Bus
+This service depends on a valid Azure Service Bus connection string for asynchronous communication.  The following environment variables need to be set in any environment before the Docker container is started.
+
+| Name                             | Description                                                                                |
+|----------------------------------|--------------------------------------------------------------------------------------------|
+| MESSAGE_QUEUE_HOST               | Azure Service Bus hostname, eg `myservicebus.servicebus.windows.net`                       |
+| MESSAGE_QUEUE_USER               | Azure Service Bus SAS policy name, eg `RootManageSharedAccessKey`                          |
+| MESSAGE_QUEUE_PASSWORD           | Azure Service Bus SAS policy key                                                           |
+| MESSAGE_QUEUE_SUFFIX             | Developer specific queue suffix to prevent collisions, only required for local development |
 
 ## Environment variables
 
@@ -27,8 +32,8 @@ The following environment variables are required by the application container. V
 | Name                                | Description                         | Required | Default                       | Valid                       | Notes |
 |-------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
 | ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
-| Messaging__ScheduleQueueName            | Schedule queue name             | no       | schedule                      |                             |       |
-| Messaging__PaymentQueueName             | Payment queue name              | no       | payment                       |                             |       |
+| Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-            |                             |       |
+| Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-             |                             |       |
 | Messaging__MessageQueueHost             | AMQP host name                  | yes      |                               |                             |       |
 | Messaging__MessageQueuePort             | AMQP host port                  | yes      |                               |                             |       |
 | Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                               |                             |       |
