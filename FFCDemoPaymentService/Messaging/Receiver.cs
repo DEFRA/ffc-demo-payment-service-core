@@ -31,10 +31,8 @@ namespace FFCDemoPaymentService.Messaging
         private void CreateReceiver(string connectionString, string queueName, string endPoint)
         {
             Console.WriteLine($"Creating {queueName} receiver at {endPoint}");
-            // queueClient = new QueueClient(connectionString, queueName);
             var tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
             queueClient = new QueueClient(endPoint, queueName, tokenProvider);
-            Console.WriteLine("Testing");
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()
