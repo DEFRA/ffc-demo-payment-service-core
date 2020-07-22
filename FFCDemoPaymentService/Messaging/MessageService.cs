@@ -31,7 +31,7 @@ namespace FFCDemoPaymentService.Messaging
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
-            endPoint = $"Endpoint=sb://{messageConfig.MessageQueueHost}/";
+            endPoint = $"sb://{messageConfig.MessageQueueHost}/";
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
