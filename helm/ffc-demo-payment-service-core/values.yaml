@@ -48,8 +48,6 @@ container:
   paymentQueueAddress: payment
   messageQueueHost: servicebus
   messageQueuePreFetch: 1
-  messageQueueUser: user
-  messageQueuePassword: password
   comPlusEnableDiagnostics: 0
 
 postgresService:
