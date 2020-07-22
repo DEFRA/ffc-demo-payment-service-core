@@ -1,0 +1,3 @@
+{{- include "ffc-helm-library.azure-identity-binding" (list . "ffc-demo-payment-service-core.azure-identity-binding") -}}
+{{- define "ffc-demo-payment-service-core.azure-identity-binding" -}}
+{{- end -}}

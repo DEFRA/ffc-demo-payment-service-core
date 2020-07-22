@@ -6,6 +6,15 @@ image: ffc-demo-payment-service-core
 
 labels: {}
 
+azureIdentity:
+  name: ffc-demo-payment-service-core-identity
+  resourceID:
+  clientID:
+
+azureIdentityBinding:
+  name: ffc-demo-payment-service-core-identity-binding
+  selector: ffc-demo-payment-service-core-identity-selector
+
 appInsights:
   key:
 
