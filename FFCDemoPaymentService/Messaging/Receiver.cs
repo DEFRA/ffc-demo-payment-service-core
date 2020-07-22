@@ -15,7 +15,7 @@ namespace FFCDemoPaymentService.Messaging
         private readonly int credit;
         private IQueueClient queueClient;
 
-        public Receiver(string connectionString, string queueName, IMessageAction<T> messageAction, int credit = 1, string endPoint)
+        public Receiver(string connectionString, string queueName, IMessageAction<T> messageAction, string endPoint, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
