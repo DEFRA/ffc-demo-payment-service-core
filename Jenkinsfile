@@ -2,7 +2,7 @@
 
 // buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
 
-
+def config = [environment: 'dev']
   def tag = ''
   def mergedPrNo = ''
   def pr = ''
@@ -55,9 +55,9 @@
       //   test.analyseDotNetCode(repoName, BRANCH_NAME, pr)
       // }
 
-      // if (config.containsKey('testClosure')) {
-      //   config['testClosure']()
-      // }
+      if (config.containsKey('testClosure')) {
+        config['testClosure']()
+      }
 
       stage('Push container image') {
         build.buildAndPushContainerImage(DOCKER_REGISTRY_CREDENTIALS_ID, DOCKER_REGISTRY, repoName, tag)
