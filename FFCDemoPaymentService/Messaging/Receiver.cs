@@ -15,11 +15,11 @@ namespace FFCDemoPaymentService.Messaging
         private readonly int credit;
         private IQueueClient queueClient;
 
-        public Receiver(string connectionString, string queueName, IMessageAction<T> messageAction, string endPoint, int credit = 1)
+        public Receiver(string queueEndPoint, string queueName, IMessageAction<T> messageAction, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
-            CreateReceiver(connectionString, queueName, endPoint);
+            CreateReceiver(queueEndPoint, queueName);
             RegisterOnMessageHandlerAndReceiveMessages();
         }
 
@@ -28,11 +28,11 @@ namespace FFCDemoPaymentService.Messaging
             await queueClient.CloseAsync();
         }
 
-        private void CreateReceiver(string connectionString, string queueName, string endPoint)
+        private void CreateReceiver(string queueEndPoint, string queueName)
         {
-            Console.WriteLine($"Creating {queueName} receiver at {endPoint}");
+            Console.WriteLine($"Creating {queueName} receiver at {queueEndPoint}");
             var tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
-            queueClient = new QueueClient(endPoint, queueName, tokenProvider);
+            queueClient = new QueueClient(queueEndPoint, queueName, tokenProvider);
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()
