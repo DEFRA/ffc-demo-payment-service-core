@@ -10,6 +10,7 @@ namespace FFCDemoPaymentService.Messaging
     public class MessageService : BackgroundService
     {
         private readonly string connectionString;
+        private readonly string endPoint;
         private readonly string scheduleQueue;
         private readonly string paymentQueue;
         private readonly IMessageAction<Schedule> scheduleAction;
@@ -30,12 +31,13 @@ namespace FFCDemoPaymentService.Messaging
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
+            endPoint = $"Endpoint=sb://{messageConfig.MessageQueueHost}/";
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {   
-            paymentReceiver = new Receiver<Payment>(connectionString, paymentQueue, paymentAction, credits);
-            scheduleReceiver = new Receiver<Schedule>(connectionString, scheduleQueue, scheduleAction, credits);
+        {
+            paymentReceiver = new Receiver<Payment>(connectionString, paymentQueue, paymentAction, credits, endPoint);
+            scheduleReceiver = new Receiver<Schedule>(connectionString, scheduleQueue, scheduleAction, credits, endPoint);
 
             return Task.CompletedTask;
         }
