@@ -2,7 +2,7 @@
 
 // buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
 
-def config = [environment: 'dev']
+def config = [environment: 'dev', project: 'FFCDemoPaymentService']
   def tag = ''
   def mergedPrNo = ''
   def pr = ''
