@@ -16,5 +16,12 @@ namespace FFCDemoPaymentService.Messaging
                 return $"sb://{MessageQueueHost}/";
             }
         }
+        public string ConnectionString
+        {
+            get
+            {
+                return $"Endpoint={MessageQueueEndPoint};SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
+            }
+        }
     }
 }
