@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Primitives;
 using Microsoft.Azure.ServiceBus.InteropExtensions;
+using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -15,11 +15,11 @@ namespace FFCDemoPaymentService.Messaging
         private readonly int credit;
         private IQueueClient queueClient;
 
-        public Receiver(string queueEndPoint, string queueName, IMessageAction<T> messageAction, int credit = 1)
+        public Receiver(TokenProvider tokenProvider, string queueEndPoint, string queueName, IMessageAction<T> messageAction, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
-            CreateReceiver(queueEndPoint, queueName);
+            CreateReceiver(tokenProvider, queueEndPoint, queueName);
             RegisterOnMessageHandlerAndReceiveMessages();
         }
 
@@ -28,10 +28,9 @@ namespace FFCDemoPaymentService.Messaging
             await queueClient.CloseAsync();
         }
 
-        private void CreateReceiver(string queueEndPoint, string queueName)
+        private void CreateReceiver(TokenProvider tokenProvider, string queueEndPoint, string queueName)
         {
             Console.WriteLine($"Creating {queueName} receiver at {queueEndPoint}");
-            var tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
             queueClient = new QueueClient(queueEndPoint, queueName, tokenProvider);
         }
 

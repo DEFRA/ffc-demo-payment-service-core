@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -12,6 +13,7 @@ namespace FFCDemoPaymentService.Messaging
         private readonly string queueEndPoint;
         private readonly string scheduleQueue;
         private readonly string paymentQueue;
+        private readonly TokenProvider tokenProvider;
         private readonly IMessageAction<Schedule> scheduleAction;
         private readonly IMessageAction<Payment> paymentAction;
 
@@ -30,12 +32,13 @@ namespace FFCDemoPaymentService.Messaging
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
             queueEndPoint = messageConfig.MessageQueueEndPoint;
+            tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            paymentReceiver = new Receiver<Payment>(queueEndPoint, paymentQueue, paymentAction, credits);
-            scheduleReceiver = new Receiver<Schedule>(queueEndPoint, scheduleQueue, scheduleAction, credits);
+            paymentReceiver = new Receiver<Payment>(tokenProvider, queueEndPoint, paymentQueue, paymentAction, credits);
+            scheduleReceiver = new Receiver<Schedule>(tokenProvider, queueEndPoint, scheduleQueue, scheduleAction, credits);
 
             return Task.CompletedTask;
         }

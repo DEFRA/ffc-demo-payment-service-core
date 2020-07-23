@@ -8,7 +8,7 @@ using Moq;
 namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
 {
     [TestFixture]
-    public class SchedukeActionTests
+    public class ScheduleActionTests
     {
         Mock<IScheduleService> scheduleService;
         MockServiceScopeFactory mockServiceScopeFactory;
@@ -16,9 +16,9 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
 
         [SetUp]
         public void SetUp()
-        {   
+        {
             scheduleService = new Mock<IScheduleService>();
-            
+
             mockServiceScopeFactory = new MockServiceScopeFactory();
             mockServiceScopeFactory.ServiceProvider.Setup(x => x.GetService(typeof(IScheduleService))).Returns(scheduleService.Object);
 
