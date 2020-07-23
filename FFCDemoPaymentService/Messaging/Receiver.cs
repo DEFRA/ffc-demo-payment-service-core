@@ -15,8 +15,6 @@ namespace FFCDemoPaymentService.Messaging
         private readonly int credit;
         private IQueueClient queueClient;
 
-        // FIXME: Overload the Receiver constructor and CreateReceiver so they can be via tokenProvider or ConnectionString
-
         public Receiver(string connectionString, string queueName, IMessageAction<T> messageAction, int credit = 1)
         {
             action = messageAction;
@@ -42,6 +40,12 @@ namespace FFCDemoPaymentService.Messaging
         {
             Console.WriteLine($"Creating {queueName} receiver at {queueEndPoint}");
             queueClient = new QueueClient(queueEndPoint, queueName, tokenProvider);
+        }
+
+        private void CreateReceiver(string connectionString, string queueName)
+        {
+            Console.WriteLine($"Creating {queueName} receiver");
+            queueClient = new QueueClient(connectionString, queueName);
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()
