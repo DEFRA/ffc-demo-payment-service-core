@@ -5,7 +5,7 @@ namespace FFCDemoPaymentService.Messaging
     public class MessageConfig
     {
         private TokenProvider _tokenProvider;
-        public bool WithTokenProvider { get; set; }
+        public string UseTokenProvider { get; set; }
         public string ScheduleQueueName { get; set; }
         public string PaymentQueueName { get; set; }
         public string MessageQueueHost { get; set; }

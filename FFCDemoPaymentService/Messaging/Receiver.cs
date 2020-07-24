@@ -31,7 +31,7 @@ namespace FFCDemoPaymentService.Messaging
         {
             Console.WriteLine($"Creating {queueName} receiver at {messageConfig.MessageQueueEndPoint}");
 
-            if (messageConfig.WithTokenProvider)
+            if (messageConfig.UseTokenProvider == "true")
             {
                 Console.WriteLine($"Using Token Provider");
                 queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
