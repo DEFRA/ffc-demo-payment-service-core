@@ -16,7 +16,16 @@ Or:
 - Helm
 
 ### Azure Service Bus
-This service depends on a valid Azure Service Bus connection string for asynchronous communication.  The following environment variables need to be set in any environment before the Docker container is started.
+This service depends on a valid Azure Service Bus connection string for asynchronous communication.
+The following environment variables need to be set
+in any non-production environment before the Docker
+container is started. When deployed into an appropriately configured AKS
+cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
+configured) the micro-service will use AAD Pod Identity through the manifests
+for
+[azure-identity](./helm/ffc-demo-claim-service/templates/azure-identity.yaml)
+and
+[azure-identity-binding](./helm/ffc-demo-claim-service/templates/azure-identity-binding.yaml).
 
 | Name                             | Description                                                                                |
 |----------------------------------|--------------------------------------------------------------------------------------------|
@@ -34,10 +43,7 @@ The following environment variables are required by the application container. V
 | ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
 | Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-            |                             |       |
 | Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-             |                             |       |
-| Messaging__MessageQueueHost             | Service Bus name                | yes      |                               |                             |       |
 | Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                               |                             |       |
-| Messaging__MessageQueueUser             | Service Bus username            | yes      |                               |                             |       |
-| Messaging__MessageQueuePassword         | Service Bus password            | yes      |                               |                             |       |
 | ApplicationInsights__InstrumentationKey | App Insights key                | no       |                               |                             |       | will log to Azure Application Insights if set
 | ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core |                             |       | Set to `ffc-demo-payment-service-core-local` in docker compose files
 
