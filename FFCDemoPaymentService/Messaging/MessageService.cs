@@ -4,16 +4,13 @@ using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Azure.ServiceBus.Primitives;
+
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class MessageService : BackgroundService
     {
-        private readonly string queueEndPoint;
-        private readonly string scheduleQueue;
-        private readonly string paymentQueue;
-        private readonly TokenProvider tokenProvider;
+        private readonly MessageConfig messageConfig;
         private readonly IMessageAction<Schedule> scheduleAction;
         private readonly IMessageAction<Payment> paymentAction;
 
@@ -26,19 +23,16 @@ namespace FFCDemoPaymentService.Messaging
             IMessageAction<Schedule> scheduleAction,
             IMessageAction<Payment> paymentAction)
         {
-            paymentQueue = messageConfig.PaymentQueueName;
-            scheduleQueue = messageConfig.ScheduleQueueName;
+            this.messageConfig = messageConfig;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
-            queueEndPoint = messageConfig.MessageQueueEndPoint;
-            tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            paymentReceiver = new Receiver<Payment>(tokenProvider, queueEndPoint, paymentQueue, paymentAction, credits);
-            scheduleReceiver = new Receiver<Schedule>(tokenProvider, queueEndPoint, scheduleQueue, scheduleAction, credits);
+            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentQueueName, paymentAction, credits);
+            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleQueueName, scheduleAction, credits);
 
             return Task.CompletedTask;
         }

@@ -40,7 +40,7 @@ namespace FFCDemoPaymentService
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
-            services.AddSingleton<IMessageAction<Payment>, PaymentAction>(); 
+            services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
 
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
@@ -70,12 +70,12 @@ namespace FFCDemoPaymentService
             app.UseHealthChecks("/healthy", new HealthCheckOptions()
             {
                 Predicate = check => check.Name == "ServiceReadinessCheck"
-            });        
+            });
 
             app.UseHealthChecks("/healthz", new HealthCheckOptions()
             {
                 Predicate = check => check.Name == "ServiceLivenessCheck"
-            }); 
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -98,7 +98,7 @@ namespace FFCDemoPaymentService
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error running migrations: {0}", ex);
-                }                
+                }
             }
         }
     }

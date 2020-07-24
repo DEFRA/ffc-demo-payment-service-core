@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.InteropExtensions;
-using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -15,19 +14,11 @@ namespace FFCDemoPaymentService.Messaging
         private readonly int credit;
         private IQueueClient queueClient;
 
-        public Receiver(string connectionString, string queueName, IMessageAction<T> messageAction, int credit = 1)
+        public Receiver(MessageConfig messageConfig, string queueName, IMessageAction<T> messageAction, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
-            CreateReceiver(connectionString, queueName);
-            RegisterOnMessageHandlerAndReceiveMessages();
-        }
-
-        public Receiver(TokenProvider tokenProvider, string queueEndPoint, string queueName, IMessageAction<T> messageAction, int credit = 1)
-        {
-            action = messageAction;
-            this.credit = credit;
-            CreateReceiver(tokenProvider, queueEndPoint, queueName);
+            CreateReceiver(messageConfig, queueName);
             RegisterOnMessageHandlerAndReceiveMessages();
         }
 
@@ -36,16 +27,20 @@ namespace FFCDemoPaymentService.Messaging
             await queueClient.CloseAsync();
         }
 
-        private void CreateReceiver(TokenProvider tokenProvider, string queueEndPoint, string queueName)
+        private void CreateReceiver(MessageConfig messageConfig, string queueName)
         {
-            Console.WriteLine($"Creating {queueName} receiver at {queueEndPoint}");
-            queueClient = new QueueClient(queueEndPoint, queueName, tokenProvider);
-        }
+            Console.WriteLine($"Creating {queueName} receiver at {messageConfig.MessageQueueEndPoint}");
 
-        private void CreateReceiver(string connectionString, string queueName)
-        {
-            Console.WriteLine($"Creating {queueName} receiver");
-            queueClient = new QueueClient(connectionString, queueName);
+            if (messageConfig.WithTokenProvider)
+            {
+                Console.WriteLine($"Using Token Provider");
+                queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
+            }
+            else
+            {
+                Console.WriteLine($"Using Connection String");
+                queueClient = new QueueClient(messageConfig.ConnectionString, queueName);
+            }
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()

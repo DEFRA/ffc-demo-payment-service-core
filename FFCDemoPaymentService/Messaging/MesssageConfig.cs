@@ -1,8 +1,11 @@
+using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class MessageConfig
     {
+        private TokenProvider _tokenProvider;
+        public bool WithTokenProvider { get; set; }
         public string ScheduleQueueName { get; set; }
         public string PaymentQueueName { get; set; }
         public string MessageQueueHost { get; set; }
@@ -21,6 +24,16 @@ namespace FFCDemoPaymentService.Messaging
             get
             {
                 return $"Endpoint={MessageQueueEndPoint};SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
+            }
+        }
+        public TokenProvider TokenProvider {
+            get
+            {
+                if (_tokenProvider == null) {
+                    _tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
+                }
+
+                return _tokenProvider;
             }
         }
     }
