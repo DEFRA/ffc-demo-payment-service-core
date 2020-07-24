@@ -4,7 +4,7 @@ namespace FFCDemoPaymentService.Messaging
 {
     public class MessageConfig
     {
-        private TokenProvider _tokenProvider;
+        private TokenProvider tokenProvider;
         public bool UseTokenProvider { get; set; }
         public string ScheduleQueueName { get; set; }
         public string PaymentQueueName { get; set; }
@@ -29,11 +29,7 @@ namespace FFCDemoPaymentService.Messaging
         public TokenProvider TokenProvider {
             get
             {
-                if (_tokenProvider == null) {
-                    _tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
-                }
-
-                return _tokenProvider;
+                return tokenProvider ??= TokenProvider.CreateManagedIdentityTokenProvider();
             }
         }
     }
