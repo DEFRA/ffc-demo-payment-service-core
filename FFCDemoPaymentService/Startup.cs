@@ -35,6 +35,16 @@ namespace FFCDemoPaymentService
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
+            messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
+
+            if (messageConfig.UseTokenProvider)
+            {
+                Console.WriteLine("USE TOKEN");
+            }
+            else
+            {
+                Console.WriteLine("USE CONNECTION STRING");
+            }
 
             services.AddSingleton(messageConfig);
             services.AddScoped<IScheduleService, ScheduleService>();
