@@ -31,16 +31,16 @@ namespace FFCDemoPaymentService.Messaging
         {
             Console.WriteLine($"Creating {queueName} receiver at {messageConfig.MessageQueueEndPoint}");
 
-            if (messageConfig.WithTokenProvider)
-            {
-                Console.WriteLine($"Using Token Provider");
-                queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
-            }
-            else
-            {
+            // if (messageConfig.WithTokenProvider)
+            // {
+            //     Console.WriteLine($"Using Token Provider");
+            //     queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
+            // }
+            // else
+            // {
                 Console.WriteLine($"Using Connection String");
                 queueClient = new QueueClient(messageConfig.ConnectionString, queueName);
-            }
+            // }
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()
