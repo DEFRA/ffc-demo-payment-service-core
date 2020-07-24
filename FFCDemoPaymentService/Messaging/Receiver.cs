@@ -39,6 +39,7 @@ namespace FFCDemoPaymentService.Messaging
             else
             {
                 Console.WriteLine("Using Connection String");
+                Console.WriteLine($"{messageConfig.ConnectionString}");
                 queueClient = new QueueClient(messageConfig.ConnectionString, queueName);
             }
         }
