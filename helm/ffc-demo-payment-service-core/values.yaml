@@ -6,6 +6,10 @@ image: ffc-demo-payment-service-core
 
 labels: {}
 
+azureIdentity:
+  resourceID: dummy
+  clientID: dummy
+
 appInsights:
   key:
 
@@ -39,8 +43,6 @@ container:
   paymentQueueAddress: payment
   messageQueueHost: servicebus
   messageQueuePreFetch: 1
-  messageQueueUser: user
-  messageQueuePassword: password
   comPlusEnableDiagnostics: 0
 
 postgresService:

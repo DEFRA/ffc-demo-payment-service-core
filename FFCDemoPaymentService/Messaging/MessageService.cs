@@ -5,13 +5,12 @@ using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using Microsoft.Extensions.Hosting;
 
+
 namespace FFCDemoPaymentService.Messaging
 {
     public class MessageService : BackgroundService
     {
-        private readonly string connectionString;
-        private readonly string scheduleQueue;
-        private readonly string paymentQueue;
+        private readonly MessageConfig messageConfig;
         private readonly IMessageAction<Schedule> scheduleAction;
         private readonly IMessageAction<Payment> paymentAction;
 
@@ -24,18 +23,16 @@ namespace FFCDemoPaymentService.Messaging
             IMessageAction<Schedule> scheduleAction,
             IMessageAction<Payment> paymentAction)
         {
-            connectionString = messageConfig.ConnectionString;
-            paymentQueue = messageConfig.PaymentQueueName;
-            scheduleQueue = messageConfig.ScheduleQueueName;
+            this.messageConfig = messageConfig;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {   
-            paymentReceiver = new Receiver<Payment>(connectionString, paymentQueue, paymentAction, credits);
-            scheduleReceiver = new Receiver<Schedule>(connectionString, scheduleQueue, scheduleAction, credits);
+        {
+            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentQueueName, paymentAction, credits);
+            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleQueueName, scheduleAction, credits);
 
             return Task.CompletedTask;
         }
