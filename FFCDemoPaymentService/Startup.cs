@@ -94,9 +94,9 @@ namespace FFCDemoPaymentService
 
             Console.WriteLine("DB CONNECTION STRING USED:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
-            Console.WriteLine(dbContext.Database.CanConnect().ToString());
-            dbContext.Database.OpenConnection();
-            ApplyMigrations(dbContext);
+            // Console.WriteLine(dbContext.Database.CanConnect().ToString());
+            // dbContext.Database.OpenConnection();
+            // ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
