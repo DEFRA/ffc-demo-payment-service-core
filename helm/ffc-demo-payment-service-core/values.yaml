@@ -46,7 +46,7 @@ container:
   comPlusEnableDiagnostics: 0
 
 postgresService:
-  postgresConnectionStringAlt: dummy
+  postgresConnectionString: dummy
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
 
