@@ -6,21 +6,20 @@ namespace FFCDemoPaymentService.Data
 {
     public class ConnectionStringBuilder
     {
-        private AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+        private readonly AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
 
-        private DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+        private readonly DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
 
-        public ConnectionStringBuilder()
+        public ConnectionStringBuilder(string connectionString)
         {
-            // builder.Add("Password")
-            // System.Console.WriteLine($"CONNECTION STRING: {builder.ConnectionString}");
+            builder.ConnectionString = connectionString;
         }
 
-        public async Task TestTokenRetrieve()
+        public async Task GetConnectionString()
         {
             string accessToken = await azureServiceTokenProvider.GetAccessTokenAsync("https://ossrdbms-aad.database.windows.net");
-            System.Console.WriteLine($"TOKEN TEST: {accessToken}");
+            builder.Add("Password", accessToken);
+            System.Console.WriteLine($"CONNECTION STRING: {builder.ConnectionString}");
         }
-
     }
 }

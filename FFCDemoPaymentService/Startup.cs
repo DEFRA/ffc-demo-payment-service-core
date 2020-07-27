@@ -31,11 +31,12 @@ namespace FFCDemoPaymentService
         {
             AddTelemetry(services);
 
-            var builder = new ConnectionStringBuilder();
-            builder.TestTokenRetrieve();
+            var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            var builder = new ConnectionStringBuilder(defaultConnectionString);
+            builder.GetConnectionString();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
+                options.UseNpgsql(defaultConnectionString, o => o.SetPostgresVersion(9, 6)));
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
