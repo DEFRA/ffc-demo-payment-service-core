@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,10 +34,12 @@ namespace FFCDemoPaymentService
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
             var builder = new ConnectionStringBuilder(defaultConnectionString);
-            builder.GetConnectionString();
+            string connStr = Task.Run(builder.GetConnectionString).Result;
+
+            Console.WriteLine($"Connection String: {connStr}");
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(defaultConnectionString, o => o.SetPostgresVersion(9, 6)));
+                options.UseNpgsql(connStr, o => o.SetPostgresVersion(9, 6)));
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
