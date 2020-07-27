@@ -90,9 +90,9 @@ namespace FFCDemoPaymentService
                 endpoints.MapControllers();
             });
 
-            // ApplyMigrations(dbContext);
             Console.WriteLine("DB CONNECTION STRING USED:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
+            ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
