@@ -36,7 +36,7 @@ container:
   requestCpu: 40m
   limitMemory: 120Mi
   limitCpu: 80m
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   allowPrivilegeEscalation: false
   port: 3007
   scheduleQueueAddress: schedule
