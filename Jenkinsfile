@@ -30,35 +30,6 @@ def config= [environment: 'dev', project: 'FFCDemoPaymentService']
         test.lintHelm(repoName)
       }
 
-      if (config.containsKey('buildClosure')) {
-        config['buildClosure']()
-      }
-
-      stage('Build test image') {
-        build.buildTestImage(DOCKER_REGISTRY_CREDENTIALS_ID, DOCKER_REGISTRY, repoName, BUILD_NUMBER, tag)
-      }
-
-      if (fileExists('./docker-compose.snyk.yaml')){
-        stage('Snyk test') {
-          // ensure obj folder exists and is writable by all
-          sh("chmod 777 ${config.project}/obj || mkdir -p -m 777 ${config.project}/obj")
-          build.extractSynkFiles(config.project)
-          build.snykTest(config.snykFailOnIssues, config.snykOrganisation, config.snykSeverity, "${config.project}.sln")
-        }
-      }
-
-      stage('Run tests') {
-        build.runTests(repoName, repoName, BUILD_NUMBER, tag)
-      }
-
-      stage('SonarCloud analysis') {
-        test.analyseDotNetCode(repoName, BRANCH_NAME, pr)
-      }
-
-      if (config.containsKey('testClosure')) {
-        config['testClosure']()
-      }
-
       stage('Push container image') {
         build.buildAndPushContainerImage(DOCKER_REGISTRY_CREDENTIALS_ID, DOCKER_REGISTRY, repoName, tag)
       }
