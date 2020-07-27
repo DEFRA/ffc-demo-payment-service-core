@@ -36,7 +36,8 @@ namespace FFCDemoPaymentService
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             string connStr = Task.Run(builder.GetConnectionString).Result;
 
-            Console.WriteLine($"Connection String: {connStr}");
+            Console.WriteLine("Connection String:");
+            Console.WriteLine($"{connStr}");
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connStr, o => o.SetPostgresVersion(9, 6)));
@@ -92,6 +93,8 @@ namespace FFCDemoPaymentService
 
             Console.WriteLine("DB CONNECTION STRING USED:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
+            Console.WriteLine(dbContext.Database.CanConnect().ToString());
+            dbContext.Database.OpenConnection();
             ApplyMigrations(dbContext);
         }
 
