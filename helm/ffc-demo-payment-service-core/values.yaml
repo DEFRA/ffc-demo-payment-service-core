@@ -49,6 +49,7 @@ postgresService:
   postgresConnectionStringAlt: dummy
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
+  postgresExternalName:
 
 readinessProbe:
   path: /healthy
