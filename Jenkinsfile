@@ -1,6 +1,6 @@
 @Library('defra-library@v-8') _
 
-buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
+//buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
 
 def config= [environment: 'dev', project: 'FFCDemoPaymentService']
   def tag = ''
