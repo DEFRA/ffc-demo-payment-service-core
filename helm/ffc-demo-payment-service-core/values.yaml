@@ -46,7 +46,7 @@ container:
   comPlusEnableDiagnostics: 0
 
 postgresService:
-  postgresConnectionString: User Id=postgres;Server=ffc-demo-payment-core-postgres;Port=5432;Database=ffc_demo_payments;Password=ppp;
+  postgresConnectionStringAlt: dummy
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
 
