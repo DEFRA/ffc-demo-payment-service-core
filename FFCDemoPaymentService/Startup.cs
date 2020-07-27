@@ -33,6 +33,8 @@ namespace FFCDemoPaymentService
             AddTelemetry(services);
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine($"DEFAULT Connection String: {defaultConnectionString}");
+
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             string connStr = Task.Run(builder.GetConnectionString).Result;
 
