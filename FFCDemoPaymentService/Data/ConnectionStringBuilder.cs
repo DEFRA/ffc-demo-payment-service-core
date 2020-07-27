@@ -21,9 +21,8 @@ namespace FFCDemoPaymentService.Data
         public async Task<string> GetConnectionString()
         {
             string accessToken = await azureServiceTokenProvider.GetAccessTokenAsync("https://ossrdbms-aad.database.windows.net");
-            return accessToken;
-            // builder.Add("password", accessToken);
-            // return builder.ConnectionString;
+            builder.Add("password", accessToken);
+            return builder.ConnectionString;
         }
     }
 }

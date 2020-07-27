@@ -34,8 +34,7 @@ namespace FFCDemoPaymentService
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
             var builder = new ConnectionStringBuilder(defaultConnectionString);
-            string s = Task.Run(builder.GetConnectionString).Result;
-            string connStr = defaultConnectionString + "password=" + s;
+            string connStr = Task.Run(builder.GetConnectionString).Result;
 
             Console.WriteLine($"Connection String: {connStr}");
 
@@ -91,7 +90,9 @@ namespace FFCDemoPaymentService
                 endpoints.MapControllers();
             });
 
-            ApplyMigrations(dbContext);
+            // ApplyMigrations(dbContext);
+            Console.WriteLine("DB CONNECTION:");
+            Console.WriteLine(dbContext.Database.GetDbConnection().ToString());
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
