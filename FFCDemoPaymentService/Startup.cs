@@ -31,6 +31,10 @@ namespace FFCDemoPaymentService
         {
             AddTelemetry(services);
 
+            ConnectionStringBuilder b = new ConnectionStringBuilder();
+            var task = b.TestTokenRetrieve();
+            task.RunSynchronously();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
 
