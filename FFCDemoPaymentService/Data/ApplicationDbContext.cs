@@ -11,7 +11,7 @@ namespace FFCDemoPaymentService.Data
         {
         }
 
-        public virtual DbSet<Schedule> Schedule { get; set; } 
-        public virtual DbSet<Payment> Payments { get; set; } 
+        public virtual DbSet<Schedule> Schedule { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }
