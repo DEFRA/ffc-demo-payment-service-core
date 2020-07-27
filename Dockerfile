@@ -27,6 +27,10 @@ ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:$
 FROM defradigital/dotnetcore:${PARENT_VERSION} AS production
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
+
+USER root
+RUN apk --no-cache add postgresql-client
+
 COPY --from=development /home/dotnet/out/ ./
 ARG PORT=3007
 ENV ASPNETCORE_URLS http://*:${PORT}
