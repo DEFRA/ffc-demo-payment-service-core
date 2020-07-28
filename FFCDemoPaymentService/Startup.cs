@@ -39,7 +39,7 @@ namespace FFCDemoPaymentService
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             string connStr = Task.Run(builder.GetConnectionString).Result;
 
-            connStr = defaultConnectionString;
+            // connStr = defaultConnectionString;
 
             Console.WriteLine("Connection String:");
             Console.WriteLine($"{connStr}");
