@@ -105,12 +105,12 @@ namespace FFCDemoPaymentService
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
         {
-            Console.WriteLine("DB CONNECTION STRING USED in Apply Migrations:");
-            Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
-            bool canConnect = dbContext.Database.CanConnectAsync().Result;
-            Console.WriteLine($"Can connect async: {canConnect}");
-            bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
-            Console.WriteLine($"Has migrations: {hasMigrations}");
+            // Console.WriteLine("DB CONNECTION STRING USED in Apply Migrations:");
+            // Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
+            // bool canConnect = dbContext.Database.CanConnectAsync().Result;
+            // Console.WriteLine($"Can connect async: {canConnect}");
+            // bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
+            // Console.WriteLine($"Has migrations: {hasMigrations}");
 
             if (dbContext.Database.GetPendingMigrations().Any())
             {
@@ -124,6 +124,10 @@ namespace FFCDemoPaymentService
                 {
                     Console.WriteLine("Error running migrations: {0}", ex);
                 }
+            }
+            else
+            {
+                Console.WriteLine("No pending migrations");
             }
         }
     }
