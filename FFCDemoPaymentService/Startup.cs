@@ -39,6 +39,8 @@ namespace FFCDemoPaymentService
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             string connStr = Task.Run(builder.GetConnectionString).Result;
 
+            connStr = defaultConnectionString;
+
             Console.WriteLine("Connection String:");
             Console.WriteLine($"{connStr}");
 
@@ -101,12 +103,10 @@ namespace FFCDemoPaymentService
             // canConnect = dbContext.Database.CanConnectAsync().Result;
             // Console.WriteLine($"Can connect async: {canConnect}");
 
-            bool hasMigrations = (dbContext.Database.GetPendingMigrationsAsync().Result).Any();
+            bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
             Console.WriteLine($"Has migrations 1: {hasMigrations}");
-            hasMigrations = (dbContext.Database.GetPendingMigrationsAsync().Result).Any();
+            hasMigrations = dbContext.Database.GetPendingMigrations().Any();
             Console.WriteLine($"Has migrations 2: {hasMigrations}");
-            dbContext.Database.Migrate();
-            Console.WriteLine("Migrated");
             // ApplyMigrations(dbContext);
         }
 

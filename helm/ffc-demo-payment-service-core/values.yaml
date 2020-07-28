@@ -47,6 +47,7 @@ container:
 
 postgresService:
   postgresConnectionStringAlt: dummy
+  postgresConnectionString: dummy
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
   postgresExternalName:
