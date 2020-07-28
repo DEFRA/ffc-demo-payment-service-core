@@ -94,7 +94,7 @@ namespace FFCDemoPaymentService
                 endpoints.MapControllers();
             });
 
-            Console.WriteLine("DB CONNECTION STRING USED:");
+            Console.WriteLine("DB CONNECTION STRING USED in Configure:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
             bool canConnect = dbContext.Database.CanConnectAsync().Result;
             Console.WriteLine($"Can connect async: {canConnect}");
@@ -105,7 +105,7 @@ namespace FFCDemoPaymentService
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
         {
-            Console.WriteLine("DB CONNECTION STRING USED:");
+            Console.WriteLine("DB CONNECTION STRING USED in Apply Migrations:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
             bool canConnect = dbContext.Database.CanConnectAsync().Result;
             Console.WriteLine($"Can connect async: {canConnect}");
