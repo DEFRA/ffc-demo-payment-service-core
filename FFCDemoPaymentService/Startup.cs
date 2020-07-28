@@ -97,6 +97,7 @@ namespace FFCDemoPaymentService
             Console.WriteLine($"Can connect async: {canConnect}");
             bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
             Console.WriteLine($"Has migrations: {hasMigrations}");
+            ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
