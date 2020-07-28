@@ -33,9 +33,8 @@ namespace FFCDemoPaymentService
             AddTelemetry(services);
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            // var builder = new ConnectionStringBuilder(defaultConnectionString);
-            // string connStr = Task.Run(builder.GetConnectionString).Result;
-            string connStr = defaultConnectionString;
+            var builder = new ConnectionStringBuilder(defaultConnectionString);
+            string connStr = Task.Run(builder.GetConnectionString).Result;
 
             Console.WriteLine("Connection String:");
             Console.WriteLine($"{connStr}");
@@ -94,9 +93,10 @@ namespace FFCDemoPaymentService
 
             Console.WriteLine("DB CONNECTION STRING USED:");
             Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
-            // Console.WriteLine(dbContext.Database.CanConnect().ToString());
-            // dbContext.Database.OpenConnection();
-            // ApplyMigrations(dbContext);
+            bool canConnect = dbContext.Database.CanConnectAsync().Result;
+            Console.WriteLine($"Can connect async: {canConnect}");
+            bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
+            Console.WriteLine($"Has migrations: {hasMigrations}");
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
