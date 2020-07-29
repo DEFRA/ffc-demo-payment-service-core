@@ -105,6 +105,11 @@ namespace FFCDemoPaymentService
 
             bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
             Console.WriteLine($"Has migrations 1: {hasMigrations}");
+
+            Console.WriteLine("Waiting ...");
+            Task.Delay(5000).Wait();
+            Console.WriteLine("Done");
+
             hasMigrations = dbContext.Database.GetPendingMigrations().Any();
             Console.WriteLine($"Has migrations 2: {hasMigrations}");
             // ApplyMigrations(dbContext);
