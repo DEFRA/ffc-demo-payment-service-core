@@ -22,7 +22,6 @@ namespace FFCDemoPaymentService.Data
         {
             string accessToken = await azureServiceTokenProvider.GetAccessTokenAsync("https://ossrdbms-aad.database.windows.net");
             builder.Add("password", accessToken);
-            // builder.Add("Persist Security Info", "true");
             return builder.ConnectionString;
         }
     }

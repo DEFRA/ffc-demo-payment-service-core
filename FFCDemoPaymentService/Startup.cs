@@ -36,11 +36,6 @@ namespace FFCDemoPaymentService
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             services.AddSingleton(builder);
 
-            // string connStr = Task.Run(builder.GetConnectionString).Result;
-
-            // Console.WriteLine("Connection String:");
-            // Console.WriteLine($"{connStr}");
-
             services.AddDbContext<ApplicationDbContext>();
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();

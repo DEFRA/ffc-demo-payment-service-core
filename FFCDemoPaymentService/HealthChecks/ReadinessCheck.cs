@@ -24,11 +24,14 @@ namespace FFCDemoPaymentService.HealthChecks
 
             if (databaseHealthyCheck)
             {
-                return 
+                Console.WriteLine("Healthy");
+                return
                     HealthCheckResult.Healthy("A healthy result.");
             }
 
-            return 
+            Console.WriteLine("Failed Db connect check");
+
+            return
                 HealthCheckResult.Unhealthy("An unhealthy result from Readiness check.");
         }
 
