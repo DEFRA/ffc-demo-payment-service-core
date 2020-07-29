@@ -6,12 +6,12 @@ services:
       - ffc-demo-payment-core-postgres
     entrypoint: >
       sh -c "/liquibase/liquibase
-      --changeLogFile=/changelog/db.changelog.xml
+      --changeLogFile=/changelog/db.changelog-master.xml
       --url='jdbc:postgresql://host.docker.internal:5432/ffc_demo_payments'
       --username=postgres
       --password=ppp 
       --defaultSchemaName=pr1
-      rollbackCount 2"
+      update"
 
     volumes:
       - ./changelog/:/liquibase/changelog/
