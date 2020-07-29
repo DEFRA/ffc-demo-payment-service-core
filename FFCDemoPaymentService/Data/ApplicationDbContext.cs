@@ -17,8 +17,7 @@ namespace FFCDemoPaymentService.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = Task.Run(builder.GetConnectionString).Result;
-            System.Console.WriteLine("Using Connection String:");
-            System.Console.WriteLine($"{connectionString}");
+            System.Console.WriteLine($"Using connection string ending: {connectionString.Substring(connectionString.Length - 10)}");
             optionsBuilder.UseNpgsql(connectionString);
         }
 
