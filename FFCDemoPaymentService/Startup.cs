@@ -33,19 +33,13 @@ namespace FFCDemoPaymentService
             AddTelemetry(services);
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine("Default String:");
-            Console.WriteLine($"{defaultConnectionString}");
-
             var builder = new ConnectionStringBuilder(defaultConnectionString);
             string connStr = Task.Run(builder.GetConnectionString).Result;
-
-            // connStr = defaultConnectionString;
 
             Console.WriteLine("Connection String:");
             Console.WriteLine($"{connStr}");
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(connStr, o => o.SetPostgresVersion(9, 6)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connStr));
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
@@ -96,34 +90,11 @@ namespace FFCDemoPaymentService
                 endpoints.MapControllers();
             });
 
-            // Console.WriteLine("DB CONNECTION STRING USED in Configure:");
-            // Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
-            // bool canConnect = dbContext.Database.CanConnectAsync().Result;
-            // Console.WriteLine($"Can connect async: {canConnect}");
-            // canConnect = dbContext.Database.CanConnectAsync().Result;
-            // Console.WriteLine($"Can connect async: {canConnect}");
-
-            bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
-            Console.WriteLine($"Has migrations 1: {hasMigrations}");
-
-            // Console.WriteLine("Waiting ...");
-            // Task.Delay(5000).Wait();
-            // Console.WriteLine("Done");
-
-            hasMigrations = dbContext.Database.GetPendingMigrations().Any();
-            Console.WriteLine($"Has migrations 2: {hasMigrations}");
-            // ApplyMigrations(dbContext);
+            ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
         {
-            // Console.WriteLine("DB CONNECTION STRING USED in Apply Migrations:");
-            // Console.WriteLine(dbContext.Database.GetDbConnection().ConnectionString);
-            // bool canConnect = dbContext.Database.CanConnectAsync().Result;
-            // Console.WriteLine($"Can connect async: {canConnect}");
-            // bool hasMigrations = dbContext.Database.GetPendingMigrations().Any();
-            // Console.WriteLine($"Has migrations: {hasMigrations}");
-
             if (dbContext.Database.GetPendingMigrations().Any())
             {
                 Console.WriteLine("Pending migrations found, updating database");
