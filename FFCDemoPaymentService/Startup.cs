@@ -34,12 +34,14 @@ namespace FFCDemoPaymentService
 
             var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
             var builder = new ConnectionStringBuilder(defaultConnectionString);
-            string connStr = Task.Run(builder.GetConnectionString).Result;
+            services.AddSingleton(builder);
 
-            Console.WriteLine("Connection String:");
-            Console.WriteLine($"{connStr}");
+            // string connStr = Task.Run(builder.GetConnectionString).Result;
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connStr));
+            // Console.WriteLine("Connection String:");
+            // Console.WriteLine($"{connStr}");
+
+            services.AddDbContext<ApplicationDbContext>();
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
             messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
