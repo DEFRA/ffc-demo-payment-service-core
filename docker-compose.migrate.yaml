@@ -1,0 +1,88 @@
+version: '3.7'
+
+x-common-migration: &common-migration
+  POSTGRES_HOST: ffc-demo-payment-core-postgres
+  SCHEMA_ROLE: ${SCHEMA_ROLE:-postgres}
+  SCHEMA_PASSWORD: ${SCHEMA_PASSWORD:-ppp}
+  SCHEMA_NAME: ${SCHEMA_NAME:-public}
+
+x-common-postgres: &common-postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: ffc_demo_payments
+  POSTGRES_PASSWORD: ppp
+  POSTGRES_USERNAME: postgres
+
+services:
+  database-export:
+    image: liquibase/liquibase:3.10.x
+    environment:
+      << : *common-migration
+      << : *common-postgres
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    entrypoint: >
+      sh -c "/scripts/migration/export"
+    volumes:
+      - ./changelog/:/liquibase/changelog/
+      - ./scripts/:/scripts/
+
+  schema-up:
+    image: liquibase/liquibase:3.10.x
+    environment:
+      << : *common-migration
+      << : *common-postgres
+    entrypoint: >
+      sh -c "/scripts/migration/schema-up"
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    volumes:
+      - ./changelog/:/liquibase/changelog/
+      - ./scripts/:/scripts/
+
+  database-up:
+    image: liquibase/liquibase:3.10.x
+    environment:
+      << : *common-migration
+      << : *common-postgres
+    entrypoint: >
+      sh -c "/scripts/migration/database-up"
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    volumes:
+      - ./changelog/:/liquibase/changelog/
+      - ./scripts/:/scripts/
+
+  database-down:
+    image: liquibase/liquibase:3.10.x
+    environment:
+      << : *common-migration
+      << : *common-postgres
+    entrypoint: >
+      sh -c "/scripts/migration/database-down"
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    volumes:
+      - ./changelog/:/liquibase/changelog/
+      - ./scripts/:/scripts/
+
+  schema-down:
+    image: liquibase/liquibase:3.10.x
+    environment:
+      << : *common-migration
+      << : *common-postgres
+    entrypoint: >
+      sh -c "/scripts/migration/schema-down"
+    depends_on:
+      - ffc-demo-payment-core-postgres
+    volumes:
+      - ./changelog/:/liquibase/changelog/
+      - ./scripts/:/scripts/
+
+  ffc-demo-payment-core-postgres:
+    image: postgres:11.4-alpine
+    environment: *common-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}

@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "db export $POSTGRES_HOST"
+/scripts/postgres-wait && /liquibase/liquibase \
+--driver=org.postgresql.Driver \
+--changeLogFile=/liquibase/changelog/db.changelog.xml \
+--url=jdbc:postgresql://$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB \
+--username=$POSTGRES_USERNAME --password=$POSTGRES_PASSWORD --defaultSchemaName=$SCHEMA_NAME \
+ generateChangeLog
