@@ -5,13 +5,25 @@ namespace FFCDemoPaymentService.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() {}
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        private readonly SchemaConfig schemaConfig;
+
+        public ApplicationDbContext() { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, SchemaConfig schemaConfig)
             : base(options)
         {
+            this.schemaConfig = schemaConfig;
         }
 
-        public virtual DbSet<Schedule> Schedule { get; set; } 
-        public virtual DbSet<Payment> Payments { get; set; } 
+        public virtual DbSet<Schedule> Schedule { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            if (schemaConfig != null)
+            {
+                modelBuilder.HasDefaultSchema(schemaConfig.Default);
+            }
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

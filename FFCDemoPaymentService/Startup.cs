@@ -31,6 +31,9 @@ namespace FFCDemoPaymentService
         {
             AddTelemetry(services);
 
+            var schemaConfig = Configuration.GetSection("Schema").Get<SchemaConfig>();
+            services.AddSingleton(schemaConfig);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.SetPostgresVersion(9, 6)));
 
@@ -82,8 +85,6 @@ namespace FFCDemoPaymentService
             {
                 endpoints.MapControllers();
             });
-
-            // ApplyMigrations(dbContext);
         }
 
         public void ApplyMigrations(ApplicationDbContext dbContext)
