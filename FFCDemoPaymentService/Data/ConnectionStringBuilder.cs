@@ -23,16 +23,11 @@ namespace FFCDemoPaymentService.Data
 
         public async Task<string> GetConnectionString()
         {
-            System.Console.WriteLine("CONNECTION STRING 1:");
-            System.Console.WriteLine(stringBuilder.ConnectionString);
-
             if (UseTokenProvider) {
                 string accessToken = await tokenProvider.GetAccessTokenAsync("https://ossrdbms-aad.database.windows.net");
                 stringBuilder.Add("password", accessToken);
             }
 
-            System.Console.WriteLine("CONNECTION STRING 2:");
-            System.Console.WriteLine(stringBuilder.ConnectionString);
             return stringBuilder.ConnectionString;
         }
 
