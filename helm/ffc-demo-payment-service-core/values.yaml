@@ -36,7 +36,7 @@ container:
   requestCpu: 40m
   limitMemory: 120Mi
   limitCpu: 80m
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   port: 3007
   scheduleQueueAddress: schedule
@@ -46,11 +46,11 @@ container:
   comPlusEnableDiagnostics: 0
 
 postgresService:
-  postgresConnectionStringAlt: dummy
-  postgresConnectionString: dummy
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
   postgresExternalName:
+  postgresUser: postgres
+  postgresDb: ffc_demo_payments
 
 readinessProbe:
   path: /healthy

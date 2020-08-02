@@ -6,18 +6,17 @@ namespace FFCDemoPaymentService.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly ConnectionStringBuilder builder;
+        private readonly PostgresConnectionStringBuilder connectionStringbuilder;
 
-        public ApplicationDbContext(ConnectionStringBuilder builder)
+        public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder)
             : base()
         {
-            this.builder = builder;
+            connectionStringbuilder = stringBuilder;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = Task.Run(builder.GetConnectionString).Result;
-            System.Console.WriteLine($"Using connection string ending: {connectionString.Substring(connectionString.Length - 10)}");
+            string connectionString = Task.Run(connectionStringbuilder.GetConnectionString).Result;
             optionsBuilder.UseNpgsql(connectionString);
         }
 

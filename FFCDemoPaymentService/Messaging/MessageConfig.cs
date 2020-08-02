@@ -14,23 +14,14 @@ namespace FFCDemoPaymentService.Messaging
         public string MessageQueuePassword { get; set; }
         public string MessageQueueEndPoint
         {
-            get
-            {
-                return $"sb://{MessageQueueHost}/";
-            }
+            get => $"sb://{MessageQueueHost}/";
         }
         public string ConnectionString
         {
-            get
-            {
-                return $"Endpoint={MessageQueueEndPoint};SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
-            }
+            get => $"Endpoint={MessageQueueEndPoint};SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
         }
         public TokenProvider TokenProvider {
-            get
-            {
-                return tokenProvider ??= TokenProvider.CreateManagedIdentityTokenProvider();
-            }
+            get => tokenProvider ??= TokenProvider.CreateManagedIdentityTokenProvider();
         }
     }
 }

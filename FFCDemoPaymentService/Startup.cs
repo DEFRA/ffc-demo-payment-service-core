@@ -32,16 +32,17 @@ namespace FFCDemoPaymentService
         {
             AddTelemetry(services);
 
-            var defaultConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var builder = new ConnectionStringBuilder(defaultConnectionString);
-            services.AddSingleton(builder);
+            var isProduction = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
 
+            var connectionStringBuilder = Configuration.GetSection("Postgres").Get<PostgresConnectionStringBuilder>();
+            connectionStringBuilder.UseTokenProvider = isProduction;
+            services.AddSingleton(connectionStringBuilder);
             services.AddDbContext<ApplicationDbContext>();
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
-            messageConfig.UseTokenProvider = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
-
+            messageConfig.UseTokenProvider = isProduction;
             services.AddSingleton(messageConfig);
+
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
