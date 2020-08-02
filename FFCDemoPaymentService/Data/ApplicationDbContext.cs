@@ -8,8 +8,7 @@ namespace FFCDemoPaymentService.Data
     {
         private readonly PostgresConnectionStringBuilder connectionStringbuilder;
 
-        public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder)
-            : base()
+        public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder) : base()
         {
             connectionStringbuilder = stringBuilder;
         }

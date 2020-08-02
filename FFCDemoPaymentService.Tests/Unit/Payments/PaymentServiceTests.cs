@@ -15,11 +15,11 @@ namespace FFCDemoPaymentService.Tests.Unit.Paying
         private IPaymentService paymentService;
         Mock<ApplicationDbContext> mockContext;
         Mock<DbSet<Payment>> mockPaymentDbSet;
-        
+
         [SetUp]
         public void Setup()
         {
-            mockContext = new Mock<ApplicationDbContext>();
+            mockContext = new Mock<ApplicationDbContext>(new Mock<PostgresConnectionStringBuilder>().Object);
             mockPaymentDbSet = new Mock<DbSet<Payment>>();
             mockContext.Setup(x => x.Payments).Returns(mockPaymentDbSet.Object);
             paymentService = new PaymentService(mockContext.Object);
@@ -28,7 +28,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Paying
         [Test]
         public void Test_CreatePayment_SavesChanges()
         {
-            claimId = "ID123"; 
+            claimId = "ID123";
             value = 10.35m;
             paymentService.CreatePayment(claimId, value);
             mockContext.Verify(x => x.SaveChanges(), Times.AtMostOnce);
@@ -37,7 +37,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Paying
         [Test]
         public void Test_CreatePayment_AddsRange()
         {
-            claimId = "ID123"; 
+            claimId = "ID123";
             value = 10.35m;
             paymentService.CreatePayment(claimId, value);
             mockContext.Verify(x => x.AddRange(It.IsAny<Payment>()), Times.AtMostOnce);

@@ -16,11 +16,11 @@ namespace FFCDemoPaymentService.Tests.Unit.Scheduling
         private IScheduleService scheduleService;
         Mock<ApplicationDbContext> mockContext;
         Mock<DbSet<Schedule>> mockScheduleDbSet;
-        
+
         [SetUp]
         public void Setup()
         {
-            mockContext = new Mock<ApplicationDbContext>();
+            mockContext = new Mock<ApplicationDbContext>(new Mock<PostgresConnectionStringBuilder>().Object);
             mockScheduleDbSet = new Mock<DbSet<Schedule>>();
             mockContext.Setup(x => x.Schedule).Returns(mockScheduleDbSet.Object);
             scheduleService = new ScheduleService(mockContext.Object);
@@ -30,7 +30,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Scheduling
         public void Test_CreateSchedule_Adds_Range()
         {
             claimId = "ID123";
-        
+
             scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockScheduleDbSet.Verify(x => x.AddRange(It.IsAny<List<Schedule>>()), Times.AtMostOnce);
@@ -40,7 +40,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Scheduling
         public void Test_CreateSchedule_SavesChanges()
         {
             claimId = "ID123";
-        
+
             scheduleService.CreateSchedule(claimId, DateTime.Now);
 
             mockContext.Verify(x => x.SaveChanges(), Times.AtMostOnce);
