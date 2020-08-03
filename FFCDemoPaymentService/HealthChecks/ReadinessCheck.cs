@@ -24,11 +24,11 @@ namespace FFCDemoPaymentService.HealthChecks
 
             if (databaseHealthyCheck)
             {
-                return 
+                return
                     HealthCheckResult.Healthy("A healthy result.");
             }
 
-            return 
+            return
                 HealthCheckResult.Unhealthy("An unhealthy result from Readiness check.");
         }
 

@@ -38,14 +38,18 @@ and
 
 The following environment variables are required by the application container. Values for development are set in the Docker Compose configuration. Default values for production-like deployments are set in the Helm chart and may be overridden by build and release pipelines.
 
-| Name                                | Description                         | Required | Default                       | Valid                       | Notes |
-|-------------------------------------|-------------------------------------|:--------:|-------------------------------|-----------------------------|-------|
-| ConnectionStrings__DefaultConnection    | Database connection string      | yes      |                               |                             |       | read only file system      |
-| Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-            |                             |       |
-| Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-             |                             |       |
-| Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                               |                             |       |
-| ApplicationInsights__InstrumentationKey | App Insights key                | no       |                               |                             |       | will log to Azure Application Insights if set
-| ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core |                             |       | Set to `ffc-demo-payment-service-core-local` in docker compose files
+| Name                                    | Description                     | Required | Default                        | Valid | Notes |
+|-----------------------------------------|---------------------------------|----------|--------------------------------|-------|-------|
+| ApplicationInsights__InstrumentationKey | App Insights key                | no       |                                |       | will log to Azure Application Insights if set |
+| ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core  |       | Set to `ffc-demo-payment-service-core-local` in docker compose files |
+| Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-             |       |      |
+| Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-              |       |      |
+| Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                                |       |      |
+| Postgres__PostgresUser                  | PostgresSQL role                | yes      | postgres                       |       |      |
+| Postgres__PostgresPassword              | PostgresSQL password            | yes      | ppp                            |       |      |
+| Postgres__PostgresDb                    | PostgresSQL database            | yes      | ffc_demo_payments              |       |      |
+| Postgres__PostgresHost                  | PostgresSQL host name           | yes      | ffc-demo-payment-core-postgres |       |      |
+| Postgres__PostgresPort                  | PostgresSQL port                | yes      | 5432                           |       |      |
 
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.

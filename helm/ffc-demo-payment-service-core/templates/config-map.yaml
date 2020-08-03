@@ -1,11 +1,14 @@
 {{- include "ffc-helm-library.container-config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
 {{- define "ffc-demo-payment-service-core.config-map" -}}
 data:
-  COMPlus_EnableDiagnostics: {{ quote .Values.container.comPlusEnableDiagnostics }}
-  PORT: {{ quote .Values.container.port }}
-  Messaging__ScheduleQueueName: {{ quote .Values.container.scheduleQueueAddress }}
-  Messaging__PaymentQueueName: {{ quote .Values.container.paymentQueueAddress }}
-  Messaging__MessageQueueHost: {{ quote .Values.container.messageQueueHost }}
-  Messaging__MessageQueuePreFetch: {{ quote .Values.container.messageQueuePreFetch }}
-  ApplicationInsights__CloudRole: {{ quote .Values.name }}
+  ApplicationInsights__CloudRole: {{ .Values.name | quote }}
+  COMPlus_EnableDiagnostics: {{ .Values.container.comPlusEnableDiagnostics | quote }}
+  PORT: {{ .Values.container.port | quote }}
+  Messaging__ScheduleQueueName: {{ .Values.container.scheduleQueueAddress | quote }}
+  Messaging__PaymentQueueName: {{ .Values.container.paymentQueueAddress | quote }}
+  Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
+  Messaging__MessageQueuePreFetch: {{ .Values.container.messageQueuePreFetch | quote }}
+  Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
+  Postgres__PostgresHost: {{ .Values.postgresService.postgresHost | quote }}
+  Postgres__PostgresPort: {{ .Values.postgresService.postgresPort | quote }}
 {{- end -}}

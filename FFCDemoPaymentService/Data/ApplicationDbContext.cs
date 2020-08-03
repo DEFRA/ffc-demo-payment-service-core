@@ -1,17 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Models;
+using System.Threading.Tasks;
 
 namespace FFCDemoPaymentService.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() {}
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        private readonly PostgresConnectionStringBuilder connectionStringbuilder;
+
+        public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder) : base()
         {
+            connectionStringbuilder = stringBuilder;
         }
 
-        public virtual DbSet<Schedule> Schedule { get; set; } 
-        public virtual DbSet<Payment> Payments { get; set; } 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string connectionString = Task.Run(connectionStringbuilder.GetConnectionString).Result;
+            optionsBuilder.UseNpgsql(connectionString);
+        }
+
+        public virtual DbSet<Schedule> Schedule { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }
