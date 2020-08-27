@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +10,6 @@ using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
 using FFCDemoPaymentService.Payments;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -30,6 +28,10 @@ namespace FFCDemoPaymentService
         public void ConfigureServices(IServiceCollection services)
         {
             AddTelemetry(services);
+
+            Console.WriteLine("***************DB STUFF");
+            var schemaConfig = Configuration.GetSection("Schema").Get<SchemaConfig>();
+            services.AddSingleton(schemaConfig);
 
             var isProduction = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
 
@@ -86,29 +88,6 @@ namespace FFCDemoPaymentService
             {
                 endpoints.MapControllers();
             });
-
-            ApplyMigrations(dbContext);
-        }
-
-        public void ApplyMigrations(ApplicationDbContext dbContext)
-        {
-            if (dbContext.Database.GetPendingMigrations().Any())
-            {
-                Console.WriteLine("Pending migrations found, updating database");
-                try
-                {
-                    dbContext.Database.Migrate();
-                    Console.WriteLine("Database migration complete");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error running migrations: {0}", ex);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No pending migrations");
-            }
         }
     }
 }
