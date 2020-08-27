@@ -1,3 +1,3 @@
-@Library('defra-library@v-8') _
+@Library('defra-library@fix-pact-broker-publish') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService'
