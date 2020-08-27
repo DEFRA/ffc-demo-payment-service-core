@@ -1,10 +1,9 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.InteropExtensions;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -55,7 +54,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private async Task ProcessMessagesAsync(Message message, CancellationToken token)
         {
-            var messageBody = JsonConvert.SerializeObject(message.GetBody<object>());
+            var messageBody = Encoding.UTF8.GetString(message.Body);
             Console.WriteLine("Received message");
             Console.WriteLine(messageBody);
             action.ReceiveMessage(messageBody);
