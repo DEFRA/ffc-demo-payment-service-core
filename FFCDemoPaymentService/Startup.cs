@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +28,6 @@ namespace FFCDemoPaymentService
         {
             AddTelemetry(services);
 
-            Console.WriteLine("***************DB STUFF");
             var schemaConfig = Configuration.GetSection("Schema").Get<SchemaConfig>();
             services.AddSingleton(schemaConfig);
 

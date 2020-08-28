@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using FFCDemoPaymentService.Models;
 using System.Threading.Tasks;
-using System;
 
 namespace FFCDemoPaymentService.Data
 {
@@ -14,7 +13,7 @@ namespace FFCDemoPaymentService.Data
         public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder) : base()
         {
             connectionStringbuilder = stringBuilder;
-            this.schemaConfig = null;
+            schemaConfig = null;
         }
 
         public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder, SchemaConfig schemaConfig) : base()
@@ -34,7 +33,6 @@ namespace FFCDemoPaymentService.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Console.WriteLine("***************ONMODELCREATING");
             if (schemaConfig != null)
             {
                 modelBuilder.HasDefaultSchema(schemaConfig.Default);
