@@ -1,7 +1,7 @@
 # FFC Demo Payment Service
 Future Farming and Countryside programme payment service.
 
-Digital service mock to claim public money in the event property subsides into mine shaft.  The payment service subscribes to a message queue for new claims and saves a monthly payment schedule in a Postgresql database.  It also subscribes to the queue for new calculations and updates the value to pay in the database.
+Digital service mock to claim public money in the event property subsides into mine shaft.  The payment service subscribes to a message queue for new claims and saves a monthly payment schedule in a PostgreSQL database.  It also subscribes to the queue for new calculations and updates the value to pay in the database.
 
 This is a C# .Net Core copy of https://github.com/DEFRA/ffc-demo-payment-service.  The purpose of which is to confirm FFC Platform is capable of supporting .Net Core as well as Node.js.
 
@@ -38,18 +38,19 @@ and
 
 The following environment variables are required by the application container. Values for development are set in the Docker Compose configuration. Default values for production-like deployments are set in the Helm chart and may be overridden by build and release pipelines.
 
-| Name                                    | Description                     | Required | Default                        | Valid | Notes |
-|-----------------------------------------|---------------------------------|----------|--------------------------------|-------|-------|
-| ApplicationInsights__InstrumentationKey | App Insights key                | no       |                                |       | will log to Azure Application Insights if set |
-| ApplicationInsights__CloudRole          | Role used for filtering metrics | no       | ffc-demo-payment-service-core  |       | Set to `ffc-demo-payment-service-core-local` in docker compose files |
-| Messaging__ScheduleQueueName            | Schedule queue name             | no       | ffc-demo-schedule-             |       |      |
-| Messaging__PaymentQueueName             | Payment queue name              | no       | ffc-demo-payment-              |       |      |
-| Messaging__MessageQueuePreFetch         | No of messages to pre fetch     | no       |                                |       |      |
-| Postgres__PostgresUser                  | PostgresSQL role                | yes      | postgres                       |       |      |
-| Postgres__PostgresPassword              | PostgresSQL password            | yes      | ppp                            |       |      |
-| Postgres__PostgresDb                    | PostgresSQL database            | yes      | ffc_demo_payments              |       |      |
-| Postgres__PostgresHost                  | PostgresSQL host name           | yes      | ffc-demo-payment-core-postgres |       |      |
-| Postgres__PostgresPort                  | PostgresSQL port                | yes      | 5432                           |       |      |
+| Name                                    | Description                        | Required | Default                        | Valid | Notes                                                                |
+| ----                                    | -----------                        | -------- | -------                        | ----- | -----                                                                |
+| ApplicationInsights__InstrumentationKey | App Insights key                   | no       |                                |       | will log to Azure Application Insights if set                        |
+| ApplicationInsights__CloudRole          | Role used for filtering metrics    | no       | ffc-demo-payment-service-core  |       | Set to `ffc-demo-payment-service-core-local` in docker compose files |
+| Messaging__ScheduleQueueName            | Schedule queue name                | no       | ffc-demo-schedule-             |       |                                                                      |
+| Messaging__PaymentQueueName             | Payment queue name                 | no       | ffc-demo-payment-              |       |                                                                      |
+| Messaging__MessageQueuePreFetch         | No of messages to pre fetch        | no       |                                |       |                                                                      |
+| Postgres__PostgresUser                  | PostgresSQL role                   | yes      | postgres                       |       |                                                                      |
+| Postgres__PostgresPassword              | PostgresSQL password               | yes      | ppp                            |       |                                                                      |
+| Postgres__PostgresDb                    | PostgresSQL database               | yes      | ffc_demo_payments              |       |                                                                      |
+| Postgres__PostgresHost                  | PostgresSQL host name              | yes      | ffc-demo-payment-core-postgres |       |                                                                      |
+| Postgres__PostgresPort                  | PostgresSQL port                   | yes      | 5432                           |       |                                                                      |
+| Schema__Default                         | Default schema used in PostgresSQL | no       | public                         |       |                                                                      |
 
 ## How to run tests
 Tests should be run in a container.  Docker compose files are provided to aide with this.
@@ -60,13 +61,23 @@ This file runs all tests and exits the container. If any tests fails the error w
 `docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
-This file is intended to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurence.
+This file is intended to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurrence.
 
 `docker-compose -p ffc-demo-payment-service-core-test -f docker-compose.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
 - A Helm chart is provided for production deployments to Kubernetes.
+
+The service uses [Liquibase](https://www.liquibase.org/) to manage database migrations. To ensure the appropriate migrations have been run the utility script `scripts/start` may be run to execute the migrations, then the application.
+
+Alternatively the steps can be run manually:
+* run migrations
+  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
+* start
+  * `docker-compose up`
+* stop
+  * `docker-compose down` or CTRL-C
 
 ### Build container image
 Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes.
