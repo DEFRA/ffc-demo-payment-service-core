@@ -51,6 +51,7 @@ postgresService:
   postgresExternalName:
   postgresUser: postgres
   postgresDb: ffc_demo_payments
+  schemaName: public
 
 readinessProbe:
   path: /healthy
