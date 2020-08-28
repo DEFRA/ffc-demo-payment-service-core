@@ -7,24 +7,24 @@ namespace FFCDemoPaymentService.Data
     public class ApplicationDbContext : DbContext
     {
         private readonly SchemaConfig schemaConfig;
-        private readonly PostgresConnectionStringBuilder connectionStringbuilder;
+        private readonly PostgresConnectionStringBuilder connectionStringBuilder;
 
         public ApplicationDbContext() { }
         public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder) : base()
         {
-            connectionStringbuilder = stringBuilder;
+            connectionStringBuilder = stringBuilder;
             schemaConfig = null;
         }
 
         public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder, SchemaConfig schemaConfig) : base()
         {
-            connectionStringbuilder = stringBuilder;
+            connectionStringBuilder = stringBuilder;
             this.schemaConfig = schemaConfig;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = Task.Run(connectionStringbuilder.GetConnectionString).Result;
+            string connectionString = Task.Run(connectionStringBuilder.GetConnectionString).Result;
             optionsBuilder.UseNpgsql(connectionString);
         }
 
