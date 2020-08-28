@@ -11,6 +11,12 @@ namespace FFCDemoPaymentService.Data
         private readonly PostgresConnectionStringBuilder connectionStringbuilder;
 
         public ApplicationDbContext() { }
+        public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder) : base()
+        {
+            connectionStringbuilder = stringBuilder;
+            this.schemaConfig = null;
+        }
+
         public ApplicationDbContext(PostgresConnectionStringBuilder stringBuilder, SchemaConfig schemaConfig) : base()
         {
             connectionStringbuilder = stringBuilder;
