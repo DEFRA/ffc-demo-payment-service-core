@@ -22,6 +22,7 @@ services:
       Postgres__PostgresDb: ffc_demo_payments
       Postgres__PostgresHost: ffc-demo-payment-core-postgres
       Postgres__PostgresPort: "5432"
+      Schema__Default: ${POSTGRES_SCHEMA_NAME:-public}
 
   ffc-demo-payment-core-postgres:
     image: postgres:11.4-alpine
