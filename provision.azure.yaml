@@ -1,0 +1,4 @@
+resources:
+  queues:
+    - name: payment
+    - name: schedule
