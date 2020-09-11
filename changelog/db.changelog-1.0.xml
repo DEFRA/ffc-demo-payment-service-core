@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
     <changeSet author="liquibase (generated)" id="1595947506750-1">
-     <tagDatabase tag="v1.0.0" />
+     <tagDatabase tag="v0.0.0" />
         <createTable tableName="schedule">
             <column autoIncrement="true" name="scheduleId" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_schedule"/>
@@ -16,6 +16,7 @@
         </rollback>
     </changeSet>
     <changeSet author="liquibase (generated)" id="1595947506750-3">
+    <tagDatabase tag="v1.0.0" />
         <createTable tableName="payments">
             <column name="claimId" type="TEXT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_payments"/>
