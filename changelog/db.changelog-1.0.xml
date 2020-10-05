@@ -3,7 +3,10 @@
     <changeSet author="Fay Toward" id="1595947506750-0">
       <tagDatabase tag="v0.0.0" />
     </changeSet>
-    <changeSet author="liquibase (generated)" id="1595947506750-1">
+    <changeSet author="Fay Toward" id="1595947506750-1">
+      <tagDatabase tag="v1.0.0" />
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1595947506750-2">
         <createTable tableName="schedule">
             <column autoIncrement="true" name="scheduleId" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_schedule"/>
@@ -29,8 +32,5 @@
         <rollback>
           <dropTable tableName="payments" />
         </rollback>
-    </changeSet>
-    <changeSet author="Fay Toward" id="1595947506750-4">
-      <tagDatabase tag="v1.0.0" />
     </changeSet>
 </databaseChangeLog>
