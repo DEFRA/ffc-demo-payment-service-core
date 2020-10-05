@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,9 +57,17 @@ namespace FFCDemoPaymentService
 
         private void AddTelemetry(IServiceCollection services)
         {
-            string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
-            services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
-            services.AddApplicationInsightsTelemetry();
+            if (!string.IsNullOrEmpty(Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey")))
+            {
+                string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
+                services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
+                services.AddApplicationInsightsTelemetry();
+                Console.WriteLine("App Insights Running");
+            }
+            else
+            {
+                Console.WriteLine("App Insights Not Running!");
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
