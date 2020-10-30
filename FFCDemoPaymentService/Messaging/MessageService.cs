@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
+using FFCDemoPaymentService.Telemetry;
 using Microsoft.Extensions.Hosting;
 
 
@@ -17,22 +18,25 @@ namespace FFCDemoPaymentService.Messaging
         private Receiver<Payment> paymentReceiver;
         private Receiver<Schedule> scheduleReceiver;
         private readonly int credits;
+        private readonly ITelemetryProvider telemetryProvider;
 
         public MessageService(
             MessageConfig messageConfig,
             IMessageAction<Schedule> scheduleAction,
-            IMessageAction<Payment> paymentAction)
+            IMessageAction<Payment> paymentAction,
+            ITelemetryProvider telemetryProvider)
         {
             this.messageConfig = messageConfig;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
             credits = int.Parse(messageConfig.MessageQueuePreFetch);
+            this.telemetryProvider = telemetryProvider;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentQueueName, paymentAction, credits);
-            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleQueueName, scheduleAction, credits);
+            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentQueueName, paymentAction, telemetryProvider, credits);
+            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleQueueName, scheduleAction, telemetryProvider,  credits);
 
             return Task.CompletedTask;
         }

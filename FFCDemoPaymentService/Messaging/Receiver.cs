@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
+using FFCDemoPaymentService.Telemetry;
 using Microsoft.Azure.ServiceBus;
 
 namespace FFCDemoPaymentService.Messaging
@@ -12,13 +13,16 @@ namespace FFCDemoPaymentService.Messaging
         private readonly IMessageAction<T> action;
         private readonly int credit;
         private IQueueClient queueClient;
+        private readonly ITelemetryProvider telemetryProvider;
 
-        public Receiver(MessageConfig messageConfig, string queueName, IMessageAction<T> messageAction, int credit = 1)
+        public Receiver(MessageConfig messageConfig, string queueName, IMessageAction<T> messageAction,
+                        ITelemetryProvider telemetryProvider, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
             CreateReceiver(messageConfig, queueName);
             RegisterOnMessageHandlerAndReceiveMessages();
+            this.telemetryProvider = telemetryProvider;
         }
 
         public async Task CloseAsync()
@@ -47,13 +51,15 @@ namespace FFCDemoPaymentService.Messaging
             var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
             {
                 MaxConcurrentCalls = credit,
-                AutoComplete = false,
+                AutoComplete = false,               
             };
             queueClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
         }
 
         private async Task ProcessMessagesAsync(Message message, CancellationToken token)
         {
+            telemetryProvider.SessionId = message.CorrelationId;
+            telemetryProvider.TrackTrace("Trace Receiver");
             var messageBody = Encoding.UTF8.GetString(message.Body);
             Console.WriteLine("Received message");
             Console.WriteLine(messageBody);
@@ -63,6 +69,7 @@ namespace FFCDemoPaymentService.Messaging
 
         private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
         {
+            telemetryProvider.TrackException(new Exception($"Message handler encountered an exception {exceptionReceivedEventArgs.Exception}."));
             Console.WriteLine($"Message handler encountered an exception {exceptionReceivedEventArgs.Exception}.");
             var context = exceptionReceivedEventArgs.ExceptionReceivedContext;
             Console.WriteLine("Exception context for troubleshooting:");

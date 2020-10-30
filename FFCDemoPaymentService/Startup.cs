@@ -13,6 +13,7 @@ using FFCDemoPaymentService.Payments;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.HealthChecks;
 using Microsoft.ApplicationInsights.Extensibility;
+using FFCDemoPaymentService.Telemetry;
 
 namespace FFCDemoPaymentService
 {
@@ -47,6 +48,7 @@ namespace FFCDemoPaymentService
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IMessageAction<Schedule>, ScheduleAction>();
             services.AddSingleton<IMessageAction<Payment>, PaymentAction>();
+            services.AddSingleton<ITelemetryProvider, TelemetryProvider>();
 
             services.AddHealthChecks()
                 .AddCheck<ReadinessCheck>("ServiceReadinessCheck")
@@ -60,7 +62,7 @@ namespace FFCDemoPaymentService
             if (!string.IsNullOrEmpty(Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey")))
             {
                 string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
-                services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
+                services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));                
                 services.AddApplicationInsightsTelemetry();
                 Console.WriteLine("App Insights Running");
             }
