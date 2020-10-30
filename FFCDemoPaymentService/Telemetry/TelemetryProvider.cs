@@ -8,15 +8,13 @@ namespace FFCDemoPaymentService.Telemetry
 {
     public class TelemetryProvider : ITelemetryProvider
     {
-        private readonly TelemetryClient client;
-        private readonly IConfiguration configuration;
+        private readonly TelemetryClient client;        
         private readonly string cloudRoleName;
 
         public TelemetryProvider(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-            this.client = new TelemetryClient(new TelemetryConfiguration(this.configuration.GetValue<string>("ApplicationInsights:InstrumentationKey")));
-            this.cloudRoleName = this.configuration.GetValue<string>("ApplicationInsights:CloudRole");
+        {            
+            this.client = new TelemetryClient(new TelemetryConfiguration(configuration["ApplicationInsights:InstrumentationKey"]));
+            this.cloudRoleName = configuration["ApplicationInsights:CloudRole"];
         }
 
         public string SessionId
