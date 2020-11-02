@@ -62,7 +62,7 @@ namespace FFCDemoPaymentService
             if (!string.IsNullOrEmpty(Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey")))
             {
                 string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
-                services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));                
+                services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
                 services.AddApplicationInsightsTelemetry();
                 Console.WriteLine("App Insights Running");
             }

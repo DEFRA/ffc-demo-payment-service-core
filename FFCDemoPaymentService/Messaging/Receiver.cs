@@ -51,7 +51,7 @@ namespace FFCDemoPaymentService.Messaging
             var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
             {
                 MaxConcurrentCalls = credit,
-                AutoComplete = false,               
+                AutoComplete = false,
             };
             queueClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
         }
