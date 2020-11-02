@@ -1,3 +1,3 @@
-@Library('defra-library@psd-813-main-branch') _
+@Library('defra-library@v-9') _
 
 buildDotNetCore environment: 'dev', project: 'FFCDemoPaymentService', defaultBranch: 'master'
