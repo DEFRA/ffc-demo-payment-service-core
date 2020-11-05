@@ -17,12 +17,6 @@ namespace FFCDemoPaymentService.Telemetry
             this.cloudRoleName = configuration["ApplicationInsights:CloudRole"];
         }
 
-        public string SessionId
-        {
-            get => this.client.Context.Session.Id;
-            set => this.client.Context.Session.Id = value;            
-        }
-        
         public void TrackEvent(string name)
         {
             this.client.TrackEvent($"{this.cloudRoleName} - {name}");

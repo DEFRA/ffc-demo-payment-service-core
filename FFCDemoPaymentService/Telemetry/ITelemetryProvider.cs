@@ -5,7 +5,6 @@ namespace FFCDemoPaymentService.Telemetry
 {
     public interface ITelemetryProvider
     {        
-        string SessionId { get; set; }
         void TrackDependency(string name, string typeName, string data, DateTime startTime, TimeSpan duration, bool success);
         void TrackEvent(string name);
         void TrackEvent(string name, Dictionary<string, string> properties);
