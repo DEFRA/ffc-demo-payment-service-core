@@ -58,7 +58,6 @@ namespace FFCDemoPaymentService.Messaging
 
         private async Task ProcessMessagesAsync(Message message, CancellationToken token)
         {
-            telemetryProvider.SessionId = message.CorrelationId;
             telemetryProvider.TrackTrace("Trace Receiver");
             var messageBody = Encoding.UTF8.GetString(message.Body);
             Console.WriteLine("Received message");
