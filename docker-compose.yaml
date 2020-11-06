@@ -30,8 +30,3 @@ services:
       POSTGRES_DB: ffc_demo_payments
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: ppp
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data: {}
