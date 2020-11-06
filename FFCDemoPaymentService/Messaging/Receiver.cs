@@ -36,12 +36,12 @@ namespace FFCDemoPaymentService.Messaging
 
             if (messageConfig.UseTokenProvider)
             {
-                Console.WriteLine($"Using Token Provider");
+                Console.WriteLine($"Using token provider");
                 queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
             }
             else
             {
-                Console.WriteLine("Using Connection String");
+                Console.WriteLine("Using connection string");
                 queueClient = new QueueClient(messageConfig.ConnectionString, queueName);
             }
         }
@@ -60,10 +60,16 @@ namespace FFCDemoPaymentService.Messaging
         {
             telemetryProvider.TrackTrace("Trace Receiver");
             var messageBody = Encoding.UTF8.GetString(message.Body);
-            Console.WriteLine("Received message");
-            Console.WriteLine(messageBody);
-            action.ReceiveMessage(messageBody);
-            await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+            try
+            {
+                action.ReceiveMessage(messageBody);
+                await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to process message {ex}");
+                await queueClient.AbandonAsync(message.SystemProperties.LockToken);
+            }
         }
 
         private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)

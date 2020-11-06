@@ -43,9 +43,9 @@ namespace FFCDemoPaymentService.Messaging
 
         public async override Task StopAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine("closing paymentReceiver...");
+            Console.WriteLine("Closing payment receiver");
             await paymentReceiver.CloseAsync();
-            Console.WriteLine("closing scheduleReceiver...");
+            Console.WriteLine("Closing schedule receiver");
             await scheduleReceiver.CloseAsync();
         }
     }
