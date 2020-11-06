@@ -16,11 +16,11 @@ namespace FFCDemoPaymentService.Scheduling
 
         public void CreateSchedule(string claimId, DateTime startDate)
         {
-            Console.WriteLine("Creating Schedule for {0}", claimId);
             try
             {
                 db.Schedule.AddRange(ScheduleBuilder(claimId, startDate));
                 db.SaveChanges();
+                Console.WriteLine("Created schedule for {0}", claimId);
             }
             catch (DbUpdateException)
             {

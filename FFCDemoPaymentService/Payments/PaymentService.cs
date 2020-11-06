@@ -15,12 +15,12 @@ namespace FFCDemoPaymentService.Payments
 
         public void CreatePayment(string claimId, decimal value)
         {
-            Console.WriteLine("Creating Payment for {0}", claimId);
             Payment payment = new Payment { ClaimId = claimId, Value = value };
             try
             {
                 db.Payments.AddRange(payment);
                 db.SaveChanges();
+                Console.WriteLine("Created payment for {0}", claimId);
             }
             catch (DbUpdateException)
             {
