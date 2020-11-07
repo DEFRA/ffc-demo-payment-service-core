@@ -7,7 +7,6 @@ services:
   ffc-demo-payment-service-core:
     build:
       target: development
-    image: ffc-demo-payment-service-core-development
     ports:
       - "3007:3007"
     volumes:
