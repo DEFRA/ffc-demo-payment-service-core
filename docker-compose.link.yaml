@@ -1,22 +1,5 @@
 version: '3.7'
-
-# This override file should be used in development environments to
-# connect this service to sibling services from other repositories
-
-services:
-  ffc-demo-payment-service-core:
-    build:
-      target: development
-    image: ffc-demo-payment-service-core-development
-    networks:
-      - default
-      - ffc-demo
-    ports:
-      - "3007:3007"
-    volumes:
-      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
-      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
-
 networks:
-  ffc-demo:
-   external: true
+  default:
+    external:
+      name: ffc-demo
