@@ -9,12 +9,10 @@ This is a C# .Net Core copy of https://github.com/DEFRA/ffc-demo-payment-service
 
 - Access to an instance of an
 [Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)(ASB).
-
-Either:
 - Docker
 - Docker Compose
 
-Or:
+Optional:
 - Kubernetes
 - Helm
 
