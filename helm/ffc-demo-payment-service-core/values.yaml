@@ -70,3 +70,5 @@ livenessProbe:
 volumeMounts:
   mountPath: /var/www/
   name: core-app-dir
+
+aadPodIdentity: true
