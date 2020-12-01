@@ -5,25 +5,25 @@ ignore:
   SNYK-DOTNET-SYSTEMNETHTTP-72439:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
   SNYK-DOTNET-SYSTEMNETHTTP-60048:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
   SNYK-DOTNET-SYSTEMNETHTTP-60047:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
   SNYK-DOTNET-SYSTEMNETHTTP-60046:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
   SNYK-DOTNET-SYSTEMNETHTTP-60045:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
   SNYK-DOTNET-SYSTEMTEXTREGULAREXPRESSIONS-174708:
     - '*':
         reason: Not currently exploitable
-        expires: 2020-12-01T00:00:00.000Z
+        expires: 2021-01-01T00:00:00.000Z
 patch: {}
