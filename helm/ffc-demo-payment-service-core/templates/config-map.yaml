@@ -6,8 +6,8 @@ data:
   PORT: {{ .Values.container.port | quote }}
   Messaging__ScheduleTopicName: {{ .Values.container.scheduleTopicAddress | quote }}
   Messaging__PaymentTopicName: {{ .Values.container.paymentTopicAddress | quote }}
-  Messaging__ScheduleSubscriptionName: {{ .Values.container.scheduleSubscriptionAddress | quote }}
-  Messaging__PaymentSubscriptionName: {{ .Values.container.paymentSubscriptionAddress | quote }}
+  Messaging__ScheduleSubscriptionName: {{ .Values.container.schedulecSubscriptionAddress | quote }}
+  Messaging__PaymentSubscriptionName: {{ .Values.container.paymentcSubscriptionAddress | quote }}
   Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
   Messaging__MessageQueuePreFetch: {{ .Values.container.messageQueuePreFetch | quote }}
   Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
