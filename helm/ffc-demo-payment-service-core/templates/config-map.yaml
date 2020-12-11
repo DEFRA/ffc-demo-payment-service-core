@@ -4,8 +4,10 @@ data:
   ApplicationInsights__CloudRole: {{ .Values.name | quote }}
   COMPlus_EnableDiagnostics: {{ .Values.container.comPlusEnableDiagnostics | quote }}
   PORT: {{ .Values.container.port | quote }}
-  Messaging__ScheduleQueueName: {{ .Values.container.scheduleQueueAddress | quote }}
-  Messaging__PaymentQueueName: {{ .Values.container.paymentQueueAddress | quote }}
+  Messaging__ScheduleTopicName: {{ .Values.container.scheduleTopicAddress | quote }}
+  Messaging__PaymentTopicName: {{ .Values.container.paymentTopicAddress | quote }}
+  Messaging__ScheduleSubscriptionName: {{ .Values.container.scheduleSubscriptionAddress | quote }}
+  Messaging__PaymentSubscriptionName: {{ .Values.container.paymentSubscriptionAddress | quote }}
   Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
   Messaging__MessageQueuePreFetch: {{ .Values.container.messageQueuePreFetch | quote }}
   Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}

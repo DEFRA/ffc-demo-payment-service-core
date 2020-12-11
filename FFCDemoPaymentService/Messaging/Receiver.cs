@@ -12,37 +12,37 @@ namespace FFCDemoPaymentService.Messaging
     {
         private readonly IMessageAction<T> action;
         private readonly int credit;
-        private IQueueClient queueClient;
+        private ISubscriptionClient subscriptionClient;
         private readonly ITelemetryProvider telemetryProvider;
 
-        public Receiver(MessageConfig messageConfig, string queueName, IMessageAction<T> messageAction,
+        public Receiver(MessageConfig messageConfig, string topicName, string subscriptionName, IMessageAction<T> messageAction,
                         ITelemetryProvider telemetryProvider, int credit = 1)
         {
             action = messageAction;
             this.credit = credit;
-            CreateReceiver(messageConfig, queueName);
+            CreateReceiver(messageConfig, topicName, subscriptionName);
             RegisterOnMessageHandlerAndReceiveMessages();
             this.telemetryProvider = telemetryProvider;
         }
 
         public async Task CloseAsync()
         {
-            await queueClient.CloseAsync();
+            await subscriptionClient.CloseAsync();
         }
 
-        private void CreateReceiver(MessageConfig messageConfig, string queueName)
+        private void CreateReceiver(MessageConfig messageConfig, string topicName, string subscriptionName)
         {
-            Console.WriteLine($"Creating {queueName} receiver at {messageConfig.MessageQueueEndPoint}");
+            Console.WriteLine($"Creating {subscriptionName} receiver at {messageConfig.MessageQueueEndPoint}");
 
             if (messageConfig.UseTokenProvider)
             {
                 Console.WriteLine($"Using token provider");
-                queueClient = new QueueClient(messageConfig.MessageQueueEndPoint, queueName, messageConfig.TokenProvider);
+                subscriptionClient = new SubscriptionClient(messageConfig.MessageQueueEndPoint, topicName, subscriptionName, messageConfig.TokenProvider);
             }
             else
             {
                 Console.WriteLine("Using connection string");
-                queueClient = new QueueClient(messageConfig.ConnectionString, queueName);
+                subscriptionClient = new SubscriptionClient(messageConfig.ConnectionString, topicName, subscriptionName);
             }
         }
 
@@ -53,7 +53,7 @@ namespace FFCDemoPaymentService.Messaging
                 MaxConcurrentCalls = credit,
                 AutoComplete = false,
             };
-            queueClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
+            subscriptionClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
         }
 
         private async Task ProcessMessagesAsync(Message message, CancellationToken token)
@@ -63,12 +63,12 @@ namespace FFCDemoPaymentService.Messaging
             try
             {
                 action.ReceiveMessage(messageBody);
-                await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+                await subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Unable to process message {ex}");
-                await queueClient.AbandonAsync(message.SystemProperties.LockToken);
+                await subscriptionClient.AbandonAsync(message.SystemProperties.LockToken);
             }
         }
 

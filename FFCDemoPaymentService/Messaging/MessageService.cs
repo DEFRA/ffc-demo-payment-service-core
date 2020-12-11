@@ -35,8 +35,8 @@ namespace FFCDemoPaymentService.Messaging
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentQueueName, paymentAction, telemetryProvider, credits);
-            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleQueueName, scheduleAction, telemetryProvider, credits);
+            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName, paymentAction, telemetryProvider, credits);
+            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName, scheduleAction, telemetryProvider, credits);
 
             return Task.CompletedTask;
         }
