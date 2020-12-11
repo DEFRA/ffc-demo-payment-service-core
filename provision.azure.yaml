@@ -1,4 +1,4 @@
 resources:
   topics:
-    - name: payment_core
-    - name: schedule_core
+    - name: paymentc
+    - name: schedulec
