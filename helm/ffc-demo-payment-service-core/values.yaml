@@ -41,8 +41,8 @@ container:
   port: 3007
   scheduleTopicAddress: schedule
   paymentTopicAddress: payment
-  schedulecSubscriptionAddress: schedule
-  paymentcSubscriptionAddress: payment
+  scheduleSubscriptionAddress: schedule
+  paymentSubscriptionAddress: payment
   messageQueueHost: servicebus
   messageQueuePreFetch: 1
   comPlusEnableDiagnostics: 0
