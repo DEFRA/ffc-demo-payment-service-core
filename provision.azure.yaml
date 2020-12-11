@@ -1,4 +1,4 @@
 resources:
   topics:
-    - name: paymentc
-    - name: schedulec
+    - name: payment
+    - name: schedule

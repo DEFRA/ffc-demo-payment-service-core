@@ -12,9 +12,9 @@ services:
       ApplicationInsights__InstrumentationKey: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       ApplicationInsights__CloudRole: ffc-demo-payment-service-core-local
       Messaging__ScheduleTopicName: ${SCHEDULE_TOPIC_ADDRESS:-notset}
-      Messaging__ScheduleSubscriptionName: ${SCHEDULEC_SUBSCRIPTION_ADDRESS:-notset}
+      Messaging__ScheduleSubscriptionName: ${SCHEDULE_SUBSCRIPTION_ADDRESS:-notset}
       Messaging__PaymentTopicName: ${PAYMENT_TOPIC_ADDRESS:-notset}
-      Messaging__PaymentSubscriptionName: ${PAYMENTC_SUBSCRIPTION_ADDRESS:-notset}
+      Messaging__PaymentSubscriptionName: ${PAYMENT_SUBSCRIPTION_ADDRESS:-notset}
       Messaging__MessageQueueHost: ${MESSAGE_QUEUE_HOST:-notset}
       Messaging__MessageQueuePreFetch: "5"
       Messaging__MessageQueueUser: ${MESSAGE_QUEUE_USER:-notset}
