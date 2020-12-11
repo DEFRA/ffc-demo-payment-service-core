@@ -1,4 +1,4 @@
 resources:
   topics:
-    - name: payment
-    - name: schedule
+    - name: payment_core
+    - name: schedule_core
