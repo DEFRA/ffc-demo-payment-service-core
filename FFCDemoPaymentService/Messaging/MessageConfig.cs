@@ -6,8 +6,10 @@ namespace FFCDemoPaymentService.Messaging
     {
         private TokenProvider tokenProvider;
         public bool UseTokenProvider { get; set; }
-        public string ScheduleQueueName { get; set; }
-        public string PaymentQueueName { get; set; }
+        public string ScheduleTopicName { get; set; }
+        public string PaymentTopicName { get; set; }
+        public string ScheduleSubscriptionName { get; set; }
+        public string PaymentSubscriptionName { get; set; }
         public string MessageQueueHost { get; set; }
         public string MessageQueuePreFetch { get; set; }
         public string MessageQueueUser { get; set; }

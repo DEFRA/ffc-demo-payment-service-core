@@ -1,4 +1,4 @@
 resources:
-  queues:
+  topics:
     - name: payment
     - name: schedule

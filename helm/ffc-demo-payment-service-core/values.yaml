@@ -39,8 +39,10 @@ container:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   port: 3007
-  scheduleQueueAddress: schedule
-  paymentQueueAddress: payment
+  scheduleTopicAddress: schedule
+  paymentTopicAddress: payment
+  scheduleSubscriptionAddress: schedule
+  paymentSubscriptionAddress: payment
   messageQueueHost: servicebus
   messageQueuePreFetch: 1
   comPlusEnableDiagnostics: 0
