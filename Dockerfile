@@ -6,6 +6,8 @@ ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore-development:${PARENT_VERSION}
 
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
+RUN mkdir -p /home/dotnet/packages
+COPY --chown=dotnet:dotnet ./packages/ ./packages/
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
 RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
