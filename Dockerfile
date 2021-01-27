@@ -1,10 +1,13 @@
 ARG PARENT_VERSION=1.2.2-dotnet3.1
+ARG NPM_REGISTRY=https://registry.npmjs.org/
 
 # Development
 FROM defradigital/dotnetcore-development:${PARENT_VERSION} AS development
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore-development:${PARENT_VERSION}
 
+ARG NPM_REGISTRY
+RUN npm config set registry ${NPM_REGISTRY}
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
@@ -29,6 +32,8 @@ ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
 ARG PORT=3007
+ARG NPM_REGISTRY
+RUN npm config set registry ${NPM_REGISTRY}
 ENV ASPNETCORE_URLS http://*:${PORT}
 EXPOSE ${PORT}
 # Override entrypoint using shell form so that environment variables are picked up
