@@ -1,19 +1,19 @@
 ARG PARENT_VERSION=1.2.2-dotnet3.1
-ARG NPM_REGISTRY=https://registry.npmjs.org/
+ARG NUGET_REPOSITORY=https://api.nuget.org/v3/index.json
 
 # Development
 FROM defradigital/dotnetcore-development:${PARENT_VERSION} AS development
 ARG PARENT_VERSION
+ARG NUGET_REPOSITORY
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore-development:${PARENT_VERSION}
 
-ARG NPM_REGISTRY
 RUN npm config set registry ${NPM_REGISTRY}
 COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 RUN mkdir -p /home/dotnet/FFCDemoPaymentService/ /home/dotnet/FFCDemoPaymentService.Tests/
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/*.csproj ./FFCDemoPaymentService.Tests/
-RUN dotnet restore ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
+RUN dotnet restore -s ${NUGET_REPOSITORY} ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/*.csproj ./FFCDemoPaymentService/
-RUN dotnet restore ./FFCDemoPaymentService/FFCDemoPaymentService.csproj
+RUN dotnet restore -s ${NUGET_REPOSITORY} ./FFCDemoPaymentService/FFCDemoPaymentService.csproj
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService.Tests/ ./FFCDemoPaymentService.Tests/
 # some CI builds fail with back to back COPY statements, eg Azure DevOps
 RUN true
@@ -29,11 +29,10 @@ ENTRYPOINT dotnet watch --project ./FFCDemoPaymentService run --urls "http://*:$
 # Production
 FROM defradigital/dotnetcore:${PARENT_VERSION} AS production
 ARG PARENT_VERSION
+ARG NUGET_REPOSITORY
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
 ARG PORT=3007
-ARG NPM_REGISTRY
-RUN npm config set registry ${NPM_REGISTRY}
 ENV ASPNETCORE_URLS http://*:${PORT}
 EXPOSE ${PORT}
 # Override entrypoint using shell form so that environment variables are picked up
