@@ -36,12 +36,12 @@ namespace FFCDemoPaymentService
             var isProduction = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
 
             var connectionStringBuilder = Configuration.GetSection("Postgres").Get<PostgresConnectionStringBuilder>();
-            connectionStringBuilder.UseTokenProvider = isProduction;
+            connectionStringBuilder.UseCredentialChain = isProduction;
             services.AddSingleton(connectionStringBuilder);
             services.AddDbContext<ApplicationDbContext>();
 
             var messageConfig = Configuration.GetSection("Messaging").Get<MessageConfig>();
-            messageConfig.UseTokenProvider = isProduction;
+            messageConfig.UseCredentialChain = isProduction;
             services.AddSingleton(messageConfig);
 
             services.AddScoped<IScheduleService, ScheduleService>();

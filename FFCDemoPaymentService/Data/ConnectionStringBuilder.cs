@@ -1,30 +1,31 @@
 using System.Data.Common;
 using System.Threading.Tasks;
-using Microsoft.Azure.Services.AppAuthentication;
+using Azure.Identity;
+using Azure.Core;
 
 namespace FFCDemoPaymentService.Data
 {
     public class PostgresConnectionStringBuilder
     {
-        private readonly AzureServiceTokenProvider tokenProvider;
         private readonly DbConnectionStringBuilder stringBuilder;
         private string postgresUser;
         private string postgresPassword;
         private string postgresDb;
         private string postgresHost;
         private string postgresPort;
-        public bool UseTokenProvider { get; set; }
+        public bool UseCredentialChain { get; set; }
 
         public PostgresConnectionStringBuilder()
         {
-            tokenProvider = new AzureServiceTokenProvider();
             stringBuilder = new DbConnectionStringBuilder();
         }
 
         public async Task<string> GetConnectionString()
         {
-            if (UseTokenProvider) {
-                string accessToken = await tokenProvider.GetAccessTokenAsync("https://ossrdbms-aad.database.windows.net");
+            if (UseCredentialChain)
+            {
+                var credential = new DefaultAzureCredential();
+                var accessToken = await credential.GetTokenAsync(new TokenRequestContext(new[] { "https://ossrdbms-aad.database.windows.net" }));
                 stringBuilder.Add("password", accessToken);
             }
 

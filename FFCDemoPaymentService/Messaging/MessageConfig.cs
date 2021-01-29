@@ -1,17 +1,16 @@
-using Microsoft.Azure.ServiceBus.Primitives;
+using Azure.Identity;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class MessageConfig
     {
-        private TokenProvider tokenProvider;
-        public bool UseTokenProvider { get; set; }
+        private DefaultAzureCredential credential;
+        public bool UseCredentialChain { get; set; }
         public string ScheduleTopicName { get; set; }
         public string PaymentTopicName { get; set; }
         public string ScheduleSubscriptionName { get; set; }
         public string PaymentSubscriptionName { get; set; }
         public string MessageQueueHost { get; set; }
-        public string MessageQueuePreFetch { get; set; }
         public string MessageQueueUser { get; set; }
         public string MessageQueuePassword { get; set; }
         public string MessageQueueEndPoint
@@ -22,8 +21,8 @@ namespace FFCDemoPaymentService.Messaging
         {
             get => $"Endpoint={MessageQueueEndPoint};SharedAccessKeyName={MessageQueueUser};SharedAccessKey={MessageQueuePassword}";
         }
-        public TokenProvider TokenProvider {
-            get => tokenProvider ??= TokenProvider.CreateManagedIdentityTokenProvider();
+        public DefaultAzureCredential Credential {
+            get => credential ??= new DefaultAzureCredential();
         }
     }
 }
