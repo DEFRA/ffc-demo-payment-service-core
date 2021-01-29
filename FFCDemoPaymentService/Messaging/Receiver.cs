@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Telemetry;
-using Microsoft.Azure.ServiceBus;
+using Azure.Messaging.ServiceBus;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -42,8 +42,9 @@ namespace FFCDemoPaymentService.Messaging
             else
             {
                 Console.WriteLine("Using connection string");
-                subscriptionClient = new SubscriptionClient(messageConfig.ConnectionString, topicName, subscriptionName);
+                subscriptionClient = new ServiceBusClient(messageConfig.ConnectionString);
             }
+            var receiver = subscriptionClient.cr
         }
 
         private void RegisterOnMessageHandlerAndReceiveMessages()
