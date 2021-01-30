@@ -9,7 +9,6 @@ data:
   Messaging__ScheduleSubscriptionName: {{ .Values.container.scheduleSubscriptionAddress | quote }}
   Messaging__PaymentSubscriptionName: {{ .Values.container.paymentSubscriptionAddress | quote }}
   Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
-  Messaging__MessageQueuePreFetch: {{ .Values.container.messageQueuePreFetch | quote }}
   Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
   Postgres__PostgresHost: {{ .Values.postgresService.postgresHost | quote }}
   Postgres__PostgresPort: {{ .Values.postgresService.postgresPort | quote }}
