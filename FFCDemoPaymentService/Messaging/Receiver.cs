@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Telemetry;
 using Azure.Messaging.ServiceBus;
+using Azure.Identity;
 using System.Threading;
 
 namespace FFCDemoPaymentService.Messaging
@@ -23,7 +24,7 @@ namespace FFCDemoPaymentService.Messaging
         public async Task ReceiveMessagesAsync(string topicName, string subscriptionName, CancellationToken stoppingToken)
         {
             await using var client = messageConfig.UseCredentialChain ?
-                new ServiceBusClient(messageConfig.MessageQueueEndPoint, messageConfig.Credential) :
+                new ServiceBusClient(messageConfig.MessageQueueEndPoint, new DefaultAzureCredential()) :
                 new ServiceBusClient(messageConfig.ConnectionString);
 
             var options = new ServiceBusProcessorOptions
