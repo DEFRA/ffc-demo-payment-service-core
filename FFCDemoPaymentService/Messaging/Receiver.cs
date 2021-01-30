@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Telemetry;
 using Azure.Messaging.ServiceBus;
+using System.Threading;
 
 namespace FFCDemoPaymentService.Messaging
 {
@@ -19,7 +20,7 @@ namespace FFCDemoPaymentService.Messaging
             this.telemetryProvider = telemetryProvider;
         }
 
-        public async Task ReceiveMessagesAsync(string topicName, string subscriptionName)
+        public async Task ReceiveMessagesAsync(string topicName, string subscriptionName, CancellationToken stoppingToken)
         {
             await using var client = messageConfig.UseCredentialChain ?
                 new ServiceBusClient(messageConfig.MessageQueueEndPoint, messageConfig.Credential) :
@@ -37,6 +38,10 @@ namespace FFCDemoPaymentService.Messaging
 
             await processor.StartProcessingAsync();
 
+            while(!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1);
+            }
         }
 
         private async Task MessageHandler(ProcessMessageEventArgs args)
