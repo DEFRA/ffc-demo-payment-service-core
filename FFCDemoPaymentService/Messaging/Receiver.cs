@@ -9,8 +9,7 @@ namespace FFCDemoPaymentService.Messaging
     public class Receiver<T>
     {
         private readonly IMessageAction<T> action;
-        private MessageConfig messageConfig;
-        private ServiceBusProcessor processor;
+        private readonly MessageConfig messageConfig;
         private readonly ITelemetryProvider telemetryProvider;
 
         public Receiver(MessageConfig messageConfig, IMessageAction<T> messageAction, ITelemetryProvider telemetryProvider)
@@ -22,17 +21,22 @@ namespace FFCDemoPaymentService.Messaging
 
         public async Task ReceiveMessagesAsync(string topicName, string subscriptionName)
         {
-            await using (var client = messageConfig.UseCredentialChain ?
+            await using var client = messageConfig.UseCredentialChain ?
                 new ServiceBusClient(messageConfig.MessageQueueEndPoint, messageConfig.Credential) :
-                new ServiceBusClient(messageConfig.ConnectionString))
+                new ServiceBusClient(messageConfig.ConnectionString);
+
+            var options = new ServiceBusProcessorOptions
             {
+                AutoCompleteMessages = false,
+                MaxConcurrentCalls = 2
+            };
 
-                processor = client.CreateProcessor(topicName, subscriptionName);
-                processor.ProcessMessageAsync += MessageHandler;
-                processor.ProcessErrorAsync += ErrorHandler;
+            await using var processor = client.CreateProcessor(topicName, subscriptionName, options);
+            processor.ProcessMessageAsync += MessageHandler;
+            processor.ProcessErrorAsync += ErrorHandler;
 
-                await processor.StartProcessingAsync();
-            }
+            await processor.StartProcessingAsync();
+
         }
 
         private async Task MessageHandler(ProcessMessageEventArgs args)

@@ -35,8 +35,8 @@ namespace FFCDemoPaymentService.Messaging
         {
             paymentReceiver = new Receiver<Payment>(messageConfig, paymentAction, telemetryProvider);
             scheduleReceiver = new Receiver<Schedule>(messageConfig, scheduleAction, telemetryProvider);
-            Task.Run(() => paymentReceiver.ReceiveMessagesAsync(messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName));
-            Task.Run(() => scheduleReceiver.ReceiveMessagesAsync(messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName));
+            Task.Run(() => paymentReceiver.ReceiveMessagesAsync(messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName)).Wait();
+            Task.Run(() => scheduleReceiver.ReceiveMessagesAsync(messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName)).Wait();
             Console.WriteLine("Ready to schedule payments");
             return Task.CompletedTask;
         }
