@@ -27,8 +27,6 @@ namespace FFCDemoPaymentService.Messaging
                 new ServiceBusClient(messageConfig.MessageQueueHost, new DefaultAzureCredential()) :
                 new ServiceBusClient(messageConfig.ConnectionString);
 
-            Console.WriteLine($"Client active for {topicName} and {subscriptionName}");
-
             var options = new ServiceBusProcessorOptions
             {
                 AutoCompleteMessages = false,
@@ -36,7 +34,6 @@ namespace FFCDemoPaymentService.Messaging
             };
 
             await using var processor = client.CreateProcessor(topicName, subscriptionName, options);
-            Console.WriteLine($"Processor active for {topicName} and {subscriptionName}");
             processor.ProcessMessageAsync += MessageHandler;
             processor.ProcessErrorAsync += ErrorHandler;
 
