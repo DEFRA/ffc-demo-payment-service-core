@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
@@ -36,8 +35,7 @@ namespace FFCDemoPaymentService.Messaging
             paymentReceiver = new Receiver<Payment>(messageConfig, paymentAction, telemetryProvider);
             scheduleReceiver = new Receiver<Schedule>(messageConfig, scheduleAction, telemetryProvider);
             Task.Run(() => paymentReceiver.ReceiveMessagesAsync(messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName, stoppingToken));
-            Task.Run(() => scheduleReceiver.ReceiveMessagesAsync(messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName, stoppingToken));
-            Console.WriteLine("Ready to schedule payments");
+            Task.Run(() => scheduleReceiver.ReceiveMessagesAsync(messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName, stoppingToken));            
             return Task.CompletedTask;
         }
     }
