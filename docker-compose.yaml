@@ -16,7 +16,6 @@ services:
       Messaging__PaymentTopicName: ${PAYMENT_TOPIC_ADDRESS:-notset}
       Messaging__PaymentSubscriptionName: ${PAYMENT_SUBSCRIPTION_ADDRESS:-notset}
       Messaging__MessageQueueHost: ${MESSAGE_QUEUE_HOST:-notset}
-      Messaging__MessageQueuePreFetch: "5"
       Messaging__MessageQueueUser: ${MESSAGE_QUEUE_USER:-notset}
       Messaging__MessageQueuePassword: ${MESSAGE_QUEUE_PASSWORD:-notset}
       Postgres__PostgresUser: postgres

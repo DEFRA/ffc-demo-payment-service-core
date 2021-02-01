@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Models;
@@ -17,7 +16,6 @@ namespace FFCDemoPaymentService.Messaging
 
         private Receiver<Payment> paymentReceiver;
         private Receiver<Schedule> scheduleReceiver;
-        private readonly int credits;
         private readonly ITelemetryProvider telemetryProvider;
 
         public MessageService(
@@ -29,24 +27,16 @@ namespace FFCDemoPaymentService.Messaging
             this.messageConfig = messageConfig;
             this.scheduleAction = scheduleAction;
             this.paymentAction = paymentAction;
-            credits = int.Parse(messageConfig.MessageQueuePreFetch);
             this.telemetryProvider = telemetryProvider;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            paymentReceiver = new Receiver<Payment>(messageConfig, messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName, paymentAction, telemetryProvider, credits);
-            scheduleReceiver = new Receiver<Schedule>(messageConfig, messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName, scheduleAction, telemetryProvider, credits);
-
+            paymentReceiver = new Receiver<Payment>(messageConfig, paymentAction, telemetryProvider);
+            scheduleReceiver = new Receiver<Schedule>(messageConfig, scheduleAction, telemetryProvider);
+            Task.Run(() => paymentReceiver.ReceiveMessagesAsync(messageConfig.PaymentTopicName, messageConfig.PaymentSubscriptionName, stoppingToken));
+            Task.Run(() => scheduleReceiver.ReceiveMessagesAsync(messageConfig.ScheduleTopicName, messageConfig.ScheduleSubscriptionName, stoppingToken));            
             return Task.CompletedTask;
-        }
-
-        public async override Task StopAsync(CancellationToken cancellationToken)
-        {
-            Console.WriteLine("Closing payment receiver");
-            await paymentReceiver.CloseAsync();
-            Console.WriteLine("Closing schedule receiver");
-            await scheduleReceiver.CloseAsync();
         }
     }
 }

@@ -1,86 +1,69 @@
 ﻿using System;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using FFCDemoPaymentService.Messaging.Actions;
 using FFCDemoPaymentService.Telemetry;
-using Microsoft.Azure.ServiceBus;
+using Azure.Messaging.ServiceBus;
+using Azure.Identity;
+using System.Threading;
 
 namespace FFCDemoPaymentService.Messaging
 {
     public class Receiver<T>
     {
         private readonly IMessageAction<T> action;
-        private readonly int credit;
-        private ISubscriptionClient subscriptionClient;
+        private readonly MessageConfig messageConfig;
         private readonly ITelemetryProvider telemetryProvider;
 
-        public Receiver(MessageConfig messageConfig, string topicName, string subscriptionName, IMessageAction<T> messageAction,
-                        ITelemetryProvider telemetryProvider, int credit = 1)
+        public Receiver(MessageConfig messageConfig, IMessageAction<T> messageAction, ITelemetryProvider telemetryProvider)
         {
             action = messageAction;
-            this.credit = credit;
-            CreateReceiver(messageConfig, topicName, subscriptionName);
-            RegisterOnMessageHandlerAndReceiveMessages();
+            this.messageConfig = messageConfig;
             this.telemetryProvider = telemetryProvider;
         }
 
-        public async Task CloseAsync()
+        public async Task ReceiveMessagesAsync(string topicName, string subscriptionName, CancellationToken stoppingToken)
         {
-            await subscriptionClient.CloseAsync();
-        }
+            await using var client = messageConfig.UseCredentialChain ?
+                new ServiceBusClient(messageConfig.MessageQueueHost, new DefaultAzureCredential()) :
+                new ServiceBusClient(messageConfig.ConnectionString);
 
-        private void CreateReceiver(MessageConfig messageConfig, string topicName, string subscriptionName)
-        {
-            Console.WriteLine($"Creating {subscriptionName} receiver at {messageConfig.MessageQueueEndPoint}");
-
-            if (messageConfig.UseTokenProvider)
+            var options = new ServiceBusProcessorOptions
             {
-                Console.WriteLine($"Using token provider");
-                subscriptionClient = new SubscriptionClient(messageConfig.MessageQueueEndPoint, topicName, subscriptionName, messageConfig.TokenProvider);
-            }
-            else
-            {
-                Console.WriteLine("Using connection string");
-                subscriptionClient = new SubscriptionClient(messageConfig.ConnectionString, topicName, subscriptionName);
-            }
-        }
-
-        private void RegisterOnMessageHandlerAndReceiveMessages()
-        {
-            var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
-            {
-                MaxConcurrentCalls = credit,
-                AutoComplete = false,
+                AutoCompleteMessages = false,
+                MaxConcurrentCalls = 2
             };
-            subscriptionClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
+
+            await using var processor = client.CreateProcessor(topicName, subscriptionName, options);
+            processor.ProcessMessageAsync += MessageHandler;
+            processor.ProcessErrorAsync += ErrorHandler;
+
+            await processor.StartProcessingAsync();
+
+            while(!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1);
+            }
         }
 
-        private async Task ProcessMessagesAsync(Message message, CancellationToken token)
+        private async Task MessageHandler(ProcessMessageEventArgs args)
         {
             telemetryProvider.TrackTrace("Trace Receiver");
-            var messageBody = Encoding.UTF8.GetString(message.Body);
+            string body = args.Message.Body.ToString();
             try
             {
-                action.ReceiveMessage(messageBody);
-                await subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
+                action.ReceiveMessage(body);
+                await args.CompleteMessageAsync(args.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Unable to process message {ex}");
-                await subscriptionClient.AbandonAsync(message.SystemProperties.LockToken);
+                await args.AbandonMessageAsync(args.Message);
             }
         }
 
-        private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
+        private Task ErrorHandler(ProcessErrorEventArgs args)
         {
-            telemetryProvider.TrackException(new Exception($"Message handler encountered an exception {exceptionReceivedEventArgs.Exception}."));
-            Console.WriteLine($"Message handler encountered an exception {exceptionReceivedEventArgs.Exception}.");
-            var context = exceptionReceivedEventArgs.ExceptionReceivedContext;
-            Console.WriteLine("Exception context for troubleshooting:");
-            Console.WriteLine($"- Endpoint: {context.Endpoint}");
-            Console.WriteLine($"- Entity Path: {context.EntityPath}");
-            Console.WriteLine($"- Executing Action: {context.Action}");
+            Console.WriteLine(args.Exception.ToString());
             return Task.CompletedTask;
         }
     }
