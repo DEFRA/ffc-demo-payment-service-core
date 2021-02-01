@@ -23,9 +23,7 @@ namespace FFCDemoPaymentService.Messaging
 
         public async Task ReceiveMessagesAsync(string topicName, string subscriptionName, CancellationToken stoppingToken)
         {
-            await using var client = messageConfig.UseCredentialChain ?
-                new ServiceBusClient(messageConfig.MessageQueueEndPoint, new DefaultAzureCredential()) :
-                new ServiceBusClient(messageConfig.ConnectionString);
+            await using var client = new ServiceBusClient(messageConfig.MessageQueueEndPoint, new DefaultAzureCredential());
 
             Console.WriteLine($"Client active for {topicName} and {subscriptionName}");
 
