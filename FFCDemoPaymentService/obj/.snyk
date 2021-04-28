@@ -27,7 +27,7 @@ ignore:
         reason: Not currently exploitable
         expires: 2021-05-28T11:58:25.601Z
         created: 2021-04-28T11:58:25.606Z
-  SNYK-DOTNET-SYSTEMREGULAREXPRESSIONS-174708:
+  SNYK-DOTNET-SYSTEMTEXTREGULAREXPRESSIONS-174708:
     - '*':
         reason: Not currently exploitable
         expires: 2021-05-28T11:59:01.339Z
@@ -37,9 +37,4 @@ ignore:
         reason: Not currently exploitable
         expires: 2021-05-28T11:59:11.751Z
         created: 2021-04-28T11:59:11.757Z
-  SNYK-DOTNET-SYSTEMTEXTENCODINGSWEB-1253267:
-    - '*':
-        reason: Not currently exploitable
-        expires: 2021-05-28T12:05:24.525Z
-        created: 2021-04-28T12:05:24.527Z
 patch: {}
