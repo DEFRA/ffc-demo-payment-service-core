@@ -1,29 +1,40 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.14.1
+version: v1.19.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  SNYK-DOTNET-SYSTEMNETHTTP-72439:
+  SNYK-DOTNET-SYSTEMTEXTENCODINGSWEB-1253267:
     - '*':
         reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
-  SNYK-DOTNET-SYSTEMNETHTTP-60048:
-    - '*':
-        reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
-  SNYK-DOTNET-SYSTEMNETHTTP-60047:
-    - '*':
-        reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
-  SNYK-DOTNET-SYSTEMNETHTTP-60046:
-    - '*':
-        reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
+        expires: 2021-05-28T11:56:45.202Z
+        created: 2021-04-28T11:56:45.204Z
   SNYK-DOTNET-SYSTEMNETHTTP-60045:
     - '*':
         reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
+        expires: 2021-05-28T11:57:18.153Z
+        created: 2021-04-28T11:57:18.159Z
+  SNYK-DOTNET-SYSTEMNETHTTP-60046:
+    - '*':
+        reason: Not currently exploitable
+        expires: 2021-05-28T11:57:43.393Z
+        created: 2021-04-28T11:57:43.405Z
+  SNYK-DOTNET-SYSTEMNETHTTP-72439:
+    - '*':
+        reason: Not currently exploitable
+        expires: 2021-05-28T11:58:10.903Z
+        created: 2021-04-28T11:58:10.909Z
+  SNYK-DOTNET-SYSTEMNETHTTP-60047:
+    - '*':
+        reason: Not currently exploitable
+        expires: 2021-05-28T11:58:25.601Z
+        created: 2021-04-28T11:58:25.606Z
   SNYK-DOTNET-SYSTEMTEXTREGULAREXPRESSIONS-174708:
     - '*':
         reason: Not currently exploitable
-        expires: 2021-03-01T00:00:00.000Z
+        expires: 2021-05-28T11:59:01.339Z
+        created: 2021-04-28T11:59:01.345Z
+  SNYK-DOTNET-SYSTEMNETHTTP-60048:
+    - '*':
+        reason: Not currently exploitable
+        expires: 2021-05-28T11:59:11.751Z
+        created: 2021-04-28T11:59:11.757Z
 patch: {}
