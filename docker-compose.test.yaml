@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 # This override file should be used to run automated tests in a
 # containerised environment.
@@ -11,6 +11,6 @@ services:
     container_name: ffc-demo-payment-service-core-test
     entrypoint: dotnet test ./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./test-output/'
     volumes:
-      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
-      - ./FFCDemoPaymentService.Tests/:/home/dotnet/FFCDemoPaymentService.Tests/
-      - ./test-output/:/home/dotnet/FFCDemoPaymentService.Tests/test-output/
+      - ./FFCDemoPaymentService:/home/dotnet/FFCDemoPaymentService
+      - ./FFCDemoPaymentService.Tests:/home/dotnet/FFCDemoPaymentService.Tests
+      - ./test-output:/home/dotnet/FFCDemoPaymentService.Tests/test-output
