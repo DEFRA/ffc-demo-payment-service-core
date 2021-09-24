@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 # This file is used to copy obj files from the built container to
 # the correct place on the local file system so Snyk can be run
@@ -13,4 +13,4 @@ services:
     entrypoint: /bin/sh
     volumes:
       - ./scripts/extract-project-assets:/home/dotnet/extract-project-assets
-      - ./FFCDemoPaymentService/:/home/dotnet/FFCDemoPaymentService/
+      - ./FFCDemoPaymentService:/home/dotnet/FFCDemoPaymentService
