@@ -1,3 +1,3 @@
-@Library('defra-library@v-9') _
+@Library('defra-library@support-net6') _
 
 buildDotNetCore project: 'FFCDemoPaymentService', defaultBranch: 'master'
