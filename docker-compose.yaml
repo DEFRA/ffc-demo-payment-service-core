@@ -11,13 +11,13 @@ services:
     environment:
       ApplicationInsights__InstrumentationKey: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       ApplicationInsights__CloudRole: ffc-demo-payment-service-core-local
-      Messaging__ScheduleTopicName: ${SCHEDULE_TOPIC_ADDRESS:-notset}
-      Messaging__ScheduleSubscriptionName: ${SCHEDULE_SUBSCRIPTION_ADDRESS:-notset}
-      Messaging__PaymentTopicName: ${PAYMENT_TOPIC_ADDRESS:-notset}
-      Messaging__PaymentSubscriptionName: ${PAYMENT_SUBSCRIPTION_ADDRESS:-notset}
-      Messaging__MessageQueueHost: ${MESSAGE_QUEUE_HOST:-notset}
-      Messaging__MessageQueueUser: ${MESSAGE_QUEUE_USER:-notset}
-      Messaging__MessageQueuePassword: ${MESSAGE_QUEUE_PASSWORD:-notset}
+      Messaging__ScheduleTopicName: ${SCHEDULE_TOPIC_ADDRESS:-ffc-demo-schedule}${MESSAGE_QUEUE_SUFFIX}
+      Messaging__ScheduleSubscriptionName: ${SCHEDULE_SUBSCRIPTION_ADDRESS:-ffc-demo-schedule-payment-core}${MESSAGE_QUEUE_SUFFIX}
+      Messaging__PaymentTopicName: ${PAYMENT_TOPIC_ADDRESS:-ffc-demo-payment}${MESSAGE_QUEUE_SUFFIX}
+      Messaging__PaymentSubscriptionName: ${PAYMENT_SUBSCRIPTION_ADDRESS:-ffc-demo-payment-payment-core}${MESSAGE_QUEUE_SUFFIX}
+      Messaging__MessageQueueHost: ${MESSAGE_QUEUE_HOST}
+      Messaging__MessageQueueUser: ${MESSAGE_QUEUE_USER}
+      Messaging__MessageQueuePassword: ${MESSAGE_QUEUE_PASSWORD}
       Postgres__PostgresUser: postgres
       Postgres__PostgresPassword: ppp
       Postgres__PostgresDb: ffc_demo_payments
