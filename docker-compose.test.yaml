@@ -14,3 +14,10 @@ services:
       - ./FFCDemoPaymentService:/home/dotnet/FFCDemoPaymentService
       - ./FFCDemoPaymentService.Tests:/home/dotnet/FFCDemoPaymentService.Tests
       - ./test-output:/home/dotnet/FFCDemoPaymentService.Tests/test-output
+
+  ffc-demo-payment-core-postgres:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
