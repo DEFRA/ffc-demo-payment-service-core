@@ -2,7 +2,6 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Core;
-using System;
 
 namespace FFCDemoPaymentService.Data
 {
@@ -30,7 +29,6 @@ namespace FFCDemoPaymentService.Data
                 stringBuilder.Add("password", accessToken.Token);
                 stringBuilder.Add("sslmode", "Require");
             }
-            Console.WriteLine(stringBuilder.ConnectionString);
             return stringBuilder.ConnectionString;
         }
 
