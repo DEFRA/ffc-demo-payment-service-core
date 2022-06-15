@@ -45,7 +45,6 @@ container:
 postgresService:
   postgresHost: ffc-demo-payments-core-postgres
   postgresPort: 5432
-  postgresExternalName:
   postgresUser: postgres
   postgresDb: ffc_demo_payments
   postgresSchema: public
