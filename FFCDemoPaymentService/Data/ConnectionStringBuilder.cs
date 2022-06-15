@@ -28,7 +28,7 @@ namespace FFCDemoPaymentService.Data
                 var credential = new DefaultAzureCredential();
                 var accessToken = await credential.GetTokenAsync(new TokenRequestContext(new[] { "https://ossrdbms-aad.database.windows.net" }));
                 stringBuilder.Add("password", accessToken.Token);
-                // stringBuilder.Add("SSL", true);
+                stringBuilder.Add("ssl", true);
             }
             Console.WriteLine(stringBuilder.ConnectionString);
             return stringBuilder.ConnectionString;
