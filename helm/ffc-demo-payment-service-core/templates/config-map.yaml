@@ -10,7 +10,7 @@ data:
   Messaging__PaymentSubscriptionName: {{ .Values.container.paymentSubscriptionAddress | quote }}
   Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
   Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
-  Postgres__PostgresHost: {{ .Values.postgresService.postgresHost | quote }}
+  Postgres__PostgresHost: {{ .Values.postgresService.postgresqlHost | quote }}
   Postgres__PostgresPort: {{ .Values.postgresService.postgresPort | quote }}
   Schema__Default: {{ .Values.postgresService.postgresSchema | quote }}
 {{- end -}}
