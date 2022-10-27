@@ -37,4 +37,9 @@ ignore:
         reason: Not currently exploitable
         expires: 2022-12-28T11:59:11.751Z
         created: 2022-04-28T11:59:11.757Z
+  SNYK-DOTNET-SYSTEMDRAWINGCOMMON-3063427:
+    - '*':
+        reason: Not currently exploitable
+        expires: 2022-12-28T11:59:36.999Z
+        created: 2022-04-28T11:59:37.005Z
 patch: {}
