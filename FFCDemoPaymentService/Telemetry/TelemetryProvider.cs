@@ -13,7 +13,7 @@ namespace FFCDemoPaymentService.Telemetry
 
         public TelemetryProvider(IConfiguration configuration)
         {            
-            this.client = new TelemetryClient(new TelemetryConfiguration(configuration["ApplicationInsights:InstrumentationKey"]));
+            this.client = new TelemetryClient(new TelemetryConfiguration(configuration["ApplicationInsights:ConnectionString"]));
             this.cloudRoleName = configuration["ApplicationInsights:CloudRole"];
         }
 
