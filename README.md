@@ -41,7 +41,7 @@ The following environment variables are required by the application container. V
 
 | Name                                    | Description                        | Required | Default                        | Valid | Notes                                                                |
 | ----                                    | -----------                        | -------- | -------                        | ----- | -----                                                                |
-| ApplicationInsights__InstrumentationKey | App Insights key                   | no       |                                |       | will log to Azure Application Insights if set                        |
+| ApplicationInsights__ConnectionString | App Insights key                   | no       |                                |       | will log to Azure Application Insights if set                        |
 | ApplicationInsights__CloudRole          | Role used for filtering metrics    | no       | ffc-demo-payment-service-core  |       | Set to `ffc-demo-payment-service-core-local` in docker compose files |
 | Messaging__ScheduleQueueName            | Schedule queue name                | no       | ffc-demo-schedule-             |       |                                                                      |
 | Messaging__PaymentQueueName             | Payment queue name                 | no       | ffc-demo-payment-              |       |                                                                      |
