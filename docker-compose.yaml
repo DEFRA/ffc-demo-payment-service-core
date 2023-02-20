@@ -9,7 +9,7 @@ services:
     depends_on:
       - ffc-demo-payment-core-postgres
     environment:
-      ApplicationInsights__InstrumentationKey: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+      ApplicationInsights__ConnectionString: ${APPINSIGHTS_CONNECTIONSTRING}
       ApplicationInsights__CloudRole: ffc-demo-payment-service-core-local
       Messaging__ScheduleTopicName: ${SCHEDULE_TOPIC_ADDRESS:-ffc-demo-schedule}${MESSAGE_QUEUE_SUFFIX}
       Messaging__ScheduleSubscriptionName: ${SCHEDULE_SUBSCRIPTION_ADDRESS:-ffc-demo-schedule-payment-core}${MESSAGE_QUEUE_SUFFIX}

@@ -11,7 +11,7 @@ azureIdentity:
   clientID: dummy
 
 appInsights:
-  key:
+  connectionString:
 
 containerConfigMap:
   name: ffc-demo-payment-service-core-config-map
