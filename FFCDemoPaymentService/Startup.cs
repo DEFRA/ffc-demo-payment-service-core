@@ -59,7 +59,7 @@ namespace FFCDemoPaymentService
 
         private void AddTelemetry(IServiceCollection services)
         {
-            if (!string.IsNullOrEmpty(Configuration.GetValue<string>("ApplicationInsights:InstrumentationKey")))
+            if (!string.IsNullOrEmpty(Configuration.GetValue<string>("ApplicationInsights:ConnectionString")))
             {
                 string cloudRole = Configuration.GetValue<string>("ApplicationInsights:CloudRole");
                 services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(cloudRole));
