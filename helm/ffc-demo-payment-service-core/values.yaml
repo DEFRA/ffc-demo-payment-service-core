@@ -53,7 +53,7 @@ readinessProbe:
   path: /healthy
   port: 3007
   initialDelaySeconds: 60
-  periodSeconds: 120
+  periodSeconds: 20
   failureThreshold: 3
   timeoutSeconds: 30
 
@@ -61,7 +61,7 @@ livenessProbe:
   path: /healthz
   port: 3007
   initialDelaySeconds: 70
-  periodSeconds: 120
+  periodSeconds: 20
   failureThreshold: 3
   timeoutSeconds: 30
 
