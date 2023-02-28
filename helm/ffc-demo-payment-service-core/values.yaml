@@ -29,10 +29,10 @@ deployment:
 
 container:
   imagePullPolicy: IfNotPresent
-  requestMemory: 5Mi
+  requestMemory: 120Mi
   requestCpu: 5m
   limitMemory: 120Mi
-  limitCpu: 80m
+  limitCpu: 120m
   port: 3007
   scheduleTopicAddress: schedule
   paymentTopicAddress: payment
@@ -53,15 +53,17 @@ readinessProbe:
   path: /healthy
   port: 3007
   initialDelaySeconds: 60
-  periodSeconds: 10
+  periodSeconds: 120
   failureThreshold: 3
+  timeoutSeconds: 30
 
 livenessProbe:
   path: /healthz
   port: 3007
   initialDelaySeconds: 70
-  periodSeconds: 10
+  periodSeconds: 120
   failureThreshold: 3
+  timeoutSeconds: 30
 
 volumeMounts:
   mountPath: /var/www/
