@@ -1,0 +1,68 @@
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: demo
+  spec:
+    finalizers:
+      - kubernetes
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: ffc-demo-payment-service-core
+    namespace: demo
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ffc-demo-payment-service-core
+    template:
+      metadata:
+        labels:
+          app: ffc-demo-payment-service-core
+      spec:
+        nodeSelector:
+          kubernetes.io/os: linux
+        containers:
+          - name: ffc-demo-payment-service-core
+            image: capgrajacr.azurecr.io/defra/ffc-demo-payment-service-core:latest
+            ports:
+              - containerPort: 3007
+            resources:
+              requests:
+                cpu: '0'
+                memory: '0'
+              limits:
+                cpu: '256'
+                memory: 11400G
+            env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            livenessProbe:
+              httpGet:
+                path: /healthz
+                port: 3007
+              initialDelaySeconds: 3
+              periodSeconds: 3
+            readinessProbe:
+              httpGet:
+                path: /healthy
+                port: 3007
+              initialDelaySeconds: 30
+              periodSeconds: 3000
+              failureThreshold: 3
+              timeoutSeconds: 30
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ffc-demo-payment-service-core-service
+    namespace: demo
+  spec:
+    type: LoadBalancer
+    ports:
+      - targetPort: 3007
+        name: demoservice
+        port: 80
+        protocol: TCP
+    selector:
+      app: ffc-demo-payment-service-core
+

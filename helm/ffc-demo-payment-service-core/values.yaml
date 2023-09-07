@@ -49,6 +49,16 @@ postgresService:
   postgresDb: ffc_demo_payments
   postgresSchema: public
 
+redisCacheService:
+  redisHost: redis.redis.cache.windows.net
+
+azureStorageService:
+  accountName: azstoraccountnameonly
+
+azureAppConfigService:
+  endpoint: appconfig.azconfig.io
+  Id: id
+
 readinessProbe:
   path: /healthy
   port: 3007

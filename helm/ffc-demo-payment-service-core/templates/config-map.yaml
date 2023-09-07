@@ -12,5 +12,10 @@ data:
   Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
   Postgres__PostgresHost: {{ .Values.postgresService.postgresqlHost | quote }}
   Postgres__PostgresPort: {{ .Values.postgresService.postgresPort | quote }}
+  Postgres__PostgresUser: {{ .Values.postgresService.postgresUser | quote }}
+  RedisCache__RedisHost: {{ .Values.redisCacheService.redisHost | quote }}
+  AzureStorage__AccountName: {{ .Values.azureStorageService.accountName | quote }}
+  AzureAppConfig__Endpoint: {{ .Values.azureAppConfigService.endpoint | quote }}
+  AzureAppConfig__Id: {{ .Values.azureAppConfigService.id | quote }}
   Schema__Default: {{ .Values.postgresService.postgresSchema | quote }}
 {{- end -}}

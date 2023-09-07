@@ -24,11 +24,10 @@ services:
       Postgres__PostgresHost: ${POSTGRES_HOST}
       Postgres__PostgresPort: "5432"
       Schema__Default: ${POSTGRES_SCHEMA_NAME:-public}
-      rediscache__ConnectionString: ${REDISCACHE_CONNECTIONSTRING}
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       RedisCache__RedisHost: ${REDIS_HOST}
       RedisCache__RedisPassword: ${REDIS_PASSWORD}
-      RedisCache__RedisPort: "6380"
+      RedisCache__RedisPort: ${REDIS_PORT:-6380}
       AzureStorage__AccountName: ${STORAGE_ACCOUNTNAME}
       AzureStorage__AccountKey: ${STORAGE_ACCOUNTKEY}
       AzureAppConfig__Endpoint: ${AZCONFIG_ENDPOINT}

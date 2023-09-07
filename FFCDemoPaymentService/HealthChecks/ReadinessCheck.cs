@@ -36,39 +36,33 @@ namespace FFCDemoPaymentService.HealthChecks
             HealthCheckContext context,
             CancellationToken cancellationToken = default)
         {
-            HealthCheckResult postgresdb =  await CheckDatabase(db);
+            HealthCheckResult postgresdb = await CheckDatabase(db);
             HealthCheckResult redis = await CheckRedis();
             HealthCheckResult storage = await checkStorage();
             HealthCheckResult appConfig = await checkAppConfig();
-            HealthCheckResult serviceBus = await checkServiceBus();            
+            HealthCheckResult serviceBus = await checkServiceBus();
 
             if (postgresdb.Status.ToString() != "Healthy")
             {
-                return
-              HealthCheckResult.Unhealthy("Unhealthy Postgress DB", exception: postgresdb.Exception);
+                return HealthCheckResult.Unhealthy("Unhealthy Postgress DB", exception: postgresdb.Exception);
             }
             if (redis.Status.ToString() != "Healthy")
             {
-                return
-               HealthCheckResult.Unhealthy("Unhealthy Redis", exception: redis.Exception);
+                return HealthCheckResult.Unhealthy("Unhealthy Redis", exception: redis.Exception);
             }
             if (storage.Status.ToString() != "Healthy")
             {
-                return
-               HealthCheckResult.Unhealthy("Unhealthy Storage Account", exception: storage.Exception);
+                return HealthCheckResult.Unhealthy("Unhealthy Storage Account", exception: storage.Exception);
             }
             if (appConfig.Status.ToString() != "Healthy")
             {
-                return
-               HealthCheckResult.Unhealthy("Unhealthy App Config", exception: appConfig.Exception);
+                return HealthCheckResult.Unhealthy("Unhealthy App Config", exception: appConfig.Exception);
             }
             if (serviceBus.Status.ToString() != "Healthy")
             {
-                return
-               HealthCheckResult.Unhealthy("Unhealthy Service Bus", exception: serviceBus.Exception);
+                return HealthCheckResult.Unhealthy("Unhealthy Service Bus", exception: serviceBus.Exception);
             }
-            return
-                    HealthCheckResult.Healthy("A healthy result.");
+            return HealthCheckResult.Healthy("A healthy result.");
         }
 
         private async Task<HealthCheckResult> CheckDatabase(ApplicationDbContext dbContext)
@@ -112,7 +106,8 @@ namespace FFCDemoPaymentService.HealthChecks
             {
                 var _blobServiceClient = new BlobServiceClient(_storageConfig.ConnectionString);
                 var client = _blobServiceClient.GetBlobContainerClient("test");
-                if (!client.Exists()) { 
+                if (!client.Exists())
+                {
                     await _blobServiceClient.CreateBlobContainerAsync("test");
                 }
                 await client.CreateIfNotExistsAsync();
@@ -154,11 +149,11 @@ namespace FFCDemoPaymentService.HealthChecks
                 new ServiceBusClient(_sbConfig.MessageQueueHost, new DefaultAzureCredential()) :
                 new ServiceBusClient(_sbConfig.ConnectionString);
 
-                ServiceBusSender sender = client.CreateSender(_sbConfig.PaymentTopicName);
+                ServiceBusSender sender = client.CreateSender(_sbConfig.ScheduleTopicName);
                 ServiceBusMessage message = new ServiceBusMessage(new Random().Next().ToString());
                 await sender.SendMessageAsync(message);
 
-                ServiceBusReceiver receiver = client.CreateReceiver(_sbConfig.PaymentTopicName, _sbConfig.PaymentSubscriptionName);
+                ServiceBusReceiver receiver = client.CreateReceiver(_sbConfig.ScheduleTopicName, _sbConfig.ScheduleSubscriptionName);
                 ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync();
                 string body = receivedMessage.Body.ToString();
 

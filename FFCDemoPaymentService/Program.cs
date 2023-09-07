@@ -31,18 +31,56 @@ builder.Services.AddSingleton(schemaConfig);
 
 var isProduction = builder.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
 
-var connectionStringBuilder = builder.Configuration.GetSection("Postgres").Get<PostgresConnectionStringBuilder>();
-connectionStringBuilder.UseCredentialChain = isProduction;
-builder.Services.AddSingleton(connectionStringBuilder);
-builder.Services.AddDbContext<ApplicationDbContext>();
-
+var dbConfig = builder.Configuration.GetSection("Postgres").Get<PostgresConnectionStringBuilder>();
+if (dbConfig != null)
+{
+    dbConfig.UseCredentialChain = isProduction;
+    builder.Services.AddSingleton(dbConfig);
+    builder.Services.AddDbContext<ApplicationDbContext>();
+}
 var messageConfig = builder.Configuration.GetSection("Messaging").Get<MessageConfig>();
-messageConfig.UseCredentialChain = isProduction;
-builder.Services.AddSingleton(messageConfig);
+if (messageConfig != null)
+{
+    messageConfig.UseCredentialChain = isProduction;
+    builder.Services.AddSingleton(messageConfig);
+}
+else
+{
+    messageConfig = new MessageConfig();
+    messageConfig.UseCredentialChain = false;
+    builder.Services.AddSingleton(new MessageConfig());
+}
 
-builder.Services.AddSingleton(builder.Configuration.GetSection("RedisCache").Get<CacheConfig>());
-builder.Services.AddSingleton(builder.Configuration.GetSection("AzureAppConfig").Get<AppConfig>());
-builder.Services.AddSingleton(builder.Configuration.GetSection("AzureStorage").Get<StorageConfig>());
+var redisConfig = builder.Configuration.GetSection("RedisCache").Get<CacheConfig>();
+if (redisConfig != null)
+{
+    builder.Services.AddSingleton(redisConfig);
+}
+else
+{
+    builder.Services.AddSingleton(new CacheConfig());
+}
+
+var appConfig = builder.Configuration.GetSection("AzureAppConfig").Get<AppConfig>();
+if (appConfig != null)
+{
+    builder.Services.AddSingleton(appConfig);
+}
+else
+{
+    builder.Services.AddSingleton(new AppConfig());
+}
+
+var storageConfig = builder.Configuration.GetSection("AzureStorage").Get<StorageConfig>();
+if (storageConfig != null)
+{
+    builder.Services.AddSingleton(storageConfig);
+}
+else
+{
+    builder.Services.AddSingleton(new StorageConfig());
+}
+
 
 
 builder.Services
@@ -54,10 +92,8 @@ builder.Services
 builder.Services.AddSingleton<ITelemetryProvider, TelemetryProvider>();
 
 builder.Services.AddHealthChecks()
-    .AddCheck<LivenessCheck>("Live",
-        tags: new[] { "Live" })
-    .AddCheck<ReadinessCheck>("Ready",
-        tags: new[] { "Ready" });
+    .AddCheck<LivenessCheck>("Live", tags: new[] { "Live" })
+    .AddCheck<ReadinessCheck>("Ready", tags: new[] { "Ready" });
 
 if (!string.IsNullOrEmpty(builder.Configuration.GetValue<string>("ApplicationInsights:ConnectionString")))
 {
@@ -95,22 +131,17 @@ app.UseStaticFiles();
 
 app.UseHealthChecks("/healthy", new HealthCheckOptions()
 {
-    Predicate = check => check.Name == "ServiceReadinessCheck"
+    Predicate = check => check.Name == "Ready",
 });
 
 app.UseHealthChecks("/healthz", new HealthCheckOptions()
 {
-    Predicate = check => check.Name == "ServiceLivenessCheck",
+    Predicate = check => check.Name == "Live",
 });
 
-app.UseHealthChecks("/ready", new HealthCheckOptions()
+app.UseHealthChecks("/", new HealthCheckOptions()
 {
     Predicate = check => check.Name == "Ready",
-});
-
-app.UseHealthChecks("/live", new HealthCheckOptions()
-{
-    Predicate = check => check.Name == "Live",
 });
 
 app.Run();
