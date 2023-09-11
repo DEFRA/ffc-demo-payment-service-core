@@ -23,10 +23,11 @@ trigger:
 
 resources:
   repositories:
-    - repository: BuildPipelineCommon
-      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
-      type: git
-      ref: refs/heads/rv/230880-CIPipeline
+    - repository: ADPPipelineCommon
+      name: DEFRA/adp-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref:  refs/heads/rv/230880-CIPipeline
     - repository: _self
       name: DEFRA/ffc-demo-payment-service-core
       endpoint: DEFRA
@@ -34,34 +35,15 @@ resources:
       ref: refs/heads/rv/230880-CIPipeline
 
 extends:
-  template: /templates/pipelines/common-app-build.yaml@BuildPipelineCommon
+  template: pipelines/common-app-build.yaml@ADPPipelineCommon
   parameters:
     projectName: 'FFC-DEMO-PAYMENT-SERVICE-CORE'
-    deployFromFeature: ${{ parameters.deployFromFeature }}
-    privateAgentName: 'DEFRA-ADP-SND1-ubuntu2204'
-    keyVaultName: ''
-    keyVaultSecretsFilter: ''
-    azureResourceManagerConnection: AZD-CDO-SND1
+    deployFromFeature: false    
     appFrameworkType: 'DotNet6'
     appBuildConfig: 
       - buildConfiguration: 'Release'
         frameworkVersion: '6.x'      
         projectPath: '**/*.csproj'
         testProjectPath: '**/*.Tests.csproj'
-    acrBuildConfig: 
-      - acrName: 'sndcdoinfcr1401'
-        acrRepoName:  'ffc-demo-payment-service-core'
-        imageVersion: '0.1.0'
-        chartVersion: '0.1.0'
-    snykConfig: 
-      - snykConnection: 'AZD-CDO-SNYK'
-        snykOrganizationName: 'Defra'
-    environments:
-      - name: 'snd1'
-        serviceConnection: AZD-CDO-SND1
-        deploymentBranches:
-          - '*'
-        developmentEnvironment: true
-        azureRegions:
-          primary: 'UKSouth'
+
 
