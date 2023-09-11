@@ -35,7 +35,7 @@ resources:
       ref: refs/heads/rv/230880-CIPipeline
 
 extends:
-  template: pipelines/common-app-build.yaml@ADPPipelineCommon
+  template: /pipelines/common-app-build.yaml@ADPPipelineCommon
   parameters:
     projectName: 'FFC-DEMO-PAYMENT-SERVICE-CORE'
     deployFromFeature: false    
