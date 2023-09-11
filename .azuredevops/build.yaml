@@ -45,5 +45,7 @@ extends:
         frameworkVersion: '6.x'      
         projectPath: '**/*.csproj'
         testProjectPath: '**/*.Tests.csproj'
+        imageVersion: '0.1.0'
+        chartVersion: '1.0.0'
 
 
