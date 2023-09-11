@@ -37,16 +37,14 @@ resources:
 extends:
   template: /pipelines/common-app-build.yaml@ADPPipelineCommon
   parameters:
-    projectName: 'FFC-DEMO-PAYMENT-SERVICE-CORE'
-    deployFromFeature: false    
-    appFrameworkType: 'DotNet6'
+    projectName: 'FFCDemoPaymentService'
+    deployFromFeature: false        
     appBuildConfig: 
-      - buildConfiguration: 'Release'
+      - appFrameworkType: 'DotNet'
+        buildConfiguration: 'Release'
         frameworkVersion: '6.x'      
-        projectPath: '**/*.csproj'
-        testProjectPath: '**/*.Tests.csproj'
-        imageVersion: '0.1.0'
-        chartVersion: '1.0.0'
+        projectPath: './FFCDemoPaymentService/FFCDemoPaymentService.csproj'
+        testProjectPath: './FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj'
         imageRepoName: 'ffc-demo-payment-service-core'
 
 
