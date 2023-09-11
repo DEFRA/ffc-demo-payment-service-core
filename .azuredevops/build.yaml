@@ -47,5 +47,6 @@ extends:
         testProjectPath: '**/*.Tests.csproj'
         imageVersion: '0.1.0'
         chartVersion: '1.0.0'
+        imageRepoName: 'ffc-demo-payment-service-core'
 
 
