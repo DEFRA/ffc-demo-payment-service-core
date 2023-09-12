@@ -42,9 +42,7 @@ extends:
     projectName: "FFCDemoPaymentService"
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
-      appFrameworkType: "DotNet"
-      buildConfiguration: "Release"
-      frameworkVersion: "6.x"
+      appFrameworkType: "DotNet"      
       projectPath: "./FFCDemoPaymentService/FFCDemoPaymentService.csproj"
       testProjectPath: "./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj"
       imageRepoName: "ffc-demo-payment-service-core"
