@@ -30,11 +30,6 @@ resources:
       endpoint: DEFRA
       type: github
       ref: refs/heads/rv/230880-CIPipeline
-    - repository: _self
-      name: DEFRA/ffc-demo-payment-service-core
-      endpoint: DEFRA
-      type: github
-      ref: refs/heads/rv/230880-CIPipeline
 
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
