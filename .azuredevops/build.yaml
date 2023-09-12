@@ -1,5 +1,7 @@
 parameters:
-
+  - name: deployFromFeature
+    type: boolean
+    default: false
 pr:
   branches:
     include:
@@ -14,7 +16,7 @@ trigger:
   batch: true
   branches:
     include:
-      - '*'
+      - "*"
   paths:
     exclude:
       - test-output/*
@@ -27,7 +29,7 @@ resources:
       name: DEFRA/adp-pipeline-common
       endpoint: DEFRA
       type: github
-      ref:  refs/heads/rv/230880-CIPipeline
+      ref: refs/heads/rv/230880-CIPipeline
     - repository: _self
       name: DEFRA/ffc-demo-payment-service-core
       endpoint: DEFRA
@@ -37,14 +39,12 @@ resources:
 extends:
   template: /pipelines/common-app-build.yaml@ADPPipelineCommon
   parameters:
-    projectName: 'FFCDemoPaymentService'
-    deployFromFeature: false        
-    appBuildConfig: 
-      - appFrameworkType: 'DotNet'
-        buildConfiguration: 'Release'
-        frameworkVersion: '6.x'      
-        projectPath: './FFCDemoPaymentService/FFCDemoPaymentService.csproj'
-        testProjectPath: './FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj'
-        imageRepoName: 'ffc-demo-payment-service-core'
-
-
+    projectName: "FFCDemoPaymentService"
+    deployFromFeature: ${{ parameters.deployFromFeature }}
+    appBuildConfig:
+      - appFrameworkType: "DotNet"
+        buildConfiguration: "Release"
+        frameworkVersion: "6.x"
+        projectPath: "./FFCDemoPaymentService/FFCDemoPaymentService.csproj"
+        testProjectPath: "./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj"
+        imageRepoName: "ffc-demo-payment-service-core"
