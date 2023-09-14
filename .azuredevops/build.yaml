@@ -41,4 +41,5 @@ extends:
       appFrameworkType: "DotNet"      
       projectPath: "./FFCDemoPaymentService/FFCDemoPaymentService.csproj"
       testProjectPath: "./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj"
+      manifestPath: "./obj/FFCDemoPaymentService/project.assets.json"
       imageRepoName: "ffc-demo-payment-service-core"
