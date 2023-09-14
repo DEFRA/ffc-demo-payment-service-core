@@ -11,8 +11,8 @@ pr:
       - test-output/*
       - bin/*
       - obj/*
-    drafts: false
-    
+  drafts: false
+
 trigger:
   batch: true
   branches:
