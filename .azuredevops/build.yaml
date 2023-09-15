@@ -1,7 +1,3 @@
-parameters:
-  - name: deployFromFeature
-    type: boolean
-    default: false
 pr:
   branches:
     include:
@@ -35,8 +31,7 @@ resources:
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
-    projectName: "FFCDemoPaymentService"
-    deployFromFeature: ${{ parameters.deployFromFeature }}
+    projectName: "FFCDemoPaymentService"    
     appBuildConfig:
       appFrameworkType: "DotNet"      
       projectPath: "./FFCDemoPaymentService/FFCDemoPaymentService.csproj"
