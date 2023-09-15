@@ -43,3 +43,5 @@ extends:
       testProjectPath: "./FFCDemoPaymentService.Tests/FFCDemoPaymentService.Tests.csproj"
       manifestPath: "./obj/FFCDemoPaymentService/project.assets.json"
       imageRepoName: "ffc-demo-payment-service-core"
+    appTestConfig:
+      testFilePath: './docker-compose.test.yaml'
