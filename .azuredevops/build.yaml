@@ -26,7 +26,7 @@ resources:
       name: DEFRA/adp-pipeline-common
       endpoint: DEFRA
       type: github
-      ref: refs/heads/rv/230880-CIPipeline
+      ref: refs/heads/feature/rv/demo
 
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
