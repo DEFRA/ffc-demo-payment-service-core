@@ -1,7 +1,7 @@
 pr:
   branches:
     include:
-      - main
+      - master
   paths:
     exclude:
       - test-output/*
