@@ -54,7 +54,7 @@ readinessProbe:
   port: 3007
   initialDelaySeconds: 60
   periodSeconds: 60
-  failureThreshold: 10
+  failureThreshold: 20
   timeoutSeconds: 60
 
 livenessProbe:
