@@ -50,11 +50,11 @@ postgresService:
   postgresSchema: public
 
 readinessProbe:
-  path: /healthz
+  path: /healthy
   port: 3007
   initialDelaySeconds: 60
   periodSeconds: 60
-  failureThreshold: 20
+  failureThreshold: 3
   timeoutSeconds: 60
 
 livenessProbe:
