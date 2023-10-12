@@ -36,7 +36,7 @@ namespace FFCDemoPaymentService.HealthChecks
         {
             try
             {
-               return await dbContext.Database.CanConnectAsync();
+                return await dbContext.Database.CanConnectAsync();
             }
             catch (Exception ex)
             {
