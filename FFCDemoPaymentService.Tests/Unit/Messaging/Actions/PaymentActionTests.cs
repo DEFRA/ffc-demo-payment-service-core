@@ -20,7 +20,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         [Test]
         public void Test_DeserializeMessage_Deserializes_Valid_Payment()
         {
-            var message = "{'claimId':'MINE123','value':500.47}";
+            var message = "{\"claimId\":\"MINE123\",\"value\":500.47}";
             var result = paymentAction.DeserializeMessage(message);
             Assert.AreEqual("MINE123", result.ClaimId);
             Assert.AreEqual(500.47, result.Value);

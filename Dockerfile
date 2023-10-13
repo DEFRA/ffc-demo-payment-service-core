@@ -1,5 +1,6 @@
 ARG PARENT_VERSION=1.5.0-dotnet6.0
 
+
 # Development
 FROM defradigital/dotnetcore-development:${PARENT_VERSION} AS development
 ARG PARENT_VERSION
@@ -17,6 +18,11 @@ RUN true
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/ ./FFCDemoPaymentService/
 RUN dotnet publish ./FFCDemoPaymentService/ -c Release -o /home/dotnet/out
 
+USER root
+COPY ./ca/cacert.pem /usr/local/share/ca-certificates/cacert.crt
+RUN update-ca-certificates
+
+
 ARG PORT=3007
 ENV PORT ${PORT}
 EXPOSE ${PORT}
@@ -29,11 +35,6 @@ ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
 
-USER root
-COPY ./ca/cacert.cer /etc/ssl/certs/cacert.cer
-COPY ./ca/cacert.pem /etc/ssl/certs/cacert.pem
-RUN update-ca-certificates - update /etc/ssl/certs/cacert.pem
-RUN update-ca-certificates - update /etc/ssl/certs/cacert.cer
 
 ARG PORT=3007
 ENV ASPNETCORE_URLS http://*:${PORT}
