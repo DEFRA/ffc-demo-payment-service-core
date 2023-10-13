@@ -28,6 +28,13 @@ FROM defradigital/dotnetcore:${PARENT_VERSION} AS production
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/dotnetcore:${PARENT_VERSION}
 COPY --from=development /home/dotnet/out/ ./
+
+USER root
+COPY ./ca/cacert.cer /etc/ssl/certs/cacert.cer
+COPY ./ca/cacert.pem /etc/ssl/certs/cacert.pem
+RUN update-ca-certificates - update /etc/ssl/certs/cacert.pem
+RUN update-ca-certificates - update /etc/ssl/certs/cacert.cer
+
 ARG PORT=3007
 ENV ASPNETCORE_URLS http://*:${PORT}
 EXPOSE ${PORT}

@@ -19,5 +19,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  sbemulator:
+    environment:
+      - Emulator__QueuesAndTopics=test-queue;ffc-demo-schedule/Subscriptions/ffc-demo-schedule-payment-core;ffc-demo-payment/Subscriptions/ffc-demo-schedule-payment-core
+
 volumes:
   postgres_data:
