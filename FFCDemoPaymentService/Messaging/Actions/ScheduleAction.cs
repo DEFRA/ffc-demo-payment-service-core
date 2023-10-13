@@ -1,7 +1,7 @@
 using System;
 using FFCDemoPaymentService.Models;
 using FFCDemoPaymentService.Scheduling;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FFCDemoPaymentService.Messaging.Actions
@@ -27,7 +27,7 @@ namespace FFCDemoPaymentService.Messaging.Actions
 
         public Claim DeserializeMessage(string message)
         {
-            return JsonConvert.DeserializeObject<Claim>(message);
+            return JsonSerializer.Deserialize<Claim>(message);
         }
     }
 }

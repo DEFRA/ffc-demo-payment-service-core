@@ -1,10 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FFCDemoPaymentService.Models
 {
     public class Claim
     {
-        [JsonProperty(PropertyName = "claimId", Required = Required.Always)]
+        [JsonPropertyName( "claimId")]
+        [JsonRequired]
         public string ClaimId { get; set; }
     }
 }

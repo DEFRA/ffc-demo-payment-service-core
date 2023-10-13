@@ -31,8 +31,8 @@ container:
   imagePullPolicy: IfNotPresent
   requestMemory: 120Mi
   requestCpu: 5m
-  limitMemory: 120Mi
-  limitCpu: 120m
+  limitMemory: 200Mi
+  limitCpu: 200m
   port: 3007
   scheduleTopicAddress: schedule
   paymentTopicAddress: payment

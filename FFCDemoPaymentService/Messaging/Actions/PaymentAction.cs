@@ -1,5 +1,5 @@
 using FFCDemoPaymentService.Models;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using FFCDemoPaymentService.Payments;
 
@@ -26,7 +26,7 @@ namespace FFCDemoPaymentService.Messaging.Actions
 
         public Payment DeserializeMessage(string message)
         {
-            return JsonConvert.DeserializeObject<Payment>(message);
+            return JsonSerializer.Deserialize<Payment>(message);
         }
     }
 }
