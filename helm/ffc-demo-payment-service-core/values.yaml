@@ -63,7 +63,7 @@ livenessProbe:
   initialDelaySeconds: 70
   periodSeconds: 20
   failureThreshold: 3
-  timeoutSeconds: 60
+  timeoutSeconds: 30
 
 volumeMounts:
   mountPath: /var/www/
