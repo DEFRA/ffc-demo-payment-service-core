@@ -26,17 +26,17 @@ namespace FFCDemoPaymentService.Controller
 
         [Route("home")]
         [HttpGet]
-        public async Task<HealthCheckResult> CheckHealth()
+        public Task<HealthCheckResult> CheckHealth()
         {
             try
             {
-                return HealthCheckResult.Healthy("Healthy:");
+                return Task.FromResult(HealthCheckResult.Healthy("A healthy result."));
             }
             catch
             (Exception ex)
             {
                 Console.WriteLine(ex);
-                return HealthCheckResult.Unhealthy("Not Healthy");
+                return Task.FromResult(HealthCheckResult.Unhealthy("Not Healthy"));
             }
 
         }

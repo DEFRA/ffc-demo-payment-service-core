@@ -28,7 +28,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         [Test]
         public void Test_ReceiveMessage_Calls_ScheduleService()
         {
-            var message = "{'claimId':'MINE123'}";
+            var message = "{\"claimId\":\"MINE123\"}";
             scheduleAction.ReceiveMessage(message);
             scheduleService.Verify(x => x.CreateSchedule(It.Is<string>(s => s == "MINE123"), It.IsAny<DateTime>()), Times.Once);
         }
@@ -36,7 +36,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         [Test]
         public void Test_DeserializeMessage_Deserializes_Valid_Schedule()
         {
-            var message = "{'claimId':'MINE123'}";
+            var message = "{\"claimId\":\"MINE123\"}";
             var result = scheduleAction.DeserializeMessage(message);
             Assert.AreEqual("MINE123", result.ClaimId);
         }
@@ -44,14 +44,14 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         [Test]
         public void Test_DeserializeMessage_Rejects_Missing_ClaimId()
         {
-            var message = "{'value':500.47}";
+            var message = "{\"value\":500.47}";
             Assert.Throws<System.Text.Json.JsonException>(() => scheduleAction.DeserializeMessage(message));
         }
 
         [Test]
         public void Test_DeserializeMessage_Does_Not_Throw_If_Additional_Properties()
         {
-            var message = "{'claimId':'MINE123','value':500.47}";
+            var message = "{\"claimId\":\"MINE123\",\"value\":500.47}";
             var result = scheduleAction.DeserializeMessage(message);
             Assert.AreEqual("MINE123", result.ClaimId);
         }

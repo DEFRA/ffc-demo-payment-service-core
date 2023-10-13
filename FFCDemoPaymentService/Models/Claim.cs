@@ -6,6 +6,7 @@ namespace FFCDemoPaymentService.Models
     public class Claim
     {
         [JsonPropertyName( "claimId")]
+        [JsonRequired]
         public string ClaimId { get; set; }
     }
 }

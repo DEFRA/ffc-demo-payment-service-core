@@ -11,10 +11,12 @@ namespace FFCDemoPaymentService.Models
         [Column("claimId")]
         [Key]
         [JsonPropertyName("claimId")]
+        [JsonRequired]
         public string ClaimId { get; set; }
 
         [Column("value")]
         [JsonPropertyName("value")]
+        [JsonRequired]
         public decimal Value { get; set; }
     }
 }
