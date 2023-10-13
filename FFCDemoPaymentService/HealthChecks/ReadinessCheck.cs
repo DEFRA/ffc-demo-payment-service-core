@@ -37,8 +37,6 @@ namespace FFCDemoPaymentService.HealthChecks
         {
             try
             {
-                dbContext.Database.OpenConnection();
-                dbContext.Database.CloseConnection();
                 return await dbContext.Database.CanConnectAsync();
             }
             catch (Exception ex)
