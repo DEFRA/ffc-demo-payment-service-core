@@ -21,6 +21,8 @@ namespace FFCDemoPaymentService
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<MessageService>();
+                    services.AddEndpointsApiExplorer();
+                    services.AddSwaggerGen();
                 });
     }
 }
