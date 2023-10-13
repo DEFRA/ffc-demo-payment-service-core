@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using FFCDemoPaymentService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FFCDemoPaymentService.HealthChecks
 {
@@ -36,6 +37,8 @@ namespace FFCDemoPaymentService.HealthChecks
         {
             try
             {
+                dbContext.Database.OpenConnection();
+                dbContext.Database.CloseConnection();
                 return await dbContext.Database.CanConnectAsync();
             }
             catch (Exception ex)
