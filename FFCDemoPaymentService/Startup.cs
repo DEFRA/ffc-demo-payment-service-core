@@ -33,7 +33,7 @@ namespace FFCDemoPaymentService
             var schemaConfig = Configuration.GetSection("Schema").Get<SchemaConfig>();
             services.AddSingleton(schemaConfig);
 
-            var isProduction = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";
+            var isProduction = Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "production";            
 
             var connectionStringBuilder = Configuration.GetSection("Postgres").Get<PostgresConnectionStringBuilder>();
             connectionStringBuilder.UseCredentialChain = isProduction;
@@ -55,6 +55,12 @@ namespace FFCDemoPaymentService
                 .AddCheck<LivenessCheck>("ServiceLivenessCheck");
 
             services.AddControllers();
+
+            if (!isProduction)
+            {
+                services.AddEndpointsApiExplorer();
+                services.AddSwaggerGen();
+            }
         }
 
         private void AddTelemetry(IServiceCollection services)
