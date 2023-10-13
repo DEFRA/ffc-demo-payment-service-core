@@ -45,7 +45,7 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         public void Test_DeserializeMessage_Rejects_Missing_ClaimId()
         {
             var message = "{'value':500.47}";
-            Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => scheduleAction.DeserializeMessage(message));
+            Assert.Throws<System.Text.Json.JsonSerializationException>(() => scheduleAction.DeserializeMessage(message));
         }
 
         [Test]

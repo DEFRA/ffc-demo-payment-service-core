@@ -30,14 +30,14 @@ namespace FFCDemoPaymentService.Tests.Unit.Messaging.Actions
         public void Test_DeserializeMessage_Rejects_Missing_ClaimId()
         {
             var message = "{'value':500.47}";
-            Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => paymentAction.DeserializeMessage(message));
+            Assert.Throws<System.Text.Json.JsonSerializationException>(() => paymentAction.DeserializeMessage(message));
         }
 
         [Test]
         public void Test_DeserializeMessage_Rejects_Missing_Value()
         {
             var message = "{'claimId':'MINE123'}";
-            Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => paymentAction.DeserializeMessage(message));
+            Assert.Throws<System.Text.Json.JsonSerializationException>(() => paymentAction.DeserializeMessage(message));
         }
 
         [Test]
