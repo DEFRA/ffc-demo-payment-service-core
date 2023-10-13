@@ -13,13 +13,13 @@ using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 
 namespace FFCDemoPaymentService.Controller
 {
-    [Route("[controller]")]
-    [Controller]
-    public class HealthCheckController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ServiceController : ControllerBase
     {
 
 
-        public HealthCheckController()
+        public ServiceController()
         {
 
         }
@@ -30,19 +30,16 @@ namespace FFCDemoPaymentService.Controller
         {
             try
             {
-
-                return HealthCheckResult.Healthy("Healthy:"  );
+                return HealthCheckResult.Healthy("Healthy:");
             }
             catch
             (Exception ex)
             {
                 Console.WriteLine(ex);
-                return HealthCheckResult.Unhealthy("Unable to connect to Redis.");
+                return HealthCheckResult.Unhealthy("Not Healthy");
             }
 
         }
 
-
-        
     }
 }
