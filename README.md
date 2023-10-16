@@ -21,12 +21,7 @@ This service depends on a valid Azure Service Bus connection string for asynchro
 The following environment variables need to be set
 in any non-production environment before the Docker
 container is started. When deployed into an appropriately configured AKS
-cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
-configured) the micro-service will use AAD Pod Identity through the manifests
-for
-[azure-identity](./helm/ffc-demo-claim-service/templates/azure-identity.yaml)
-and
-[azure-identity-binding](./helm/ffc-demo-claim-service/templates/azure-identity-binding.yaml).
+cluster (where configured) the micro-service will use AAD Workload Identity through the manifests.
 
 | Name                             | Description                                                                                |
 |----------------------------------|--------------------------------------------------------------------------------------------|

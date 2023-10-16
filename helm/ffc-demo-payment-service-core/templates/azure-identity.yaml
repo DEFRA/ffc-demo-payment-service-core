@@ -1,5 +1,0 @@
-{{- if .Values.aadPodIdentity }}
-{{- include "adp-helm-library.azure-identity" (list . "ffc-demo-payment-service-core.azure-identity") -}}
-{{- end }}
-{{- define "ffc-demo-payment-service-core.azure-identity" -}}
-{{- end -}}
