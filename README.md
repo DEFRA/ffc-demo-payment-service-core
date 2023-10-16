@@ -21,12 +21,7 @@ This service depends on a valid Azure Service Bus connection string for asynchro
 The following environment variables need to be set
 in any non-production environment before the Docker
 container is started. When deployed into an appropriately configured AKS
-cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
-configured) the micro-service will use AAD Pod Identity through the manifests
-for
-[azure-identity](./helm/ffc-demo-claim-service/templates/azure-identity.yaml)
-and
-[azure-identity-binding](./helm/ffc-demo-claim-service/templates/azure-identity-binding.yaml).
+cluster (where configured) the micro-service will use AAD Workload Identity through the manifests.
 
 | Name                             | Description                                                                                |
 |----------------------------------|--------------------------------------------------------------------------------------------|
@@ -116,7 +111,7 @@ This will link to other FFC Demo services running locally.
 
 ### Deploy to Kubernetes
 
-For production deployments, a helm chart is included in the `.\helm` folder. This service connects to Azure Service Bus, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
+For production deployments, a helm chart is included in the `.\helm` folder. This service connects to Azure Service Bus, using aadWorkloadIdentity defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
 
 #### Accessing the pod
 By default, the service is not exposed via an endpoint within Kubernetes.

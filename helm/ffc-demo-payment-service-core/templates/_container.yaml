@@ -1,8 +1,8 @@
 {{- define "ffc-demo-payment-service-core.container" -}}
 ports:
 - containerPort: {{ .Values.container.port }}
-livenessProbe: {{ include "ffc-helm-library.http-get-probe" (list . .Values.livenessProbe) | nindent 4}}
-readinessProbe: {{ include "ffc-helm-library.http-get-probe" (list . .Values.readinessProbe) | nindent 4}}
+livenessProbe: {{ include "adp-helm-library.http-get-probe" (list . .Values.livenessProbe) | nindent 4}}
+readinessProbe: {{ include "adp-helm-library.http-get-probe" (list . .Values.readinessProbe) | nindent 4}}
 volumeMounts:
 - mountPath: {{ .Values.volumeMounts.mountPath }}
   name: {{ .Values.volumeMounts.name }}

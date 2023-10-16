@@ -1,4 +1,4 @@
-{{- include "ffc-helm-library.container-config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
+{{- include "adp-helm-library.container-config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
 {{- define "ffc-demo-payment-service-core.config-map" -}}
 data:
   ApplicationInsights__CloudRole: {{ .Values.name | quote }}
