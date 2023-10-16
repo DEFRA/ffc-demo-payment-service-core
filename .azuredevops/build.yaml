@@ -1,0 +1,49 @@
+parameters:
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
+    type: boolean
+    default: false
+pr:
+  branches:
+    include:
+      - main
+      - master
+  paths:
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
+  drafts: false
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+  paths:
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
+
+resources:
+  repositories:
+    - repository: DEFRA-ADPPipelineCommon
+      name: DEFRA/adp-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref: refs/heads/main
+
+extends:
+  template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
+  parameters:
+    projectName: "FFCDemoPaymentServiceCore"
+    deployFromFeature: ${{ parameters.deployFromFeature }}
+    appBuildConfig:
+      appFrameworkType: "dotnet"
+      frameworkVersion: "6.x"    
+      projectPath: "./FFCDemoPaymentService/FFCDemoPaymentService.csproj"
+      manifestPath: "./obj/FFCDemoPaymentService/project.assets.json"
+      imageRepoName: "ffc-demo-payment-service-core"
+    appTestConfig:
+      testFilePath: "./docker-compose.test.yaml"

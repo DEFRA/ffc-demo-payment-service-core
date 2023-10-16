@@ -69,4 +69,7 @@ volumeMounts:
   mountPath: /var/www/
   name: core-app-dir
 
-aadPodIdentity: true
+aadWorkloadIdentity: true
+
+serviceAccount:
+  name: ffc-demo
