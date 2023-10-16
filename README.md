@@ -131,7 +131,6 @@ The service has both an Http readiness probe and an Http liveness probe configur
 Readiness: `/healthy`
 Liveness: `/healthz`
 
-
 ## Licence
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
