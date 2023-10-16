@@ -111,7 +111,7 @@ This will link to other FFC Demo services running locally.
 
 ### Deploy to Kubernetes
 
-For production deployments, a helm chart is included in the `.\helm` folder. This service connects to Azure Service Bus, using credentials defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
+For production deployments, a helm chart is included in the `.\helm` folder. This service connects to Azure Service Bus, using aadWorkloadIdentity defined in [values.yaml](./helm/ffc-demo-payment-service-core/values.yaml), which must be made available prior to deployment.
 
 #### Accessing the pod
 By default, the service is not exposed via an endpoint within Kubernetes.
