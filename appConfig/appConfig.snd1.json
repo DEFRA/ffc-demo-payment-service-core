@@ -1,0 +1,39 @@
+{
+    "items": [
+        {
+            "key": ".appconfig.featureflag/Beta",
+            "value": "{\"id\":\"Beta\",\"description\":\"Beta feature\",\"enabled\":false,\"conditions\":{\"client_filters\":[]}}",
+            "label": "{{serviceName}}",
+            "content_type": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8",
+            "tags": {}
+        },
+        {
+            "key": "Logging:LogLevel:Default",
+            "value": "info",
+            "label": "{{serviceName}}",
+            "content_type": "",
+            "tags": {}
+        },
+        {
+            "key": "ffc-demo/db/postgresPort",
+            "value": "5432",
+            "label": "{{serviceName}}",
+            "content_type": "",
+            "tags": {}
+        },
+        {
+            "key": "common/azureAppRegistration.enabled",
+            "value": "true",
+            "label": "{{serviceName}}",
+            "content_type": "",
+            "tags": {}
+        },
+        {
+            "key": "ffc-demo/common/TestSecretresourceID",
+            "value": "{{resourceid}}/{{serviceName}}-TestSecret",
+            "label": "{{serviceName}}",
+            "content_type": "{{keyVaultContentType}}",
+            "tags": {}
+        }
+    ]
+}
