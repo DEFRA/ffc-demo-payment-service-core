@@ -11,17 +11,30 @@ services:
       - "3007:3007"
     volumes:
       - ./FFCDemoPaymentService:/home/dotnet/FFCDemoPaymentService
-      - ./FFCDemoPaymentService.Tests:/home/dotnet/FFCDemoPaymentService.Tests
+      - ./FFCDemoPaymentService.Tests:/home/dotnet/FFCDemoPaymentService.Tests  
+      - ./cacert:/home/dotnet/cacert         
+    command:
+      - /bin/bash
+      - -c
+      - |                 
+        sudo cp /home/dotnet/cacert/cacert.pem /usr/local/share/ca-certificates/cacert.crt
+        sudo update-ca-certificates
+        dotnet FFCDemoPaymentService.dll
 
   ffc-demo-payment-core-postgres:
     ports:
       - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  sbemulator:
-    environment:
-      - Emulator__QueuesAndTopics=test-queue;ffc-demo-schedule/Subscriptions/ffc-demo-schedule-payment-core;ffc-demo-payment/Subscriptions/ffc-demo-schedule-payment-core
+  rabbit:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+  sbemulator:    
+    ports:
+      - "5671:5671"
 
 volumes:
   postgres_data:
+  sb_cert_data:  
+  

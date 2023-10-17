@@ -18,10 +18,6 @@ RUN true
 COPY --chown=dotnet:dotnet ./FFCDemoPaymentService/ ./FFCDemoPaymentService/
 RUN dotnet publish ./FFCDemoPaymentService/ -c Release -o /home/dotnet/out
 
-USER root
-COPY ./ca/cacert.pem /usr/local/share/ca-certificates/cacert.crt
-RUN update-ca-certificates
-
 
 ARG PORT=3007
 ENV PORT ${PORT}

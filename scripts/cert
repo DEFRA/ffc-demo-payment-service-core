@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+user root
+cp ./testca/cacert.pem /usr/local/share/ca-certificates/cacert.crt
+update-ca-certificates
