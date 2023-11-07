@@ -53,7 +53,10 @@ extends:
       testFilePath: "./docker-compose.test.yaml"
     appDeployConfig:
       filepath: "./appConfig"
+      filetype: "yaml" 
       variableGroups: 
-        - ffc-demo-snd1
+        - ffc-demo-payment-service-core-snd1
       variables:
-        - ffc-demo-payment-service-core-secret-pipeline-variable      
+        - ffc-demo-payment-service-core-APPINSIGHTS-CONNECTIONSTRING 
+        - ffc-demo-payment-service-core-COOKIE-PASSWORD 
+        - ffc-demo-payment-service-core-REDIS-PASSWORD      
