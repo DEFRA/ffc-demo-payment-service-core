@@ -1,0 +1,16 @@
+- key: PAYMENT_TOPIC_ADDRESS
+  value: "ffc-demo-payment"
+- key: PAYMENT_SUBSCRIPTION_ADDRESS
+  value: "ffc-demo-payment-payment-core"
+- key: SCHEDULE_TOPIC_ADDRESS
+  value: "ffc-demo-schedule" 
+- key: SCHEDULE_SUBSCRIPTION_ADDRESS
+  value: "ffc-demo-schedule-payment-core"  
+- key: POSTGRES_DB
+  value: "ffc_demo_payments"
+- key: POSTGRES_PORT
+  value: "5432"  
+- key: POSTGRES_SCHEMA_NAME
+  value: "public"
+- key: APPINSIGHTS_CLOUDROLE
+  value: "{{serviceName}}" 
