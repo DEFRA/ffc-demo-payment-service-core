@@ -3,7 +3,4 @@
 - key: POSTGRES_HOST
   value: "sndadpdbsps1401.postgres.database.azure.com"
 - key: POSTGRES_USERNAME
-  value: "sndadpinfmid1401-ffc-demo-services"
-- key: APPINSIGHTS_CONNECTIONSTRING
-  value: "{{servicename}}-APPINSIGHTS-CONNECTIONSTRING" 
-  type: "keyvault"
+  value: "sndadpinfmi1401-ffc-demo-payment-service"

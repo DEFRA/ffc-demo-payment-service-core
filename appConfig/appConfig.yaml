@@ -14,3 +14,6 @@
   value: "public"
 - key: APPINSIGHTS_CLOUDROLE
   value: "{{serviceName}}" 
+- key: APPINSIGHTS_CONNECTIONSTRING
+  value: "{{servicename}}-APPINSIGHTS-CONNECTIONSTRING" 
+  type: "keyvault"
