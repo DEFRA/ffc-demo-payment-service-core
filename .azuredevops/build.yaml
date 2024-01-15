@@ -3,6 +3,10 @@ parameters:
     displayName: "Deploy from Feature Branch"
     type: boolean
     default: false
+  - name: deployConfigOnly
+    displayName: "Deploy App Config & Secrets Only"
+    type: boolean
+    default: false     
 pr:
   branches:
     include:
@@ -37,7 +41,7 @@ resources:
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
-    projectName: "FFCDemoPaymentServiceCore"
+    serviceName: "ffc-demo-payment-service-core"
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
       appFrameworkType: "dotnet"
@@ -47,3 +51,12 @@ extends:
       imageRepoName: "ffc-demo-payment-service-core"
     appTestConfig:
       testFilePath: "./docker-compose.test.yaml"
+    appDeployConfig:
+      filepath: "./appConfig"
+      filetype: "yaml" 
+      variableGroups: 
+        - ffc-demo-payment-service-core-snd1
+      variables:
+        - ffc-demo-payment-service-core-APPINSIGHTS-CONNECTIONSTRING 
+        - ffc-demo-payment-service-core-COOKIE-PASSWORD 
+        - ffc-demo-payment-service-core-REDIS-PASSWORD      
