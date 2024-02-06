@@ -55,7 +55,7 @@ extends:
       filepath: "./appConfig"
       filetype: "yaml" 
       variableGroups: 
-        - ffc-demo-payment-service-core-snd1
+        - ffc-demo-payment-service-core-<environment>
       variables:
         - ffc-demo-payment-service-core-APPINSIGHTS-CONNECTIONSTRING 
         - ffc-demo-payment-service-core-COOKIE-PASSWORD 
