@@ -1,16 +1,1 @@
-{{- include "adp-helm-library.container-config-map" (list . "ffc-demo-payment-service-core.config-map") -}}
-{{- define "ffc-demo-payment-service-core.config-map" -}}
-data:
-  ApplicationInsights__CloudRole: {{ .Values.name | quote }}
-  COMPlus_EnableDiagnostics: {{ .Values.container.comPlusEnableDiagnostics | quote }}
-  PORT: {{ .Values.container.port | quote }}
-  Messaging__ScheduleTopicName: {{ .Values.container.scheduleTopicAddress | quote }}
-  Messaging__PaymentTopicName: {{ .Values.container.paymentTopicAddress | quote }}
-  Messaging__ScheduleSubscriptionName: {{ .Values.container.scheduleSubscriptionAddress | quote }}
-  Messaging__PaymentSubscriptionName: {{ .Values.container.paymentSubscriptionAddress | quote }}
-  Messaging__MessageQueueHost: {{ .Values.container.messageQueueHost | quote }}
-  Postgres__PostgresDb: {{ .Values.postgresService.postgresDb | quote }}
-  Postgres__PostgresHost: {{ .Values.postgresService.postgresqlHost | quote }}
-  Postgres__PostgresPort: {{ .Values.postgresService.postgresPort | quote }}
-  Schema__Default: {{ .Values.postgresService.postgresSchema | quote }}
-{{- end -}}
+{{- include "adp-helm-library.azure-config-service-map" . -}}
