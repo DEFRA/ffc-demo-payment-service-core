@@ -1,75 +1,31 @@
-environment: development
 name: ffc-demo-payment-service-core
 namespace: ffc-demo
-workstream: ffc-demo
 image: ffc-demo-payment-service-core
 
 labels: {}
 
-azureIdentity:
-  resourceID: dummy
-  clientID: dummy
-
-appInsights:
-  connectionString:
-
-containerConfigMap:
-  name: ffc-demo-payment-service-core-config-map
-
-containerSecret:
-  name: ffc-demo-payment-service-core-container-secret
-  type: Opaque
-
 deployment:
-  restartPolicy: Always
   priorityClassName: low
-  replicas: 1
   minReadySeconds: 5
-  imagePullSecret:
 
 container:
-  imagePullPolicy: IfNotPresent
-  requestMemory: 120Mi
-  requestCpu: 5m
-  limitMemory: 200Mi
-  limitCpu: 200m
   port: 3007
-  scheduleTopicAddress: schedule
-  paymentTopicAddress: payment
-  scheduleSubscriptionAddress: schedule
-  paymentSubscriptionAddress: payment
-  messageQueueHost: servicebus
-  messageQueuePreFetch: 1
-  comPlusEnableDiagnostics: 0
-
-postgresService:
-  postgresqlHost: ffc-demo-payments-core-postgres
-  postgresPort: 5432
-  postgresUser: postgres
-  postgresDb: ffc_demo_payments
-  postgresSchema: public
+  memCpuTier: M
 
 readinessProbe:
   path: /healthy
   port: 3007
   initialDelaySeconds: 60
-  periodSeconds: 20
+  periodSeconds: 10
   failureThreshold: 3
-  timeoutSeconds: 30
 
 livenessProbe:
   path: /healthz
   port: 3007
   initialDelaySeconds: 70
-  periodSeconds: 20
+  periodSeconds: 10
   failureThreshold: 3
-  timeoutSeconds: 30
 
 volumeMounts:
   mountPath: /var/www/
   name: core-app-dir
-
-aadWorkloadIdentity: true
-
-serviceAccount:
-  name: ffc-demo

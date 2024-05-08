@@ -1,0 +1,19 @@
+namespaceTopics:
+  - name: schedule
+    owner: "no"
+    roleAssignments:
+      - roleName: 'TopicReceiver'
+    topicSubscriptions:
+      - name: schedule
+  - name: payment
+    owner: "no"
+    roleAssignments:
+      - roleName: 'TopicReceiver'
+    topicSubscriptions:
+      - name: payment
+
+postgres:
+  db:
+    name: payment
+    charset: UTF8
+    collation: en_US.utf8

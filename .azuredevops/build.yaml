@@ -41,6 +41,7 @@ resources:
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
+    programmeName: "ffc"
     serviceName: "ffc-demo-payment-service-core"
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
@@ -55,8 +56,4 @@ extends:
       filepath: "./appConfig"
       filetype: "yaml" 
       variableGroups: 
-        - ffc-demo-payment-service-core-snd1
-      variables:
-        - ffc-demo-payment-service-core-APPINSIGHTS-CONNECTIONSTRING 
-        - ffc-demo-payment-service-core-COOKIE-PASSWORD 
-        - ffc-demo-payment-service-core-REDIS-PASSWORD      
+        - ffc-demo-payment-service-core-<environment> 
