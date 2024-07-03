@@ -1,13 +1,13 @@
 - key: PAYMENT_TOPIC_ADDRESS
-  value: "ffc-demo-payment"
+  value: "fcp-demo-payment"
 - key: PAYMENT_SUBSCRIPTION_ADDRESS
-  value: "ffc-demo-payment-payment-core"
+  value: "fcp-demo-payment-payment-core"
 - key: SCHEDULE_TOPIC_ADDRESS
-  value: "ffc-demo-schedule" 
+  value: "fcp-demo-schedule" 
 - key: SCHEDULE_SUBSCRIPTION_ADDRESS
-  value: "ffc-demo-schedule-payment-core"  
+  value: "fcp-demo-schedule-payment-core"  
 - key: POSTGRES_DB
-  value: "ffc_demo_payments"
+  value: "fcp-demo-payments"
 - key: POSTGRES_PORT
   value: "5432"  
 - key: POSTGRES_SCHEMA_NAME
